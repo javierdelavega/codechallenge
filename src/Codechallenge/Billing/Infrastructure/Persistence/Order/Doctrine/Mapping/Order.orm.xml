@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Codechallenge\Billing\Domain\Model\Order\Order" table="orders" repository-class="App\Codechallenge\Billing\Domain\Model\Order\OrderRepository">
+        <id name="orderId" type="order_id" column="id" length="36" />
+        <field name="userId" type="user_id" column="user_id" length="36" />
+        <field name="productCount" type="integer" column="product_count" />
+        <field name="orderTotal" type="decimal" column="order_total" />
+        <field name="address" column="address" length="180" />
+        <field name="createdAt" type="datetime_immutable" column="created_at" />
+
+        <many-to-many 
+            field="orderLines" 
+            inversed-by="orders" 
+            target-entity="App\Codechallenge\Billing\Domain\Model\Order\OrderLine"
+            orphan-removal="true">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+            <join-table name="order_order_lines">
+                <join-columns>
+                    <join-column name="order_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="order_line_id" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+        
+    </entity>
+
+</doctrine-mapping>
