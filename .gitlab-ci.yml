@@ -1,6 +1,10 @@
 run_tests:
   image: php:8.2.3-fpm
   before_script:
-      - bash ci/docker_install.sh > /dev/null
+    - apt-get update -yqq
+    - apt-get install -yqq git
+    - curl -sS https://getcomposer.org/installer | php
+    - mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
+    - composer install
   script:
       - php bin/phpunit --testdox --testsuite Entities,ValueObjects,DTOs,Events,Utils
