@@ -3,12 +3,18 @@ run_tests:
   before_script:
     - echo nameserver 8.8.8.8 > /etc/resolv.conf
     - apt-get update -yqq
-    - apt-get install -yqq git iputils-ping libzip-dev
+    - apt-get install -yqq git iputils-ping libzip-dev zip
     - docker-php-ext-install zip
     - php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
     - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
     - php -r "unlink('composer-setup.php');"
     - chmod +x /usr/local/bin/composer
     - composer install --ignore-platform-reqs --no-scripts
+  services:
+    - mariadb:10.9.3
+  variables:
+    MYSQL_ROOT_PASSWORD: 'codechallenge'
+    MYSQL_USER: 'codechallenge'
+    MYSQL_PASSWORD: 'codechallenge'
   script:
-      - php bin/phpunit --testdox --testsuite Entities,ValueObjects,DTOs,Events,Utils
+      - php bin/phpunit --testdox
