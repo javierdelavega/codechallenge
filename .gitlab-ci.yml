@@ -3,9 +3,8 @@ run_tests:
   before_script:
     - echo nameserver 8.8.8.8 > /etc/resolv.conf
     - apt-get update -yqq
-    - apt-get install -yqq git iputils-ping
-    - ping -c 6 google.com
-    - ping -c 6 getcomposer.org
+    - apt-get install -yqq git iputils-ping libzip-dev
+    - docker-php-ext-install zip
     - php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
     - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
     - php -r "unlink('composer-setup.php');"
