@@ -7,6 +7,6 @@ run_tests:
     - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
     - php -r "unlink('composer-setup.php');"
     - chmod +x /usr/local/bin/composer
-    - composer install
+    - composer install --ignore-platform-reqs --no-scripts
   script:
       - php bin/phpunit --testdox --testsuite Entities,ValueObjects,DTOs,Events,Utils
