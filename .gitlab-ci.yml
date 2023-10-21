@@ -4,7 +4,7 @@ run_tests:
     - echo nameserver 8.8.8.8 > /etc/resolv.conf
     - apt-get update -yqq
     - apt-get install -yqq git iputils-ping libzip-dev zip
-    - docker-php-ext-install zip
+    - docker-php-ext-install zip mysqli pdo_mysql
     - php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
     - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
     - php -r "unlink('composer-setup.php');"
