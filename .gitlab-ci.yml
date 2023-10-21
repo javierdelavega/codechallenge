@@ -1,5 +1,5 @@
 run_tests:
-  image: php:8.2.3-fpm
+  image: php:8.2.3
   before_script:
     - apt-get update -yqq
     - apt-get install -yqq git
