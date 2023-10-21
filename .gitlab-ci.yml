@@ -2,7 +2,7 @@ run_tests:
   image: php:8.2.3
   before_script:
     - apt-get update -yqq
-    - apt-get install -yqq git
+    - apt-get install -yqq git iputils-ping
     - ping -c 6 google.com
     - ping -c 6 getcomposer.org
     - php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
