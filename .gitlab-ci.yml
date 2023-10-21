@@ -11,7 +11,8 @@ run_tests:
     - chmod +x /usr/local/bin/composer
     - composer install --ignore-platform-reqs --no-scripts
   services:
-    - mariadb:10.9.3
+    - name: mariadb:10.9.3
+      alias: db
   variables:
     MYSQL_ROOT_PASSWORD: 'codechallenge'
     MYSQL_USER: 'codechallenge'
