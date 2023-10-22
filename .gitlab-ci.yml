@@ -46,4 +46,5 @@ deploy:
         docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD &&
         docker-compose down --remove-orphans -v &&
         docker-compose pull &&
+        docker image prune -a -f &&
         docker compose --env-file .env.local up -d --build"
