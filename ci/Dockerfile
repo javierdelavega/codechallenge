@@ -61,7 +61,7 @@ CMD composer install --ignore-platform-reqs --no-scripts \
 ### PROD IMAGE ###
 FROM base as prod
 
-COPY . /app
+COPY . /app/codechallenge
 
 CMD composer install --ignore-platform-reqs --no-scripts \
     && php bin/console doctrine:database:create --if-not-exists --no-interaction \
