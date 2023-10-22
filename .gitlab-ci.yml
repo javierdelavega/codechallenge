@@ -38,11 +38,12 @@ build_image:
 
 deploy:
   stage: deploy
+  before_script:
+    - chmod 400 $SSH_KEY
   script:
     - ssh -o StrictHostKeyCheking=no -i $SSH_KEY root@92896bf4-28a2-428b-acbb-528f84ce8fbc.clouding.host "
         cd /home/javi/docker/codechallenge-ddd && 
         docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD &&
         docker-compose down --remove-orphans -v &&
         docker-compose pull &&
-        docker compose --env-file .env.local up -d --build
-    "
+        docker compose --env-file .env.local up -d --build"
