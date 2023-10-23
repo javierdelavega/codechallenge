@@ -1,92 +1,75 @@
-# codechallenge
+# Codechallenge #
+
+Misión: Desarrollar una API para la gestión de una cesta de la compra.
+
+## Requisitos ##
+
+* Gestión de productos eficiente que permita: añadir, actualizar y eliminar productos del carrito.
+* Obtener el número total de productos en el carrito.
+* Confirmar la compra del carrito.
+* Debe estar desacoplado del dominio.
+
+## Instalación ##
+
+Para la instalación del entorno de desarrollo y pruebas he preparado un contenedor docker. Para instalarlo:
+
+```git clone https://github.com/javierdelavega/codechallenge-ddd.git```  
+```cd codechallenge-ddd```  
+```docker-compose up -d --build```
+
+NOTA: La primera vez el contenedor tardará en iniciar completamente de 1-2 minutos, mientras realiza las tareas de preparación de la BD y la instalación de los paquetes con composer install.
+
+Tras la instalación tendremos dos servicios:
+
+* **http://localhost:8005** la API.
+* **http://localhost:8006** el frontend de demostración.
+
+## Documentación y tests ##
+
+La documentación está accesible a través del servicio frontend:
+
+* **http://localhost:8006/appdoc/** la documentación de la App.
+* **http://localhost:8006/apidoc/** la documentación y especificación de la api y sus endpoints.
+* **http://localhost:8006/test-report/** el coverage report de los tests.
+
+Para la realización de los tests:
+
+```docker exec -it codechallenge-ddd run-test-coverage```
+
+## Pruebas performance ##
+
+Para realizar pruebas realistas de rendimiento, he subido la app a un servidor que tengo en clouding aunque la app está dockerizada y es un pequeño servidor compartido (Debian 11 64bit 0.5Vcores 1GB Ram) **se nota una gran diferencia de rendimiento** con el contenedor docker de desarrollo, al servirse desde nginx, y tener Symfony en producción, cache de composer, rutas, etc.
+
+* **https://codechallenge-ddd.smartidea.es** la API
+* **https://codechallenge-front-ddd.smartidea.es** el frontend de demostración
+* **https://codechallenge-front-ddd.smartidea.es/appdoc/** la documentación de la App.
+* **https://codechallenge-front-ddd.smartidea.es/apidoc/** la documentación y especificación de la api y sus endpoints.
+* **https://codechallenge-front-ddd.smartidea.es/test-report/** el coverage report de los tests.
+
+## Diseño ##
+
+* Se ha utilizado el framework Symfony en su version 6.3 (current).
+* Se ha utilizado Doctrine para la persistencia.
+* Se ha diseñado siguiendo **D**omain **D**riven **D**esign. El dominio está desacoplado de los conceptos de insfraestructura como la persistencia o la API.
+* Las invariantes del dominio están gestionadas principalmente por las entidades, o lo más próximo a ellas posible.
+* Se definen los siguientes Bounded Contexts: **Auth** (gestión de usuarios), **Billing** (carrito y pedidos), **Catalog** (productos de la tienda).
+* Se han utilizado repositorios orientados a persistencia. Una aproximación mas purista hubiera sido con repositorios orientados a colecciones. Es un tema que sigo probando.
+* El cálculo del precio total del carrito lo realiza el servicio **UpdateCartTotalService** suscrito a un evento de dominio **CartContentChanged**. La entidad **Cart** publica ese evento cuando procede.
+* No se persisten los eventos de dominio para simplificar y al no tener una aplicación práctica en esta demo.
+* La API funciona con conexiones stateless, y estarán autenticadas con un Bearer Token.
+* Para la gestión de los tokens de acceso y la autenticación se ha utilizado el Access Token Authentication de Symfony, se han escrito User Providers y Token Handlers personalizados y adaptados a las necesidades.
+* Se ha desacoplado la entidad de dominio **User** de los aspectos de autenticación a través de la clase de infraestructura **SecurityUser** siendo esta la que trata con el sistema de seguridad. 
+* Se obtendrá una lista de productos de la tienda desde una BD y el carrito solo permitirá añadir productos existentes en esa BD.
+* El carrito estará asociado a un usuario para que pueda guardar los artículos en la cesta y posteriormente realizar la compra.
+
+La aproximación que he seguido para los usuarios es la siguiente: 
+
+* Las requests a los endpoints de la api deberán estar autenticadas. Excepto el endpoint para obtener un nuevo token de acceso y el endpoint para realizar el login.
+* Si el cliente no presenta un token de acceso (primera visita) Debe solicitar uno nuevo a la api, creando para el un nuevo usuario Invitado. 
+* Los usuarios invitados pueden registrarse, pasando a ser usuarios registrados, que se podrán identificar con unos credenciales en cualquier momento.
+* Los usuarios invitados tienen una caducidad. Si no se registran se eliminarán de la BD pasado un tiempo (una semana para este ejemplo).
+
+## Desarrollo ##
 
 
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.com/smartidea-php/codechallenge.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/smartidea-php/codechallenge/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+* Esta nueva versión es una refactorización de la anterior, por lo que los endpoints, y frontend no han necesitado cambios.
