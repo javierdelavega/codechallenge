@@ -42,7 +42,7 @@ build_image:
 
 deploy_to_staging:
   stage: deploy
-  enviroment: staging
+  environment: staging
   only:
     - staging
   before_script:
@@ -58,7 +58,7 @@ deploy_to_staging:
 
 deploy_to_production:
   stage: deploy
-  enviroment: production
+  environment: production
   when: manual
   only:
     - main
