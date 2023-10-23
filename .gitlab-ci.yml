@@ -1,6 +1,6 @@
 variables:
   IMAGE_NAME: javierdelavega/codechallenge
-  IMAGE_TAG: latest
+  IMAGE_TAG: $CI_COMMIT_REF_NAME
 
 stages:
   - test
@@ -23,8 +23,12 @@ run_tests:
       - php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction
       - bin/console --env=test doctrine:schema:create --no-interaction
       - php bin/phpunit --testdox
+
 build_image:
   stage: build
+  only:
+    - main
+    - staging
   image: docker:24.0.6
   services:
     - docker:24.0.6-dind
@@ -36,8 +40,28 @@ build_image:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG -f ci/Dockerfile --target prod .
     - docker push $IMAGE_NAME:$IMAGE_TAG
 
-deploy:
+deploy_to_staging:
   stage: deploy
+  enviroment: staging
+  only:
+    - staging
+  before_script:
+    - chmod 400 $SSH_KEY
+  script:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@92896bf4-28a2-428b-acbb-528f84ce8fbc.clouding.host "
+        cd /home/javi/docker/codechallenge-staging && 
+        docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD &&
+        docker-compose down --remove-orphans -v &&
+        docker-compose pull &&
+        docker image prune -a -f &&
+        docker compose --env-file .env.local up -d --build"
+
+deploy_to_production:
+  stage: deploy
+  enviroment: production
+  when: manual
+  only:
+    - main
   before_script:
     - chmod 400 $SSH_KEY
   script:
