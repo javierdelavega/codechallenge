@@ -68,7 +68,9 @@ deploy_to_production:
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@92896bf4-28a2-428b-acbb-528f84ce8fbc.clouding.host "
         cd /home/javi/docker/codechallenge-ddd && 
         docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD &&
+        docker network disconnect -f codechallenge-ddd_db codechallenge-staging &&
         docker-compose down --remove-orphans -v &&
         docker-compose pull &&
         docker image prune -a -f &&
-        docker compose --env-file .env.local up -d --build"
+        docker compose --env-file .env.local up -d --build &&
+        docker network connect codechallenge-ddd_db codechallenge-staging"
