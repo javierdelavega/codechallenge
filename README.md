@@ -40,11 +40,11 @@ Para la realización de los tests:
 
 Para realizar pruebas realistas de rendimiento, he subido la app a un servidor que tengo en clouding aunque la app está dockerizada y es un pequeño servidor compartido (Debian 11 64bit 0.5Vcores 1GB Ram) **se nota una gran diferencia de rendimiento** con el contenedor docker de desarrollo, al servirse desde nginx, y tener Symfony en producción, cache de composer, rutas, etc.
 
-* **https://codechallenge-ddd.smartidea.es** la API
-* **https://codechallenge-front-ddd.smartidea.es** el frontend de demostración
-* **https://codechallenge-front-ddd.smartidea.es/appdoc/** la documentación de la App.
-* **https://codechallenge-front-ddd.smartidea.es/apidoc/** la documentación y especificación de la api y sus endpoints.
-* **https://codechallenge-front-ddd.smartidea.es/test-report/** el coverage report de los tests.
+* **https://codechallenge.smartidea.es** la API
+* **https://codechallenge-front.smartidea.es** el frontend de demostración
+* **https://codechallenge-front.smartidea.es/appdoc/** la documentación de la App.
+* **https://codechallenge-front.smartidea.es/apidoc/** la documentación y especificación de la api y sus endpoints.
+* **https://codechallenge-front.smartidea.es/test-report/** el coverage report de los tests.
 
 ## Diseño ##
 
@@ -72,4 +72,11 @@ La aproximación que he seguido para los usuarios es la siguiente:
 ## Desarrollo ##
 
 
-* Esta nueva versión es una refactorización de la anterior, por lo que los endpoints, y frontend no han necesitado cambios.
+* En primer lugar se define la lógica de negocio, y las invariables del dominio.
+* Se define la estructura y los endpoints de la API.
+* Se desarrolla la capa de dominio.
+* Se desarrolla la capa de infraestructura encargada de la persistencia.
+* Se desarrolla la capa de infraestructura encargada de la entrega (Los controllers de la API)
+* Se desarrolla un pequeño frontend de demostración utilizando [vue](https://vuejs.org) + [axios](https://axios-http.com) + [vuetify](https://vuetifyjs.com/en/)
+* Se escriben los tests de funcionalidades.
+* Se realiza una documentación de la app. Y una documentación de la api con la especificación de los endpoints de la API.
