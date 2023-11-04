@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage('Setup env') {
       steps {
-        sh 'ci/docker_install.sh'
+        sh 'bash ci/docker_install.sh'
       }
     }
 
