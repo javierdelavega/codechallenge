@@ -35,7 +35,6 @@ pipeline {
     }
   }
   post { 
-    agent any
         always { 
             sh 'whoami'
             sh 'docker system prune -af --volumes'
