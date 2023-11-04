@@ -1,12 +1,18 @@
 pipeline {
-    agent {
-        docker { image 'php:8.2' }
+  agent {
+    docker { image 'php:8.2' }
+  }
+  stages {
+    stage('Setup env') {
+      steps {
+        sh 'ci/docker_install.sh'
+      }
     }
-    stages {
-        stage('Test') {
-            steps {
-                sh 'php -v'
-            }
-        }
+
+    stage ('Test') {
+      steps {
+        sh 'php -v'
+      }
     }
+  }
 }
