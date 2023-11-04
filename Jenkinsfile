@@ -17,8 +17,11 @@ pipeline {
 
     stage ('Build') {
       agent {
-        docker { image 'php:8.2' 
-        args '-u root'}
+        docker { 
+          image 'php:8.2' 
+          args '-u root'
+          reuseNode true
+        }
       }
       steps {
         sh 'composer install --ignore-platform-reqs --no-scripts'
@@ -29,8 +32,11 @@ pipeline {
 
     stage ('Test') {
       agent {
-        docker { image 'php:8.2' 
-        args '-u root'}
+        docker { 
+          image 'php:8.2' 
+          args '-u root'
+          reuseNode true
+        }
       }
       steps {
         sh 'php bin/phpunit --testdox'
