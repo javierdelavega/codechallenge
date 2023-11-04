@@ -6,7 +6,7 @@ pipeline {
   stages {
     stage('Setup env') {
       steps {
-        sh 'whoami'
+        sh 'ci/docker_install.sh'
         sh 'echo hola'
       }
     }
