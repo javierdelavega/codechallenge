@@ -5,12 +5,14 @@ pipeline {
   stages {
     stage('Setup env') {
       steps {
+        sh 'whoami'
         sh 'echo hola'
       }
     }
 
     stage ('Test') {
       steps {
+        sh 'whoami'
         sh 'php -v'
       }
     }
