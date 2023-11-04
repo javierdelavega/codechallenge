@@ -28,7 +28,7 @@ pipeline {
   post {
     always {
         node(null) {
-          step(sh 'docker system prune -af --volumes')
+          sh 'docker system prune -af --volumes'
         }
     }
   }
