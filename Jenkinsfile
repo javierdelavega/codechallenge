@@ -11,10 +11,17 @@ pipeline {
       }
     }
 
+    stage ('Build') {
+      steps {
+        sh 'composer install --ignore-platform-reqs --no-scripts'
+        sh 'php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction'
+        sh 'bin/console --env=test doctrine:schema:create --no-interaction'
+      }
+    }
+
     stage ('Test') {
       steps {
-        sh 'whoami'
-        sh 'php -v'
+        sh 'php bin/phpunit --testdox'
       }
     }
   }

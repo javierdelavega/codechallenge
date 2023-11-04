@@ -22,4 +22,4 @@ php -r "unlink('composer-setup.php');"
 chmod +x /usr/local/bin/composer
 
 # Run composer install
-composer install --ignore-platform-reqs --no-scripts
+#composer install --ignore-platform-reqs --no-scripts
