@@ -27,6 +27,7 @@ pipeline {
   }
   post { 
         always { 
+            sh 'whoami'
             sh 'docker system prune -af --volumes'
         }
     }
