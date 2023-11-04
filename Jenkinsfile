@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    docker { image 'php:8.2' }
+    docker { image 'php:8.2' args '-u root'}
   }
   stages {
     stage('Setup env') {
