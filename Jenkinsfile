@@ -5,8 +5,9 @@ pipeline {
       agent {
         docker { 
           image 'php:8.2' 
-          args '-u root'}
+          args '-u root'
           reuseNode true
+        }
       }
       steps {
         sh 'chmod +x ci/docker_install.sh'
