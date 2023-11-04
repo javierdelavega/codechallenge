@@ -25,4 +25,9 @@ pipeline {
       }
     }
   }
+  post { 
+        always { 
+            sh 'docker system prune -af --volumes'
+        }
+    }
 }
