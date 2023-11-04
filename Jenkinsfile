@@ -1,14 +1,10 @@
 pipeline {
-  agent any
+  agent {
+    docker { image 'php:8.2' 
+    args '-u root'}
+  }
   stages {
     stage('Setup env') {
-      agent {
-        docker { 
-          image 'php:8.2' 
-          args '-u root'
-          reuseNode true
-        }
-      }
       steps {
         sh 'chmod +x ci/docker_install.sh'
         sh 'ci/docker_install.sh'
@@ -16,13 +12,6 @@ pipeline {
     }
 
     stage ('Build') {
-      agent {
-        docker { 
-          image 'php:8.2' 
-          args '-u root'
-          reuseNode true
-        }
-      }
       steps {
         sh 'composer install --ignore-platform-reqs --no-scripts'
         sh 'php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction'
@@ -31,22 +20,16 @@ pipeline {
     }
 
     stage ('Test') {
-      agent {
-        docker { 
-          image 'php:8.2' 
-          args '-u root'
-          reuseNode true
-        }
-      }
       steps {
         sh 'php bin/phpunit --testdox'
       }
     }
   }
-  post { 
-        always { 
-            sh 'whoami'
-            sh 'docker system prune -af --volumes'
+  post {
+    always {
+        node(null) {
+          step(sh 'docker system prune -af --volumes')
         }
+    }
   }
 }
