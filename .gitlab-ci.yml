@@ -11,11 +11,11 @@ stages:
 
 run_tests:
   stage: test
-  image: php:$PHP_VERSION
+  image: "php:$PHP_VERSION"
   before_script:
     - bash ci/docker_install.sh > /dev/null
   services:
-    - name: mariadb:$MARIADB_VERSION
+    - name: "mariadb:$MARIADB_VERSION"
       alias: db
   variables:
     MYSQL_ROOT_PASSWORD: $DB_PASSWORD
