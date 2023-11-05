@@ -37,7 +37,7 @@ build_image:
   before_script:
     - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
   script:
-    - docker build -t $IMAGE_NAME:$IMAGE_TAG -f ci/Dockerfile --target prod .
+    - docker build --build-arg PHP_VERSION=$PHP_VERSION -t $IMAGE_NAME:$IMAGE_TAG -f ci/Dockerfile --target prod .
     - docker push $IMAGE_NAME:$IMAGE_TAG
 
 deploy_to_staging:

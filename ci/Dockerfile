@@ -1,4 +1,5 @@
-FROM php:8.2.3-fpm as base
+ARG PHP_VERSION
+FROM php:${PHP_VERSION}-fpm as base
 
 RUN apt-get clean
 RUN apt-get update
