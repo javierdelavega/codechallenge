@@ -9,16 +9,16 @@ stages:
 
 run_tests:
   stage: test
-  image: php:8.2.3
+  image: php:$PHP_VERSION
   before_script:
     - bash ci/docker_install.sh > /dev/null
   services:
-    - name: mariadb:10.9.3
+    - name: mariadb:$MARIADB_VERSION
       alias: db
   variables:
-    MYSQL_ROOT_PASSWORD: 'codechallenge'
-    MYSQL_USER: 'codechallenge'
-    MYSQL_PASSWORD: 'codechallenge'
+    MYSQL_ROOT_PASSWORD: $DB_PASSWORD
+    MYSQL_USER: $DB_USER
+    MYSQL_PASSWORD: $DB_PASSWORD
   script:
       - php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction
       - bin/console --env=test doctrine:schema:create --no-interaction
