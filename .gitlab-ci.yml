@@ -1,8 +1,8 @@
 variables:
   IMAGE_NAME: javierdelavega/codechallenge
   IMAGE_TAG: $CI_COMMIT_REF_NAME
-  MARIADB_VERSION: $MARIADB_VERSION
-  PHP_VERSION: $PHP_VERSION
+  MARIADB_VERSION: 10.11.4
+  PHP_VERSION: 8.2
 
 stages:
   - test
