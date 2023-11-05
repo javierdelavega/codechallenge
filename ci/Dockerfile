@@ -64,8 +64,6 @@ FROM base as prod
 
 COPY . /app/codechallenge
 
-RUN composer dump-env prod
-
 CMD composer install --ignore-platform-reqs --no-scripts \
     && php bin/console doctrine:database:create --if-not-exists --no-interaction \
     && php bin/console doctrine:migrations:migrate --no-interaction \
@@ -73,6 +71,7 @@ CMD composer install --ignore-platform-reqs --no-scripts \
     --purge-exclusions=cart_items --purge-exclusions=doctrine_migrations_versions --purge-exclusions=item \
     --purge-exclusions=orders --purge-exclusions=order_line --purge-exclusions=order_order_lines \
     --purge-exclusions=user --no-interaction \
+    && composer dump-env prod \
     && composer install --no-dev --optimize-autoloader \
     && APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear \
     && chown -R www-data:www-data /app/codechallenge/var \
