@@ -16,9 +16,9 @@ run_tests:
     - name: "mariadb:$MARIADB_VERSION"
       alias: db
   variables:
-    MYSQL_ROOT_PASSWORD: $DB_PASSWORD
-    MYSQL_USER: $DB_USER
-    MYSQL_PASSWORD: $DB_PASSWORD
+    MYSQL_ROOT_PASSWORD: $DB_PASSWORD_TEST
+    MYSQL_USER: $DB_USER_TEST
+    MYSQL_PASSWORD: $DB_PASSWORD_TEST
   script:
       - php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction
       - bin/console --env=test doctrine:schema:create --no-interaction
