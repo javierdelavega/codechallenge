@@ -38,6 +38,7 @@ build_image:
     - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
   script:
     - cp $ENV_PROD_FILE .env.prod
+    - cp $ENV_PROD_FILE .env.dev
     - docker build --build-arg PHP_VERSION=$PHP_VERSION -t $IMAGE_NAME:$IMAGE_TAG -f ci/Dockerfile --target prod .
     - docker push $IMAGE_NAME:$IMAGE_TAG
 
