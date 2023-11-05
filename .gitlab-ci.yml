@@ -49,8 +49,8 @@ deploy_to_staging:
   before_script:
     - chmod 400 $SSH_KEY
   script:
-    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@92896bf4-28a2-428b-acbb-528f84ce8fbc.clouding.host "
-        cd /home/javi/docker/codechallenge-staging && 
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@$STAGING_SERVER_ADDRESS "
+        cd $STAGING_DEPLOY_PATH && 
         docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD &&
         docker-compose down --remove-orphans -v &&
         docker-compose pull &&
@@ -66,8 +66,8 @@ deploy_to_production:
   before_script:
     - chmod 400 $SSH_KEY
   script:
-    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@92896bf4-28a2-428b-acbb-528f84ce8fbc.clouding.host "
-        cd /home/javi/docker/codechallenge && 
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@$PROD_SERVER_ADDRESS "
+        cd $PROD_DEPLOY_PATH && 
         docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD &&
         docker network disconnect -f codechallenge_db codechallenge-staging &&
         docker-compose down --remove-orphans -v &&
