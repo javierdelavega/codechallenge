@@ -29,4 +29,5 @@ RUN pecl install xdebug \
 # Mariadb
 RUN apt-get install -yqq mariadb-server
 
+USER mysql
 CMD ["mariadbd"]
