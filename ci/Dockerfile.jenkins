@@ -30,7 +30,6 @@ RUN pecl install xdebug \
 RUN apt-get install -yqq mariadb-server
 
 RUN service mariadb start
-RUN service mariadb status
 
 RUN mysql -uroot --execute="CREATE USER codechallenge IDENTIFIED BY 'codechallenge'; CREATE DATABASE codechallenge; \
     GRANT ALL PRIVILEGES ON codechallenge TO codechallenge;"
