@@ -2,10 +2,10 @@ ARG PHP_VERSION
 FROM php:${PHP_VERSION}-fpm as base
 
 # Set google DNS (fix getcomposer.org resolve issues)
-RUN echo nameserver 8.8.8.8 > /etc/resolv.conf
+#RUN echo nameserver 8.8.8.8 > /etc/resolv.conf
 
 # The app connects to a database in host 'db' set db to localhost for tests
-RUN echo "127.0.0.1 db" >> /etc/hosts
+#RUN echo "127.0.0.1 db" >> /etc/hosts
 
 RUN apt-get clean
 RUN apt-get update
