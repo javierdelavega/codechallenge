@@ -1,13 +1,17 @@
 pipeline {
   agent {
-    docker { image 'php:8.2' 
-    args '-u root'}
+    dockerfile {
+        filename 'Dockerfile.jenkins'
+        dir 'ci'
+        label 'docker-jenkins'
+        additionalBuildArgs  '--build-arg PHP_VERSION=8.2'
+    }
   }
   stages {
     stage('Setup env') {
       steps {
-        sh 'chmod +x ci/docker_install.sh'
-        sh 'ci/docker_install.sh'
+        sh 'starting mariadb server'
+        sh 'mariadbd &'
       }
     }
 

@@ -1,0 +1,35 @@
+ARG PHP_VERSION
+FROM php:${PHP_VERSION}-fpm as base
+
+# Set google DNS (fix getcomposer.org resolve issues)
+RUN echo nameserver 8.8.8.8 > /etc/resolv.conf
+
+# The app connects to a database in host 'db' set db to localhost for tests
+RUN echo "127.0.0.1 db" >> /etc/hosts
+
+RUN apt-get clean
+RUN apt-get update
+
+# Install composer required packages Zip Git, iputils, git
+RUN apt-get install -yqq libzip-dev zip iputils-ping git
+
+# Enable zip extension and db drivers
+RUN docker-php-ext-install zip mysqli pdo_mysql
+
+# Install composer
+RUN php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php \
+    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && php -r "unlink('composer-setup.php');" \
+    && chmod +x /usr/local/bin/composer
+
+# Xdebug
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+# Mariadb
+RUN apt-get install -yqq mariadb-server
+
+RUN mysql -uroot --execute="CREATE USER codechallenge IDENTIFIED BY 'codechallenge'; CREATE DATABASE codechallenge; \
+    GRANT ALL PRIVILEGES ON codechallenge TO codechallenge;"
+
+RUN mysql -uroot --execute="SET PASSWORD FOR root = PASSWORD('codechallenge');"
