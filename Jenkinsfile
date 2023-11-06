@@ -1,20 +1,13 @@
 pipeline {
   agent {
-    dockerfile {
-        filename 'Dockerfile.jenkins'
-        dir 'ci'
-        additionalBuildArgs  '--build-arg PHP_VERSION=8.2'
-    }
+    docker { image 'php:8.2' 
+    args '-u root'}
   }
   stages {
     stage('Setup env') {
       steps {
-        sh 'mariadb --version'
-        sh 'whoami'
-        sh 'service mariadb start'
-        sh 'service mariadb status'
-        sh "mysql -uroot --execute='CREATE USER codechallenge IDENTIFIED BY 'codechallenge'; CREATE DATABASE codechallenge; \
-    GRANT ALL PRIVILEGES ON codechallenge TO codechallenge;'"
+        sh 'chmod +x ci/docker_install.sh'
+        sh 'ci/docker_install.sh'
       }
     }
 
