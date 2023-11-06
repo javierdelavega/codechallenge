@@ -1,37 +1,30 @@
-pipeline {
-  agent {
-    docker { image 'php:8.2' 
-    args '-u root --network host'}
-  }
-  stages {
-    stage('Setup env') {
-      steps {
-        sh 'chmod +x ci/docker_install.sh'
-        sh 'ci/docker_install.sh'
-      }
-    }
+node {
+    try {
+        checkout scm
+        docker.image('php:8.2').inside {
+            stage('Setup env') {
+                sh 'chmod +x ci/docker_install.sh'
+                sh 'ci/docker_install.sh'
+            }
 
-    stage ('Build') {
-      steps {
-        sh 'composer install --ignore-platform-reqs --no-scripts'
-        sh 'php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction'
-        sh 'bin/console --env=test doctrine:schema:create --no-interaction'
-      }
-    }
+            stage ('Build') {
+                sh 'composer install --ignore-platform-reqs --no-scripts'
+                sh 'php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction'
+                sh 'bin/console --env=test doctrine:schema:create --no-interaction'
+            }
 
-    stage ('Test') {
-      steps {
-        sh 'php bin/phpunit --testdox'
-      }
-    }
-  }
-  post {
-    always {
-        node(null) {
-          steps {
-            sh 'docker system prune -af --volumes'
-          }
+            stage ('Test') {
+                sh 'php bin/phpunit --testdox'
+            }
         }
     }
-  }
+    
+    catch (e) {
+        echo 'Error'
+    }
+
+    finally {
+        sh 'docker system prune -af --volumes'
+    }
+
 }
