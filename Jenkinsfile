@@ -7,6 +7,7 @@ node {
               stage('Setup env') {
                 sh 'chmod +x ci/docker_install.sh'
                 sh 'ci/docker_install.sh'
+                sh 'ping db'
               }
 
               stage ('Build') {
