@@ -3,7 +3,6 @@ pipeline {
     dockerfile {
         filename 'Dockerfile.jenkins'
         dir 'ci'
-        label 'docker-jenkins'
         additionalBuildArgs  '--build-arg PHP_VERSION=8.2'
     }
   }
