@@ -1,7 +1,7 @@
 node {
     try {
         checkout scm
-        docker.image('php:8.2').inside {
+        docker.image('php:8.2').inside('-u root --network host') {
             stage('Setup env') {
                 sh 'chmod +x ci/docker_install.sh'
                 sh 'ci/docker_install.sh'
