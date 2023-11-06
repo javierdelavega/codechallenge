@@ -3,7 +3,7 @@ node {
         checkout scm
         withDockerNetwork{ n ->
           docker.image('mariadb:10.11.4').withRun("--network ${n} --name dbhost -e MYSQL_ROOT_PASSWORD=codechallenge") { c->
-            docker.image('php:8.2').inside("--network ${n} -u root") {
+            docker.image('php:8.2').inside("--network ${n} -u root --name php") {
               stage('Setup env') {
                 sh 'chmod +x ci/docker_install.sh'
                 sh 'ci/docker_install.sh'
