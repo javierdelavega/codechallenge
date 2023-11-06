@@ -9,6 +9,8 @@ pipeline {
   stages {
     stage('Setup env') {
       steps {
+        sh 'mariadb --version'
+        sh 'service mariadb status'
         sh "mysql -uroot --execute='CREATE USER codechallenge IDENTIFIED BY 'codechallenge'; CREATE DATABASE codechallenge; \
     GRANT ALL PRIVILEGES ON codechallenge TO codechallenge;'"
       }
