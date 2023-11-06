@@ -6,7 +6,7 @@
 set -xe
 
 # Set google DNS (fix getcomposer.org resolve issues)
-echo nameserver 8.8.8.8 > /etc/resolv.conf
+#echo nameserver 8.8.8.8 > /etc/resolv.conf
 
 # Install git (the php image doesn't have it) which is required by composer
 apt-get update -yqq
