@@ -20,7 +20,8 @@ node {
     }
     
     catch (e) {
-        echo 'Error'
+        echo 'Error' e.toString
+        throw e
     }
 
     finally {
