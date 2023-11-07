@@ -22,10 +22,12 @@ node {
             }
           }
         }
+        currentBuild.result = 'SUCCESS'
     }
     
     catch (e) {
         echo 'Error: ' + e.toString()
+        currentBuild.result = 'FAILURE'
         throw e
     }
 
