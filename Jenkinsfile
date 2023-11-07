@@ -4,55 +4,56 @@ node {
         withDockerNetwork{ n ->
           docker.image('mariadb:10.11.4').withRun("--network ${n} --name db -e MYSQL_ROOT_PASSWORD=codechallenge") { c->
             docker.image('php:8.2').inside("--network ${n} -u root --name php") {
-              stage('Setup env') {
-                echo 'Branch...' + env.BRANCH_NAME
-                sh 'chmod +x ci/docker_install.sh'
-                sh 'ci/docker_install.sh'
-              }
+                stage('Setup env') {
+                    echo 'Branch...' + env.BRANCH_NAME
+                    sh 'chmod +x ci/docker_install.sh'
+                    sh 'ci/docker_install.sh'
+                }
 
-              stage ('Build') {
-                  sh 'composer install --ignore-platform-reqs --no-scripts'
-                  sh 'php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction'
-                  sh 'bin/console --env=test doctrine:schema:create --no-interaction'
-              }
+                stage ('Build') {
+                    sh 'composer install --ignore-platform-reqs --no-scripts'
+                    sh 'php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction'
+                    sh 'bin/console --env=test doctrine:schema:create --no-interaction'
+                }
 
-              stage ('Test') {
-                  sh 'php bin/phpunit --testdox'
-              }
+                stage ('Test') {
+                    sh 'php bin/phpunit --testdox'
+                }
 
-              stage ('Deploy') {
-                withEnv(['ANSIBLE_PROJECT_ID=1', 'ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID=4', 'ANSIBLE_DEPLOY_PROD_TEMPLATE_ID=3']) {
-                    echo "DEBUG: got branch ${env.BRANCH_NAME}"
-                    withCredentials([[$class: 'StringBinding', credentialsId: 'semaphore-token', variable: 'bearer']]) {
-                        
-                        if (env.BRANCH_NAME == 'staging' || env.BRANCH_NAME == 'jenkins') {
-                            echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID}"
-                            def ANSIBLE_DEPLOY_TEMPLATE_ID = env.ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID
-                            input(message: "Deploy to STAGING?", ok: "Yes")
-                            httpRequest acceptType: 'APPLICATION_JSON', consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', customHeaders: [[name: 'Authorization', value: "Bearer ${env.bearer}"]], httpMode: 'POST', requestBody: """{
-                            \"template_id\": ${ANSIBLE_DEPLOY_TEMPLATE_ID},
-                            \"debug\": false,
-                            \"dry_run\": false,
-                            \"playbook\": \"\",
-                            \"environment\": \"\"
-                            }""", url: "https://ansible.semaphore.smartidea.es/api/project/${ANSIBLE_PROJECT_ID}/tasks"
-                        }
+                if (env.BRANCH_NAME == 'staging' || env.BRANCH_NAME == 'main') {
+                    stage ('Deploy') {
+                        withEnv(['ANSIBLE_PROJECT_ID=1', 'ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID=4', 'ANSIBLE_DEPLOY_PROD_TEMPLATE_ID=3']) {
+                            echo "DEBUG: got branch ${env.BRANCH_NAME}"
+                            withCredentials([[$class: 'StringBinding', credentialsId: 'semaphore-token', variable: 'bearer']]) {
+                                
+                                if (env.BRANCH_NAME == 'staging') {
+                                    echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID}"
+                                    def ANSIBLE_DEPLOY_TEMPLATE_ID = env.ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID
+                                    httpRequest acceptType: 'APPLICATION_JSON', consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', customHeaders: [[name: 'Authorization', value: "Bearer ${env.bearer}"]], httpMode: 'POST', requestBody: """{
+                                    \"template_id\": ${ANSIBLE_DEPLOY_TEMPLATE_ID},
+                                    \"debug\": false,
+                                    \"dry_run\": false,
+                                    \"playbook\": \"\",
+                                    \"environment\": \"\"
+                                    }""", url: "https://ansible.semaphore.smartidea.es/api/project/${ANSIBLE_PROJECT_ID}/tasks"
+                                }
 
-                        if (env.BRANCH_NAME == 'main') {
-                            echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID}"
-                            def ANSIBLE_DEPLOY_TEMPLATE_ID = env.ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID
-                            input(message: "Deploy to PRODUCTION?", ok: "Yes")
-                            httpRequest acceptType: 'APPLICATION_JSON', consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', customHeaders: [[name: 'Authorization', value: "Bearer ${env.bearer}"]], httpMode: 'POST', requestBody: """{
-                            \"template_id\": ${ANSIBLE_DEPLOY_TEMPLATE_ID},
-                            \"debug\": false,
-                            \"dry_run\": false,
-                            \"playbook\": \"\",
-                            \"environment\": \"\"
-                            }""", url: "https://ansible.semaphore.smartidea.es/api/project/${ANSIBLE_PROJECT_ID}/tasks"
+                                if (env.BRANCH_NAME == 'main') {
+                                    echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID}"
+                                    def ANSIBLE_DEPLOY_TEMPLATE_ID = env.ANSIBLE_DEPLOY_PRODUCTION_TEMPLATE_ID
+                                    input(message: "Deploy to PRODUCTION?", ok: "Yes")
+                                    httpRequest acceptType: 'APPLICATION_JSON', consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', customHeaders: [[name: 'Authorization', value: "Bearer ${env.bearer}"]], httpMode: 'POST', requestBody: """{
+                                    \"template_id\": ${ANSIBLE_DEPLOY_TEMPLATE_ID},
+                                    \"debug\": false,
+                                    \"dry_run\": false,
+                                    \"playbook\": \"\",
+                                    \"environment\": \"\"
+                                    }""", url: "https://ansible.semaphore.smartidea.es/api/project/${ANSIBLE_PROJECT_ID}/tasks"
+                                }
+                            }
                         }
                     }
                 }
-              }
             }
           }
         }
