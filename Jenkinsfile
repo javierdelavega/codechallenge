@@ -21,16 +21,21 @@ node {
               }
 
               stage ('Deploy') {
-                withEnv(['ANSIBLE_PROJECT_ID=1', 'ANSIBLE_TEMPLATE_ID=4']) {
-                    echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_TEMPLATE_ID}"
+                withEnv(['ANSIBLE_PROJECT_ID=1', 'ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID=4', 'ANSIBLE_DEPLOY_PROD_TEMPLATE_ID=3']) {
+                    echo "DEBUG: got branch ${env.BRANCH_NAME}"
                     withCredentials([[$class: 'StringBinding', credentialsId: 'semaphore-token', variable: 'bearer']]) {
-                        httpRequest acceptType: 'APPLICATION_JSON', consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', customHeaders: [[name: 'Authorization', value: "Bearer ${env.bearer}"]], httpMode: 'POST', requestBody: """{
-                        \"template_id\": ${ANSIBLE_TEMPLATE_ID},
-                        \"debug\": false,
-                        \"dry_run\": false,
-                        \"playbook\": \"\",
-                        \"environment\": \"\"
-                        }""", url: "https://ansible.semaphore.smartidea.es/api/project/${ANSIBLE_PROJECT_ID}/tasks"
+                        if (env.BRANCH_NAME == 'staging' || env.BRANCH_NAME == 'jenkins') {
+                            echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID}"
+                            ${ANSIBLE_DEPLOY_TEMPLATE_ID} = ${ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID}
+                            httpRequest acceptType: 'APPLICATION_JSON', consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', customHeaders: [[name: 'Authorization', value: "Bearer ${env.bearer}"]], httpMode: 'POST', requestBody: """{
+                            \"template_id\": ${ANSIBLE_DEPLOY_TEMPLATE_ID},
+                            \"debug\": false,
+                            \"dry_run\": false,
+                            \"playbook\": \"\",
+                            \"environment\": \"\"
+                            }""", url: "https://ansible.semaphore.smartidea.es/api/project/${ANSIBLE_PROJECT_ID}/tasks"
+                        }
+                        
                     }
                 }
               }
