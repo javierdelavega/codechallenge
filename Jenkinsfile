@@ -17,7 +17,18 @@ node {
                 }
 
                 stage ('Test') {
-                    sh 'php bin/phpunit --testdox'
+                    //sh 'php bin/phpunit --testdox'
+                    sh 'vendor/bin/phpunit'
+                    xunit([
+                        thresholds: [
+                            failed ( failureThreshold: "0" ),
+                            skipped ( unstableThreshold: "0" )
+                        ],
+                        tools: [
+                            PHPUnit(pattern: 'build/logs/junit.xml', stopProcessingIfError: true, failIfNotNew: true)
+                        ]
+                    ])
+                    publishCoverage adapters: [coberturaAdapter('build/logs/cobertura.xml')]
                 }
 
                 if (env.BRANCH_NAME == 'staging' || env.BRANCH_NAME == 'main') {
