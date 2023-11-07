@@ -31,6 +31,13 @@ node {
 
     finally {
         sh 'docker system prune -af --volumes'
+        emailext(
+            subject: "Build ${env.JOB_NAME} - ${currentBuild.displayName} ${currentBuild.result}",
+            body: """Build ${currentBuild.result}
+                ${env.JOB_URL}
+                """,
+            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+        )
     }
 
 }
