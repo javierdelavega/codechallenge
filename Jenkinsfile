@@ -1,5 +1,6 @@
 node {
     try {
+        echo 'Pulling...' + env.BRANCH_NAME
         checkout scm
         withDockerNetwork{ n ->
           docker.image('mariadb:10.11.4').withRun("--network ${n} --name db -e MYSQL_ROOT_PASSWORD=codechallenge") { c->
