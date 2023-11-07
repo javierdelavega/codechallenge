@@ -1,11 +1,11 @@
 node {
     try {
-        echo 'Pulling...' + env.BRANCH_NAME
         checkout scm
         withDockerNetwork{ n ->
           docker.image('mariadb:10.11.4').withRun("--network ${n} --name db -e MYSQL_ROOT_PASSWORD=codechallenge") { c->
             docker.image('php:8.2').inside("--network ${n} -u root --name php") {
               stage('Setup env') {
+                echo 'Branch...' + env.BRANCH_NAME
                 sh 'chmod +x ci/docker_install.sh'
                 sh 'ci/docker_install.sh'
               }
