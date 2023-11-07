@@ -21,7 +21,7 @@ node {
               }
 
               stage ('Deploy') {
-                withEnv(["ANSIBLE_PROJECT_ID=1"], ["ANSIBLE_TEMPLATE_ID=4"]) {
+                withEnv(['ANSIBLE_PROJECT_ID=1', 'ANSIBLE_TEMPLATE_ID=4']) {
                     echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_TEMPLATE_ID}"
                     withCredentials([[$class: 'StringBinding', credentialsId: 'semaphore-token', variable: 'bearer']]) {
                         httpRequest acceptType: 'APPLICATION_JSON', consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', customHeaders: [[name: 'Authorization', value: "Bearer ${env.bearer}"]], httpMode: 'POST', requestBody: """{
