@@ -39,7 +39,6 @@ node {
             recipientProviders: [[$class: 'DevelopersRecipientProvider']]
         )
     }
-
 }
 
 def withDockerNetwork(Closure inner) {
