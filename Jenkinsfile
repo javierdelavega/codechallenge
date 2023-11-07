@@ -36,7 +36,7 @@ node {
         emailext(
             subject: "Build ${env.JOB_NAME} - ${currentBuild.displayName} ${currentBuild.result}",
             body: """Build ${currentBuild.result}
-                ${env.JOB_URL}
+                ${env.RUN_DISPLAY_URL}
                 """,
             recipientProviders: [[$class: 'DevelopersRecipientProvider']]
         )
