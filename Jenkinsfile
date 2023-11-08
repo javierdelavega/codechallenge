@@ -19,6 +19,7 @@ node {
                 stage ('Test') {
                     sh 'XDEBUG_MODE=coverage php bin/phpunit'
                     recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'build/logs/cobertura.xml']])
+                    junit 'build/logs/junit.xml'
                 }
 
                 if (env.BRANCH_NAME == 'staging' || env.BRANCH_NAME == 'main') {
