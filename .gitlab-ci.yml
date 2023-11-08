@@ -20,6 +20,7 @@ run_tests:
     MYSQL_USER: 'codechallenge'
     MYSQL_PASSWORD: 'codechallenge'
   script:
+      - composer install --ignore-platform-reqs --no-scripts
       - php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction
       - bin/console --env=test doctrine:schema:create --no-interaction
       - php bin/phpunit --testdox
