@@ -17,7 +17,7 @@ node {
                 }
 
                 stage ('Test') {
-                    sh 'php bin/phpunit'
+                    sh 'XDEBUG_MODE=coverage php bin/phpunit'
                     recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'build/logs/cobertura.xml']])
                 }
 
