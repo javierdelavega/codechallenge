@@ -17,7 +17,7 @@ node {
                 }
 
                 stage ('Test') {
-                    sh 'php bin/phpunit --testdox'
+                    sh 'php bin/phpunit'
                     recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'build/logs/cobertura.xml']])
                 }
 
