@@ -80,3 +80,4 @@ La aproximación que he seguido para los usuarios es la siguiente:
 * Se desarrolla un pequeño frontend de demostración utilizando [vue](https://vuejs.org) + [axios](https://axios-http.com) + [vuetify](https://vuetifyjs.com/en/)
 * Se escriben los tests de funcionalidades.
 * Se realiza una documentación de la app. Y una documentación de la api con la especificación de los endpoints de la API.
+  
