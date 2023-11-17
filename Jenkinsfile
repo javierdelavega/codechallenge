@@ -24,7 +24,7 @@ node {
 
                 if (env.BRANCH_NAME == 'staging' || env.BRANCH_NAME == 'main') {
                     stage ('Deploy') {
-                        withEnv(['ANSIBLE_PROJECT_ID=1', 'ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID=4', 'ANSIBLE_DEPLOY_PROD_TEMPLATE_ID=3']) {
+                        withEnv(['ANSIBLE_PROJECT_ID=1', 'ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID=6', 'ANSIBLE_DEPLOY_PROD_TEMPLATE_ID=7']) {
                             echo "DEBUG: got branch ${env.BRANCH_NAME}"
                             withCredentials([[$class: 'StringBinding', credentialsId: 'semaphore-token', variable: 'bearer']]) {
                                 
