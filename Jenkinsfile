@@ -3,7 +3,15 @@ node {
         checkout scm
         withDockerNetwork{ n ->
           docker.image('mariadb:10.11.4').withRun("--network ${n} --name db -e MYSQL_ROOT_PASSWORD=codechallenge") { c->
-            docker.image('php:8.2').inside("--network ${n} -u root --name php -e DB_NAME_TEST=codechallenge -e DB_USER_TEST=codechallenge -e DB_PASSWORD_TEST=codechallenge -e MARIADB_VERSION=10.11.4") {
+            docker.image('php:8.2').inside(
+                "--network ${n} 
+                -u root 
+                --name php 
+                -e DB_NAME_TEST=codechallenge 
+                -e DB_USER_TEST=codechallenge 
+                -e DB_PASSWORD_TEST=codechallenge 
+                -e MARIADB_VERSION=10.11.4"
+                ) {
                 stage('Setup env') {
                     echo 'Branch...' + env.BRANCH_NAME
                     sh 'chmod +x ci/docker_install.sh'
