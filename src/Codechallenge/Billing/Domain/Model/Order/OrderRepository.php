@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Domain\Model\Order;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -12,12 +14,12 @@ interface OrderRepository
     /**
      * Adds a order.
      */
-    public function save(Order $order);
+    public function save(Order $order): void;
 
     /**
      * Removes a order.
      */
-    public function remove(Order $order);
+    public function remove(Order $order): void;
 
     /**
      * Retrieves a order of the given id.
@@ -26,21 +28,17 @@ interface OrderRepository
      *
      * @return Order the Order with requested id
      */
-    public function orderOfId(OrderId $orderId);
+    public function orderOfId(OrderId $orderId): ?Order;
 
     /**
      * Retrieves the orders of the given user id.
      *
      * @param UserId the id of the user
-     *
-     * @return array
      */
-    public function ordersOfUser(UserId $userId);
+    public function ordersOfUser(UserId $userId): ?array;
 
     /**
      * Gets a new unique Order id.
-     *
-     * @return OrderId
      */
-    public function nextIdentity();
+    public function nextIdentity(): OrderId;
 }

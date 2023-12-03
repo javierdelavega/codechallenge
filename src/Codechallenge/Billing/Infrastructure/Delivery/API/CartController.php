@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Infrastructure\Delivery\API;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -24,7 +26,7 @@ class CartController extends AbstractController
     #[Route('/api/cart/products', methods: ['GET'])]
     public function items(#[CurrentUser] ?SecurityUser $securityUser,
         GetItemsService $getItemsService, GetItemCountService $getItemCountService,
-        GetCartTotalService $getCartTotalService)
+        GetCartTotalService $getCartTotalService): JsonResponse
     {
         $items = $getItemsService->execute(new UserId($securityUser->getUserIdentifier()));
 
@@ -51,7 +53,7 @@ class CartController extends AbstractController
 
     #[Route('/api/cart/products/count', methods: ['GET'])]
     public function itemsCount(#[CurrentUser] ?SecurityUser $securityUser,
-        GetItemCountService $getItemCountService)
+        GetItemCountService $getItemCountService): JsonResponse
     {
         $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserIdentifier()));
 
@@ -60,7 +62,7 @@ class CartController extends AbstractController
 
     #[Route('/api/cart/products/total', methods: ['GET'])]
     public function itemsTotal(#[CurrentUser] ?SecurityUser $securityUser,
-        GetCartTotalService $getCartTotalService)
+        GetCartTotalService $getCartTotalService): JsonResponse
     {
         $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserIdentifier()));
 
@@ -69,10 +71,10 @@ class CartController extends AbstractController
 
     #[Route('/api/cart/product', methods: ['POST'])]
     public function addProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request,
-        AddProductService $addProductService)
+        AddProductService $addProductService): JsonResponse
     {
         $request = $request->getPayload();
-        $addProductRequest = new AddProductRequest($request->get('id'), $request->get('quantity'));
+        $addProductRequest = new AddProductRequest($request->get('id'), (int) $request->get('quantity'));
         $addProductService->execute(new UserId($securityUser->getUserIdentifier()), $addProductRequest);
 
         return new JsonResponse();
@@ -80,10 +82,10 @@ class CartController extends AbstractController
 
     #[Route('/api/cart/product/{id}', methods: ['PUT'])]
     public function updateProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request, string $id,
-        UpdateProductService $updateProductService)
+        UpdateProductService $updateProductService): JsonResponse
     {
         $request = $request->getPayload();
-        $updateProductRequest = new UpdateProductRequest($id, $request->get('quantity'));
+        $updateProductRequest = new UpdateProductRequest($id, (int) $request->get('quantity'));
         $updateProductService->execute(new UserId($securityUser->getUserIdentifier()), $updateProductRequest);
 
         return new JsonResponse();
@@ -91,7 +93,7 @@ class CartController extends AbstractController
 
     #[Route('/api/cart/product/{id}', methods: ['DELETE'])]
     public function removeProduct(#[CurrentUser] ?SecurityUser $securityUser, string $id,
-        RemoveProductService $removeProductService)
+        RemoveProductService $removeProductService): JsonResponse
     {
         $removeProductService->execute(new UserId($securityUser->getUserIdentifier()), $id);
 
@@ -100,7 +102,7 @@ class CartController extends AbstractController
 
     #[Route('/api/cart/confirm', methods: ['POST'])]
     public function confirm(#[CurrentUser] ?SecurityUser $securityUser,
-        CreateOrderFromCartService $createOrderFromCartService)
+        CreateOrderFromCartService $createOrderFromCartService): JsonResponse
     {
         $createOrderFromCartService->execute(new UserId($securityUser->getUserIdentifier()));
 

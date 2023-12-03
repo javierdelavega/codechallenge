@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Application\Service\Cart;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -14,7 +16,7 @@ class EmptyCartService extends CartService
      *
      * @param UserId $userId the user id of the current user who owns the cart
      */
-    public function execute(UserId $userId)
+    public function execute(UserId $userId): void
     {
         $cart = $this->findCartOrFail($userId);
 

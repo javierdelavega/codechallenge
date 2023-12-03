@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Application\Service\Cart;
 
 /**
@@ -7,8 +9,8 @@ namespace App\Codechallenge\Billing\Application\Service\Cart;
  */
 class UpdateProductRequest
 {
-    private $id;
-    private $quantity;
+    private string $id;
+    private int $quantity;
 
     /**
      * Constructor.
@@ -16,7 +18,7 @@ class UpdateProductRequest
      * @param string $id       the product id
      * @param int    $quantity quantity
      */
-    public function __construct($id, $quantity)
+    public function __construct(string $id, int $quantity)
     {
         $this->id = $id;
         $this->quantity = $quantity;
@@ -37,7 +39,7 @@ class UpdateProductRequest
      *
      * @return int the quantity
      */
-    public function quantity()
+    public function quantity(): int
     {
         return $this->quantity;
     }

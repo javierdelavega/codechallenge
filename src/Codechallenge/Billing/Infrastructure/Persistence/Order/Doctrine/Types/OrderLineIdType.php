@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Infrastructure\Persistence\Order\Doctrine\Types;
 
 use App\Codechallenge\Billing\Domain\Model\Order\OrderLineId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * OrderLineId Type object represents OrderLineId Value object for the doctrine mapping system.
@@ -28,7 +31,7 @@ class OrderLineIdType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): OrderLineId
     {
-        return new OrderLineId($value);
+        return new OrderLineId(new Uuid($value));
     }
 
     /**

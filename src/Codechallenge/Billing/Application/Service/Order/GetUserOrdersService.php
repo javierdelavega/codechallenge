@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Application\Service\Order;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -10,7 +12,7 @@ use App\Codechallenge\Billing\Domain\Model\Order\OrderRepository;
  */
 class GetUserOrdersService
 {
-    private $orderRepository;
+    private OrderRepository $orderRepository;
 
     /**
      * Constructor.

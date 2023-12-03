@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Application\Service\Cart;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Application\Service\Cart;
 
 use App\Codechallenge\Billing\Application\Exceptions\CartDoesNotExistException;
@@ -7,8 +9,10 @@ use App\Codechallenge\Billing\Domain\Model\Cart\CartContentChanged;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartId;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartRepository;
 use App\Codechallenge\Catalog\Application\Exceptions\ProductDoesNotExistException;
+use App\Codechallenge\Catalog\Domain\Model\Product;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use App\Codechallenge\Catalog\Domain\Model\ProductRepository;
+use App\Codechallenge\Shared\Domain\Event\DomainEvent;
 use App\Codechallenge\Shared\Domain\Event\DomainEventPublisher;
 use App\Codechallenge\Shared\Domain\Event\DomainEventSubscriber;
 
@@ -17,8 +21,8 @@ use App\Codechallenge\Shared\Domain\Event\DomainEventSubscriber;
  */
 class UpdateCartTotalService implements DomainEventSubscriber
 {
-    private $cartRepository;
-    private $productRepository;
+    private CartRepository $cartRepository;
+    private ProductRepository $productRepository;
 
     public function __construct(CartRepository $cartRepository, ProductRepository $productRepository)
     {
@@ -29,7 +33,7 @@ class UpdateCartTotalService implements DomainEventSubscriber
     /**
      * Initializes the service subscribing to the DomainEventPublisher to listen for CartUpdated Domain events.
      */
-    public function initialize()
+    public function initialize(): void
     {
         DomainEventPublisher::instance()->subscribe($this);
     }
@@ -41,7 +45,7 @@ class UpdateCartTotalService implements DomainEventSubscriber
      *
      * @throws CartDoesNotExistException if the cart des ont exist
      */
-    public function execute(CartId $cartId)
+    public function execute(CartId $cartId): void
     {
         $cart = $this->cartRepository->cartOfId($cartId);
 
@@ -65,9 +69,11 @@ class UpdateCartTotalService implements DomainEventSubscriber
      *
      * @param DomainEvent $aDomainEvent
      *
+     * @return bool true if is suscribed. false if not suscribed.
+     *
      * @see DomainEventSubscriber::isSubscribedTo()
      */
-    public function isSubscribedTo($aDomainEvent)
+    public function isSubscribedTo($aDomainEvent): bool
     {
         return $aDomainEvent instanceof CartContentChanged;
     }
@@ -77,7 +83,7 @@ class UpdateCartTotalService implements DomainEventSubscriber
      *
      * @param CartContentChanged $aDomainEvent the domain event
      */
-    public function handle($aDomainEvent)
+    public function handle($aDomainEvent): void
     {
         $this->execute($aDomainEvent->cartId());
     }
@@ -87,9 +93,11 @@ class UpdateCartTotalService implements DomainEventSubscriber
      *
      * @param ProductId $productId the product id
      *
+     * @return Product the product
+     *
      * @throws ProductDoesNotExistException
      */
-    private function findProductOrFail(ProductId $productId)
+    private function findProductOrFail(ProductId $productId): Product
     {
         $product = $this->productRepository->productOfId($productId);
         if (null === $product) {

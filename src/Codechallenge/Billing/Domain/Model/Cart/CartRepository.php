@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Domain\Model\Cart;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -12,12 +14,12 @@ interface CartRepository
     /**
      * Adds a cart.
      */
-    public function save(Cart $cart);
+    public function save(Cart $cart): void;
 
     /**
      * Removes a cart.
      */
-    public function remove(Cart $cart);
+    public function remove(Cart $cart): void;
 
     /**
      * Retrieves a cart of the given id.
@@ -26,21 +28,17 @@ interface CartRepository
      *
      * @return Cart the Cart with requested id
      */
-    public function cartOfId(CartId $cartId);
+    public function cartOfId(CartId $cartId): ?Cart;
 
     /**
      * Retrieves a cart of the given user id.
      *
      * @param UserId the id of the user
-     *
-     * @return Cart
      */
-    public function cartOfUser(UserId $userId);
+    public function cartOfUser(UserId $userId): ?Cart;
 
     /**
      * Gets a new unique Cart id.
-     *
-     * @return CartId
      */
-    public function nextIdentity();
+    public function nextIdentity(): CartId;
 }

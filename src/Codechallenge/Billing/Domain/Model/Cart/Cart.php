@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Domain\Model\Cart;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -20,8 +22,8 @@ class Cart
     private CartId $cartId;
     private UserId $userId;
     private Collection $items;
-    private $productCount;
-    private $cartTotal;
+    private int $productCount;
+    private float $cartTotal;
 
     /**
      * Constructor.
@@ -51,7 +53,7 @@ class Cart
     /**
      * Get the cart items.
      *
-     * @return Collection the items in the cart
+     * @return Collection|Item[] the items in the cart
      */
     public function items(): Collection
     {
@@ -76,7 +78,7 @@ class Cart
      * @param ProductId $productId the product id
      * @param int       $quantity  the quantity
      */
-    public function addProduct(ProductId $productId, $quantity)
+    public function addProduct(ProductId $productId, int $quantity): void
     {
         $alReadyInCart = false;
         $prevQuantity = 0;
@@ -113,7 +115,7 @@ class Cart
      *
      * @throws ProductNotInCartException if the product is not in the cart
      */
-    public function removeProduct(ProductId $productId)
+    public function removeProduct(ProductId $productId): void
     {
         $key = null;
         $i = 0;
@@ -143,7 +145,7 @@ class Cart
      *
      * @throws ProductNotInCartException if the product is not in the cart
      */
-    public function updateProduct(ProductId $productId, $quantity)
+    public function updateProduct(ProductId $productId, int $quantity): void
     {
         $key = null;
         $i = 0;
@@ -167,7 +169,7 @@ class Cart
     /**
      * Remove all items from the cart.
      */
-    public function empty()
+    public function empty(): void
     {
         $this->items->clear();
         $this->cartTotal = 0;
@@ -189,7 +191,7 @@ class Cart
      *
      * @param float $cartTotal the total price
      */
-    public function setCartTotal($cartTotal)
+    public function setCartTotal(float $cartTotal): void
     {
         $this->cartTotal = $cartTotal;
     }
@@ -207,7 +209,7 @@ class Cart
     /**
      * Publish a CartContentChanged Domain event.
      */
-    protected function publishCartUpdatedEvent()
+    protected function publishCartUpdatedEvent(): void
     {
         DomainEventPublisher::instance()->publish(new CartContentChanged($this->cartId));
     }

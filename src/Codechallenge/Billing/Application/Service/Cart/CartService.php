@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Application\Service\Cart;
 
 use App\Codechallenge\Auth\Application\Exceptions\UserDoesNotExistException;
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Auth\Domain\Model\UserRepository;
+use App\Codechallenge\Billing\Domain\Model\Cart\Cart;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartFactory;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartRepository;
 use App\Codechallenge\Catalog\Application\Exceptions\ProductDoesNotExistException;
@@ -16,10 +19,10 @@ use App\Codechallenge\Catalog\Domain\Model\ProductRepository;
  */
 abstract class CartService
 {
-    protected $userRepository;
-    protected $cartRepository;
-    protected $cartFactory;
-    protected $productRepository;
+    protected UserRepository $userRepository;
+    protected CartRepository $cartRepository;
+    protected CartFactory $cartFactory;
+    protected ProductRepository $productRepository;
 
     /**
      * Constructor.
@@ -41,11 +44,13 @@ abstract class CartService
      * Find a cart for the given user id
      * If the user does not have a cart creates a new one.
      *
+     * @param UserId $userId the user id
+     *
      * @throws UserDoesNotExistException if the user does not exist
      */
-    protected function findCartOrFail($userId)
+    protected function findCartOrFail(UserId $userId): Cart
     {
-        $user = $this->userRepository->userOfId(new UserId($userId));
+        $user = $this->userRepository->userOfId($userId);
         if (null === $user) {
             throw new UserDoesNotExistException();
         }

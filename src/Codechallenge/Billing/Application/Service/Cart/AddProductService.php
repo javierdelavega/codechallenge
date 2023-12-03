@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Application\Service\Cart;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -16,7 +18,7 @@ class AddProductService extends CartService
      * @param UserId            $userId  the user id of the current user who owns the cart
      * @param AddProductRequest $request the request for add a product to the cart
      */
-    public function execute(UserId $userId, AddProductRequest $request)
+    public function execute(UserId $userId, AddProductRequest $request): void
     {
         $productId = new ProductId($request->id());
         $quantity = $request->quantity();

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Infrastructure\Domain\Model\Order;
 
 use App\Codechallenge\Billing\Domain\Model\Order\OrderLine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -11,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DoctrineOrderLineRepository extends ServiceEntityRepository
 {
-    private $entityManager;
+    private EntityManager $entityManager;
 
     /**
      * Constructor.
@@ -27,7 +30,7 @@ class DoctrineOrderLineRepository extends ServiceEntityRepository
     /**
      * Add a OrderLine and persist in the database.
      */
-    public function save(OrderLine $orderLine)
+    public function save(OrderLine $orderLine): void
     {
         $this->entityManager->persist($orderLine);
         $this->entityManager->flush();
@@ -36,7 +39,7 @@ class DoctrineOrderLineRepository extends ServiceEntityRepository
     /**
      * Removes an OrderLine and delete it from the database.
      */
-    public function remove(OrderLine $orderLine)
+    public function remove(OrderLine $orderLine): void
     {
         $this->entityManager->remove($orderLine);
         $this->entityManager->flush();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Domain\Model\Cart;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -14,7 +16,7 @@ interface CartFactory
      *
      * @param UserId $userId the user id
      */
-    public function ofUser(UserId $userId);
+    public function ofUser(UserId $userId): self;
 
     /**
      * Build the cart object.
@@ -23,5 +25,5 @@ interface CartFactory
      *
      * @return Cart the cart object
      */
-    public function build(CartId $cartId);
+    public function build(CartId $cartId): Cart;
 }
