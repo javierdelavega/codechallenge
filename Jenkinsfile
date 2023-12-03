@@ -30,8 +30,8 @@ node {
                             withCredentials([[$class: 'StringBinding', credentialsId: 'semaphore-token', variable: 'bearer']]) {
                                 
                                 if (env.BRANCH_NAME == 'staging') {
-                                    echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID}"
                                     def ANSIBLE_DEPLOY_TEMPLATE_ID = env.ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID
+                                    echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_DEPLOY_TEMPLATE_ID}"
                                     httpRequest acceptType: 'APPLICATION_JSON', consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', customHeaders: [[name: 'Authorization', value: "Bearer ${env.bearer}"]], httpMode: 'POST', requestBody: """{
                                     \"template_id\": ${ANSIBLE_DEPLOY_TEMPLATE_ID},
                                     \"debug\": false,
@@ -42,8 +42,8 @@ node {
                                 }
 
                                 if (env.BRANCH_NAME == 'main') {
-                                    echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_DEPLOY_STAGING_TEMPLATE_ID}"
-                                    def ANSIBLE_DEPLOY_TEMPLATE_ID = env.ANSIBLE_DEPLOY_PRODUCTION_TEMPLATE_ID
+                                    def ANSIBLE_DEPLOY_TEMPLATE_ID = env.ANSIBLE_DEPLOY_PROD_TEMPLATE_ID
+                                    echo "DEBUG: got project_id ${ANSIBLE_PROJECT_ID} and template_id ${ANSIBLE_DEPLOY_TEMPLATE_ID}"
                                     input(message: "Deploy to PRODUCTION?", ok: "Yes")
                                     httpRequest acceptType: 'APPLICATION_JSON', consoleLogResponseBody: true, contentType: 'APPLICATION_JSON', customHeaders: [[name: 'Authorization', value: "Bearer ${env.bearer}"]], httpMode: 'POST', requestBody: """{
                                     \"template_id\": ${ANSIBLE_DEPLOY_TEMPLATE_ID},
