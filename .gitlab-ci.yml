@@ -9,17 +9,18 @@ stages:
 
 run_tests:
   stage: test
-  image: php:8.2.3
+  image: php:$PHP_VERSION
   before_script:
     - bash ci/docker_install.sh > /dev/null
   services:
-    - name: mariadb:10.9.3
+    - name: "mariadb:$MARIADB_VERSION"
       alias: db
   variables:
-    MYSQL_ROOT_PASSWORD: 'codechallenge'
-    MYSQL_USER: 'codechallenge'
-    MYSQL_PASSWORD: 'codechallenge'
+    MYSQL_ROOT_PASSWORD: $DB_PASSWORD_TEST
+    MYSQL_USER: $DB_USER_TEST
+    MYSQL_PASSWORD: $DB_PASSWORD_TEST
   script:
+      - composer install --ignore-platform-reqs --no-scripts
       - php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction
       - bin/console --env=test doctrine:schema:create --no-interaction
       - php bin/phpunit --testdox
@@ -37,7 +38,9 @@ build_image:
   before_script:
     - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
   script:
-    - docker build -t $IMAGE_NAME:$IMAGE_TAG -f ci/Dockerfile --target prod .
+    - cp $ENV_PROD_FILE .env.prod
+    - cp $ENV_PROD_FILE .env.dev
+    - docker build --build-arg PHP_VERSION=$PHP_VERSION -t $IMAGE_NAME:$IMAGE_TAG -f ci/Dockerfile --target prod .
     - docker push $IMAGE_NAME:$IMAGE_TAG
 
 deploy_to_staging:
@@ -48,8 +51,8 @@ deploy_to_staging:
   before_script:
     - chmod 400 $SSH_KEY
   script:
-    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@92896bf4-28a2-428b-acbb-528f84ce8fbc.clouding.host "
-        cd /home/javi/docker/codechallenge-staging && 
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@$STAGING_SERVER_ADDRESS "
+        cd $STAGING_DEPLOY_PATH && 
         docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD &&
         docker-compose down --remove-orphans -v &&
         docker-compose pull &&
@@ -65,8 +68,8 @@ deploy_to_production:
   before_script:
     - chmod 400 $SSH_KEY
   script:
-    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@92896bf4-28a2-428b-acbb-528f84ce8fbc.clouding.host "
-        cd /home/javi/docker/codechallenge && 
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@$PROD_SERVER_ADDRESS "
+        cd $PROD_DEPLOY_PATH && 
         docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD &&
         docker network disconnect -f codechallenge_db codechallenge-staging &&
         docker-compose down --remove-orphans -v &&
