@@ -2,9 +2,7 @@
 
 namespace App\Codechallenge\Billing\Application\Exceptions;
 
-use Exception;
-
-class CartDoesNotExistException extends Exception
+class CartDoesNotExistException extends \Exception
 {
-  protected $message = 'The cart does not exist';
+    protected $message = 'The cart does not exist';
 }

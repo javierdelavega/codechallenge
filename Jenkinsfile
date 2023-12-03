@@ -18,6 +18,7 @@ node {
                 }
 
                 stage ('Test') {
+                    sh 'vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --dry-run --no-interaction --diff src'
                     sh 'XDEBUG_MODE=coverage php bin/phpunit'
                     recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'build/logs/cobertura.xml']])
                     junit 'build/logs/junit.xml'
