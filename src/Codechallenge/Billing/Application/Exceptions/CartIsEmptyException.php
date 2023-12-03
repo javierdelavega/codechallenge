@@ -2,9 +2,7 @@
 
 namespace App\Codechallenge\Billing\Application\Exceptions;
 
-use Exception;
-
-class CartIsEmptyException extends Exception
+class CartIsEmptyException extends \Exception
 {
-  protected $message = 'The cart is empty';
+    protected $message = 'The cart is empty';
 }

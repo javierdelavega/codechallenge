@@ -18,9 +18,16 @@ node {
                 }
 
                 stage ('Test') {
-                    sh 'XDEBUG_MODE=coverage php bin/phpunit'
-                    recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'build/logs/cobertura.xml']])
-                    junit 'build/logs/junit.xml'
+                    parallel(
+                        "Coding Standards": {
+                            sh 'vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --dry-run --no-interaction --diff src'
+                        },
+                        "PHPUnit Tests": {
+                            sh 'XDEBUG_MODE=coverage php bin/phpunit'
+                            recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'build/logs/cobertura.xml']])
+                            junit 'build/logs/junit.xml'
+                        }
+                    )
                 }
 
                 if (env.BRANCH_NAME == 'staging' || env.BRANCH_NAME == 'main') {
