@@ -9,7 +9,7 @@ use App\Codechallenge\Auth\Domain\Model\User;
  */
 class UserDTO
 {
-private $name;
+    private $name;
     private $email;
     private $address;
     private $registered;
