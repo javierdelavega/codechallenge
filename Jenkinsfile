@@ -26,9 +26,10 @@ node {
                             sh 'XDEBUG_MODE=coverage php bin/phpunit'
                             recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'build/logs/cobertura.xml']])
                             junit 'build/logs/junit.xml'
+                            sh 'vendor/bin/coverage-check build/logs/clover.xml 80'
                         },
                         "Mutation Tests": {
-                            sh 'vendor/infection/infection/bin/infection --threads=4 --min-msi=85'
+                            sh 'vendor/infection/infection/bin/infection --threads=4 --min-msi=90 --only-covered'
                         }
                     )
                 }
