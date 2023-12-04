@@ -64,6 +64,6 @@ class SignUpUserService
         $user->signUp($name, $email, $hashedPassword, $address);
         $this->userRepository->save($user);
 
-        return new UserDTO($user);
+        return new UserDTO($user->name(), $user->email(), $user->address(), $user->registered());
     }
 }

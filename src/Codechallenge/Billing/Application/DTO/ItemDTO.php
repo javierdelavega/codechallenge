@@ -14,98 +14,24 @@ use App\Codechallenge\Catalog\Domain\Model\ProductId;
  */
 class ItemDTO
 {
-    private ItemId $itemId;
-    private ProductId $productId;
-    private string $reference;
-    private string $name;
-    private string $description;
-    private float $price;
-    private int $quantity;
-
     /**
      * Constructor.
      *
-     * @param Item    $item    the cart item
-     * @param Product $product the product from catalog
+     * @param ProductId $productId   the cart product id
+     * @param string    $reference   the cart product reference
+     * @param string    $name        the cart product name
+     * @param string    $description the cart product description
+     * @param string    $description the cart product description
+     * @param float     $price       the cart item price
      */
-    public function __construct(Item $item, Product $product)
-    {
-        $this->itemId = $item->id();
-        $this->productId = $product->id();
-        $this->reference = $product->reference();
-        $this->name = $product->name();
-        $this->description = $product->description();
-        $this->price = $product->price()->amount();
-        $this->quantity = $item->quantity();
-    }
-
-    /**
-     * Get the user name.
-     *
-     * @return ItemId the item id
-     */
-    public function id(): ItemId
-    {
-        return $this->itemId;
-    }
-
-    /**
-     * Get the product id.
-     *
-     * @return ProductId the product id
-     */
-    public function productId(): ProductId
-    {
-        return $this->productId;
-    }
-
-    /**
-     * Get the product reference.
-     *
-     * @return string the product reference
-     */
-    public function reference(): string
-    {
-        return $this->reference;
-    }
-
-    /**
-     * Get the product name.
-     *
-     * @return string the product name
-     */
-    public function name(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Get the product description.
-     *
-     * @return string the product description
-     */
-    public function description(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * Get the product price.
-     *
-     * @return float the product price
-     */
-    public function price(): float
-    {
-        return $this->price;
-    }
-
-    /**
-     * Get the quantity of the item in the cart.
-     *
-     * @return int the quantity of the item in the cart
-     */
-    public function quantity(): int
-    {
-        return $this->quantity;
+    public function __construct(
+        public ItemId $id,
+        public ProductId $productId,
+        public string $reference,
+        public string $name,
+        public string $description,
+        public float $price,
+        public int $quantity
+    ) {
     }
 }

@@ -41,6 +41,6 @@ class GetUserService
             throw new UserDoesNotExistException();
         }
 
-        return new UserDTO($user);
+        return new UserDTO($user->name(), $user->email(), $user->address(), $user->registered());
     }
 }

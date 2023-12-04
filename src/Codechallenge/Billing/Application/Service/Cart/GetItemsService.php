@@ -29,7 +29,15 @@ class GetItemsService extends CartService
         $i = 0;
         foreach ($items as $item) {
             $product = $this->findProductOrFail($item->productId());
-            $itemDTOs[$i] = new ItemDTO($item, $product);
+            $itemDTOs[$i] = new ItemDTO(
+                $item->id(),
+                $product->id(),
+                $product->reference(),
+                $product->name(),
+                $product->description(),
+                $product->price()->amount(),
+                $item->quantity()
+            );
             ++$i;
         }
 
