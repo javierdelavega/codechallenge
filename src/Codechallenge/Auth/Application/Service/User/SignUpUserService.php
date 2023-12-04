@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Application\Service\User;
 
 use App\Codechallenge\Auth\Application\DTO\UserDTO;
@@ -15,8 +17,8 @@ use App\Codechallenge\Auth\Domain\Model\UserRepository;
  */
 class SignUpUserService
 {
-    private $userRepository;
-    private $userPasswordHasher;
+    private UserRepository $userRepository;
+    private PasswordHashingInterface $userPasswordHasher;
 
     /**
      * Constructor.

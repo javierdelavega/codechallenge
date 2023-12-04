@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Catalog\Domain\Model;
 
 /**
@@ -7,8 +9,8 @@ namespace App\Codechallenge\Catalog\Domain\Model;
  */
 class Money
 {
-    private $amount;
-    private $currency;
+    private float $amount;
+    private Currency $currency;
 
     /**
      * Constructor.
@@ -16,7 +18,7 @@ class Money
      * @param float    $anAmount  the amount
      * @param Currency $aCurrency the currency value object
      */
-    public function __construct($anAmount, Currency $aCurrency)
+    public function __construct(float $anAmount, Currency $aCurrency)
     {
         $this->setAmount($anAmount);
         $this->setCurrency($aCurrency);
@@ -27,7 +29,7 @@ class Money
      *
      * @param float $anAmount the amount must be positive decimal or int number
      */
-    private function setAmount($anAmount)
+    private function setAmount(float $anAmount): void
     {
         if ($anAmount < 0) {
             throw new \InvalidArgumentException();
@@ -40,7 +42,7 @@ class Money
      *
      * @param Currency $aCurrency the currency value object
      */
-    private function setCurrency(Currency $aCurrency)
+    private function setCurrency(Currency $aCurrency): void
     {
         $this->currency = $aCurrency;
     }

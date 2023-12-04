@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Domain\Model;
 
 use App\Codechallenge\Auth\Application\Exceptions\UserAlreadyRegisteredException;
@@ -13,11 +15,11 @@ use App\Codechallenge\Auth\Application\Exceptions\UserAlreadyRegisteredException
  */
 class User
 {
-    private $userId;
-    private $name;
-    private $email;
-    private $password;
-    private $address;
+    private UserId $userId;
+    private ?string $name;
+    private ?string $email;
+    private ?string $password;
+    private ?string $address;
 
     public const NAME_MIN_LENGTH = 4;
     public const NAME_MAX_LENGTH = 64;
@@ -36,7 +38,12 @@ class User
      * @param string      $password the password of the user, empty for guest users
      * @param string|null $address  the post address of the user, null for guest users
      */
-    public function __construct(UserId $userId, $name, $email, $password, $address)
+    public function __construct(
+        UserId $userId,
+        string $name = null,
+        string $email = null,
+        string $password = null,
+        string $address = null)
     {
         $this->userId = $userId;
         $this->name = $name;
@@ -102,7 +109,7 @@ class User
      *
      * @throws \InvalidArgumentException
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->assertNameNotEmpty($name);
         $this->assertNameNotTooShort($name);
@@ -118,7 +125,7 @@ class User
      *
      * @throws \InvalidArgumentException
      */
-    public function setEmail(string $email)
+    public function setEmail(string $email): void
     {
         $this->assertEmailValidFormat($email);
         $this->email = $email;
@@ -131,7 +138,7 @@ class User
      *
      * @throws \InvalidArgumentException
      */
-    public function setPassword(string $password)
+    public function setPassword(string $password): void
     {
         $this->assertPasswordNotEmpty($password);
         $this->assertPasswordNotTooShort($password);
@@ -146,7 +153,7 @@ class User
      *
      * @throws \InvalidArgumentException
      */
-    public function setAddress(string $address)
+    public function setAddress(string $address): void
     {
         $this->assertAddressNotEmpty($address);
         $this->assertAddressNotTooShort($address);
@@ -169,10 +176,8 @@ class User
      *
      * @param ApiTokenId an identity for the token
      * @param string $tokenString a string for the token
-     *
-     * @return ApiToken
      */
-    public function createToken(ApiTokenId $apiTokenId, $tokenString)
+    public function createToken(ApiTokenId $apiTokenId, string $tokenString): ApiToken
     {
         return new ApiToken($apiTokenId, $this->id(), $tokenString);
     }
@@ -187,7 +192,7 @@ class User
      *
      * @throws UserAlreadyRegisteredException if the user is already registered
      */
-    public function signUp($name, $email, $password, $address)
+    public function signUp(string $name, string $email, string $password, string $address): void
     {
         if ($this->registered()) {
             throw new UserAlreadyRegisteredException();
@@ -200,77 +205,77 @@ class User
     }
 
     /* Field validation functions */
-    private function assertNameNotEmpty($name)
+    private function assertNameNotEmpty(string $name): void
     {
         if (empty($name)) {
             throw new \InvalidArgumentException('Empty username');
         }
     }
 
-    private function assertNameNotTooShort($name)
+    private function assertNameNotTooShort(string $name): void
     {
         if (strlen($name) < self::NAME_MIN_LENGTH) {
             throw new \InvalidArgumentException(sprintf('Username must be %d characters or more', self::NAME_MIN_LENGTH));
         }
     }
 
-    private function assertNameNotTooLong($name)
+    private function assertNameNotTooLong(string $name): void
     {
         if (strlen($name) > self::NAME_MAX_LENGTH) {
             throw new \InvalidArgumentException(sprintf('Username must be %d characters or less', self::NAME_MAX_LENGTH));
         }
     }
 
-    private function assertNameValidFormat($name)
+    private function assertNameValidFormat(string $name): void
     {
         if (1 !== preg_match(self::NAME_FORMAT, $name)) {
             throw new \InvalidArgumentException('Invalid username format');
         }
     }
 
-    private function assertEmailValidFormat($email)
+    private function assertEmailValidFormat(string $email): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException('Invalid email format');
         }
     }
 
-    private function assertAddressNotEmpty($address)
+    private function assertAddressNotEmpty(string $address): void
     {
         if (empty($address)) {
             throw new \InvalidArgumentException('Empty address');
         }
     }
 
-    private function assertAddressNotTooShort($password)
+    private function assertAddressNotTooShort(string $password): void
     {
         if (strlen($password) < self::ADDRESS_MIN_LENGTH) {
             throw new \InvalidArgumentException(sprintf('Address must be %d characters or more', self::ADDRESS_MIN_LENGTH));
         }
     }
 
-    private function assertAddressdNotTooLong($address)
+    private function assertAddressdNotTooLong(string $address): void
     {
         if (strlen($address) > self::ADDRESS_MAX_LENGTH) {
             throw new \InvalidArgumentException(sprintf('Address must be %d characters or less', self::ADDRESS_MAX_LENGTH));
         }
     }
 
-    private function assertPasswordNotEmpty($password)
+    private function assertPasswordNotEmpty(string $password): void
     {
         if (empty($password)) {
             throw new \InvalidArgumentException('Empty password');
         }
     }
 
-    private function assertPasswordNotTooShort($password)
+    private function assertPasswordNotTooShort(string $password): void
     {
         if (strlen($password) < self::PASSWORD_MIN_LENGTH) {
             throw new \InvalidArgumentException(sprintf('Password must be %d characters or more', self::PASSWORD_MIN_LENGTH));
         }
     }
 
-    private function assertPasswordNotTooLong($password)
+    private function assertPasswordNotTooLong(string $password): void
     {
         if (strlen($password) > self::PASSWORD_MAX_LENGTH) {
             throw new \InvalidArgumentException(sprintf('Password must be %d characters or less', self::PASSWORD_MAX_LENGTH));

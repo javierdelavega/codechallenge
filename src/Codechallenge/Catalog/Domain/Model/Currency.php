@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Catalog\Domain\Model;
 
 /**
@@ -7,14 +9,14 @@ namespace App\Codechallenge\Catalog\Domain\Model;
  */
 class Currency
 {
-    private $isoCode;
+    private string $isoCode;
 
     /**
      * Constructor.
      *
      * @param string $anIsoCode the iso code of the currency
      */
-    public function __construct($anIsoCode)
+    public function __construct(string $anIsoCode)
     {
         $this->setIsoCode($anIsoCode);
     }
@@ -26,7 +28,7 @@ class Currency
      *
      * @throws \InvalidArgumentException if the iso code is not 3 capital A-Z characters
      */
-    private function setIsoCode($anIsoCode)
+    private function setIsoCode(string $anIsoCode): void
     {
         if (!preg_match('/^[A-Z]{3}$/', $anIsoCode)) {
             throw new \InvalidArgumentException();
@@ -39,7 +41,7 @@ class Currency
      *
      * @return string the iso code of the currency
      */
-    public function isoCode()
+    public function isoCode(): string
     {
         return $this->isoCode;
     }

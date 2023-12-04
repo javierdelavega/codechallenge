@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart;
 
 use App\Codechallenge\Billing\Domain\Model\Cart\Item;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -11,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DoctrineItemRepository extends ServiceEntityRepository
 {
-    private $entityManager;
+    private EntityManager $entityManager;
 
     /**
      * Constructor.
@@ -29,7 +32,7 @@ class DoctrineItemRepository extends ServiceEntityRepository
      *
      * @param Item $item the item
      */
-    public function save(Item $item)
+    public function save(Item $item): void
     {
         $this->entityManager->persist($item);
         $this->entityManager->flush();
@@ -40,7 +43,7 @@ class DoctrineItemRepository extends ServiceEntityRepository
      *
      * @param Item $item the item
      */
-    public function remove(Item $item)
+    public function remove(Item $item): void
     {
         $this->entityManager->remove($item);
         $this->entityManager->flush();

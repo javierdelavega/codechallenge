@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Infrastructure\Delivery\API;
 
 use App\Codechallenge\Auth\Domain\Model\ApiTokenRepository;
@@ -35,6 +37,6 @@ class AccessTokenHandler implements AccessTokenHandlerInterface
             throw new BadCredentialsException('Invalid credentials.');
         }
 
-        return new UserBadge($accessToken->userId());
+        return new UserBadge($accessToken->userId()->__toString());
     }
 }

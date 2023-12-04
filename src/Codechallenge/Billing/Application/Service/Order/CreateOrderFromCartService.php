@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Application\Service\Order;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -21,11 +23,11 @@ use App\Codechallenge\Catalog\Domain\Model\ProductRepository;
  */
 class CreateOrderFromCartService
 {
-    private $orderRepository;
-    private $cartRepository;
-    private $productRepository;
-    private $userRepository;
-    private $emptyCartService;
+    private OrderRepository $orderRepository;
+    private CartRepository $cartRepository;
+    private ProductRepository $productRepository;
+    private UserRepository $userRepository;
+    private EmptyCartService $emptyCartService;
 
     /**
      * Constructor.
@@ -54,7 +56,7 @@ class CreateOrderFromCartService
      *
      * @throws CartIsEmptyException if the cart is empty
      */
-    public function execute(UserId $userId)
+    public function execute(UserId $userId): void
     {
         $user = $this->userRepository->userOfId($userId);
 

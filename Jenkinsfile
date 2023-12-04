@@ -22,6 +22,9 @@ node {
                         "Coding Standards": {
                             sh 'vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --dry-run --no-interaction --diff src'
                         },
+                        "Static Analysis": {
+                            sh 'vendor/bin/psalm src'
+                        },
                         "PHPUnit Tests": {
                             sh 'XDEBUG_MODE=coverage php bin/phpunit'
                             recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'build/logs/cobertura.xml']])

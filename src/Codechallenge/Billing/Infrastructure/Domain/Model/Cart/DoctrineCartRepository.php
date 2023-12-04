@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -7,6 +9,7 @@ use App\Codechallenge\Billing\Domain\Model\Cart\Cart;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartId;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,7 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DoctrineCartRepository extends ServiceEntityRepository implements CartRepository
 {
-    private $entityManager;
+    private EntityManager $entityManager;
 
     /**
      * Constructor.
@@ -30,7 +33,7 @@ class DoctrineCartRepository extends ServiceEntityRepository implements CartRepo
     /**
      * Adds a cart and persist in the dabase.
      */
-    public function save(Cart $cart)
+    public function save(Cart $cart): void
     {
         $this->entityManager->persist($cart);
         $this->entityManager->flush();
@@ -39,7 +42,7 @@ class DoctrineCartRepository extends ServiceEntityRepository implements CartRepo
     /**
      * Removes a cart and delete from the database.
      */
-    public function remove(Cart $cart)
+    public function remove(Cart $cart): void
     {
         $this->entityManager->remove($cart);
         $this->entityManager->flush();
@@ -76,10 +79,8 @@ class DoctrineCartRepository extends ServiceEntityRepository implements CartRepo
 
     /**
      * Gets a new unique Cart id.
-     *
-     * @return CartId
      */
-    public function nextIdentity()
+    public function nextIdentity(): CartId
     {
         return new CartId();
     }

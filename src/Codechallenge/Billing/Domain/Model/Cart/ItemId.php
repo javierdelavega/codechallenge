@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Domain\Model\Cart;
 
 use Symfony\Component\Uid\Uuid;
@@ -9,14 +11,14 @@ use Symfony\Component\Uid\Uuid;
  */
 class ItemId
 {
-    private $id;
+    private Uuid $id;
 
     /**
      * Constructor.
      *
      * @param Uuid|null an Uuid item identity
      */
-    public function __construct($id = null)
+    public function __construct(Uuid $id = null)
     {
         $this->id = $id ?: Uuid::v4();
     }
@@ -28,7 +30,7 @@ class ItemId
      *
      * @return ItemId new ItemId object
      */
-    public static function create($anId = null): ItemId
+    public static function create(Uuid $anId = null): ItemId
     {
         return new static($anId);
     }
@@ -40,17 +42,17 @@ class ItemId
      */
     public function __toString(): string
     {
-        return $this->id;
+        return $this->id->__toString();
     }
 
     /**
      * Get the id.
      *
-     * @return string the id Uuid
+     * @return string the id string
      */
     public function id(): string
     {
-        return $this->id;
+        return $this->id->__toString();
     }
 
     /**

@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class for loading users from access token source of the symfony security system.
@@ -31,7 +32,7 @@ class AccessTokenUserProvider implements UserProviderInterface
      */
     public function loadUserByIdentifier($identifier): UserInterface
     {
-        $userId = new UserId($identifier);
+        $userId = new UserId(new Uuid($identifier));
 
         return $this->fetchUser($userId);
     }
@@ -45,8 +46,7 @@ class AccessTokenUserProvider implements UserProviderInterface
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
         }
 
-        $identifier = $user->getUserIdentifier();
-        $userId = new UserId($identifier);
+        $userId = new UserId($user->getUserUuid());
 
         return $this->fetchUser($userId);
     }

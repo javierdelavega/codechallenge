@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Domain\Model\Cart;
 
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
@@ -13,7 +15,7 @@ class Item
     private ItemId $itemId;
     private CartId $cartId;
     private ProductId $productId;
-    private $quantity;
+    private int $quantity;
 
     /**
      * Constructor.
@@ -23,7 +25,7 @@ class Item
      * @param ProductId $productId the product id
      * @param int       $quantity  the quantity
      */
-    public function __construct(ItemId $itemId, CartId $cartId, ProductId $productId, $quantity)
+    public function __construct(ItemId $itemId, CartId $cartId, ProductId $productId, int $quantity)
     {
         $this->itemId = $itemId;
         $this->cartId = $cartId;
@@ -76,7 +78,7 @@ class Item
      *
      * @param int $quantity the quantity
      */
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity): void
     {
         $this->quantity = $quantity;
     }

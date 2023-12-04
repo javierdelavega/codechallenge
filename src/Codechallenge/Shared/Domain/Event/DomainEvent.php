@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Shared\Domain\Event;
 
 /**
@@ -10,7 +12,7 @@ interface DomainEvent
     /**
      * Gets the time when the event occured.
      *
-     * @return DateTimeImmutable
+     * @return \DateTimeImmutable
      */
     public function occurredOn();
 }

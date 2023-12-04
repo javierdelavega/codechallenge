@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Domain\Model\Cart;
 
 use App\Codechallenge\Shared\Domain\Event\DomainEvent;
@@ -9,8 +11,8 @@ use App\Codechallenge\Shared\Domain\Event\DomainEvent;
  */
 class CartContentChanged implements DomainEvent
 {
-    private $cartId;
-    private $occurredOn;
+    private CartId $cartId;
+    private \DateTimeImmutable $occurredOn;
 
     /**
      * Constructor.
@@ -38,7 +40,7 @@ class CartContentChanged implements DomainEvent
      *
      * @return \DateTimeImmutable the time when the event occured
      */
-    public function occurredOn()
+    public function occurredOn(): \DateTimeImmutable
     {
         return $this->occurredOn;
     }

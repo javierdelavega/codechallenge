@@ -1,22 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Application\DTO;
 
 use App\Codechallenge\Billing\Domain\Model\Cart\Item;
+use App\Codechallenge\Billing\Domain\Model\Cart\ItemId;
 use App\Codechallenge\Catalog\Domain\Model\Product;
+use App\Codechallenge\Catalog\Domain\Model\ProductId;
 
 /**
  * Data Transfer Object for delivery cart item data from Domain layer to Application layer.
  */
 class ItemDTO
 {
-    private $itemId;
-    private $productId;
-    private $reference;
-    private $name;
-    private $description;
-    private $price;
-    private $quantity;
+    private ItemId $itemId;
+    private ProductId $productId;
+    private string $reference;
+    private string $name;
+    private string $description;
+    private float $price;
+    private int $quantity;
 
     /**
      * Constructor.
@@ -26,8 +30,8 @@ class ItemDTO
      */
     public function __construct(Item $item, Product $product)
     {
-        $this->itemId = $item->id()->id();
-        $this->productId = $product->id()->id();
+        $this->itemId = $item->id();
+        $this->productId = $product->id();
         $this->reference = $product->reference();
         $this->name = $product->name();
         $this->description = $product->description();
@@ -38,9 +42,9 @@ class ItemDTO
     /**
      * Get the user name.
      *
-     * @return string the item id
+     * @return ItemId the item id
      */
-    public function id(): string
+    public function id(): ItemId
     {
         return $this->itemId;
     }
@@ -48,9 +52,9 @@ class ItemDTO
     /**
      * Get the product id.
      *
-     * @return string the product id
+     * @return ProductId the product id
      */
-    public function productId(): string
+    public function productId(): ProductId
     {
         return $this->productId;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Infrastructure\Domain\Model\Order;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -30,7 +32,7 @@ class DoctrineOrderRepository extends ServiceEntityRepository implements OrderRe
     /**
      * Adds a order and persist in the database.
      */
-    public function save(Order $order)
+    public function save(Order $order): void
     {
         $this->entityManager->persist($order);
         $this->entityManager->flush();
@@ -39,7 +41,7 @@ class DoctrineOrderRepository extends ServiceEntityRepository implements OrderRe
     /**
      * Removes a order and delete from the database.
      */
-    public function remove(Order $order)
+    public function remove(Order $order): void
     {
         $this->entityManager->remove($order);
         $this->entityManager->flush();
@@ -52,7 +54,7 @@ class DoctrineOrderRepository extends ServiceEntityRepository implements OrderRe
      *
      * @return Order the Order with requested id
      */
-    public function orderOfId(OrderId $orderId)
+    public function orderOfId(OrderId $orderId): ?Order
     {
         return $this->entityManager->find('App\Codechallenge\Billing\Domain\Model\Order\Order', $orderId);
     }
@@ -76,10 +78,8 @@ class DoctrineOrderRepository extends ServiceEntityRepository implements OrderRe
 
     /**
      * Gets a new unique Order id.
-     *
-     * @return OrderId
      */
-    public function nextIdentity()
+    public function nextIdentity(): OrderId
     {
         return new OrderId();
     }

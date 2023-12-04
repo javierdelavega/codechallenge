@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Infrastructure\Persistence\Cart\Doctrine\Types;
 
 use App\Codechallenge\Billing\Domain\Model\Cart\ItemId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * ItemId Type object represents ItemId Value object for the doctrine mapping system.
@@ -28,7 +31,7 @@ class ItemIdType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ItemId
     {
-        return new ItemId($value);
+        return new ItemId(new Uuid($value));
     }
 
     /**

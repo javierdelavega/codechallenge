@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Infrastructure\Domain\Model;
 
 use App\Codechallenge\Auth\Domain\Model\UserRepository;
@@ -14,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class ApiLoginUserProvider implements UserProviderInterface
 {
-    private $userRepository;
+    private UserRepository $userRepository;
 
     /**
      * Constructor.
@@ -29,7 +31,7 @@ class ApiLoginUserProvider implements UserProviderInterface
     /**
      * @see UserProviderInterface::loadUserByIdentifier()
      */
-    public function loadUserByIdentifier($identifier): UserInterface
+    public function loadUserByIdentifier(string $identifier): UserInterface
     {
         return $this->fetchUser($identifier);
     }
@@ -63,7 +65,7 @@ class ApiLoginUserProvider implements UserProviderInterface
      *
      * @return SecurityUser the SecurityUser object with the user information
      */
-    private function fetchUser($email)
+    private function fetchUser(string $email): SecurityUser
     {
         if (null === ($user = $this->userRepository->userOfEmail($email))) {
             throw new UserNotFoundException(sprintf('Username "%s" does not exist.', $email));

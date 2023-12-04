@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Domain\Model;
 
 /**
@@ -33,7 +35,7 @@ interface UserRepository
      *
      * @return User
      */
-    public function userOfEmail($email);
+    public function userOfEmail(string $email);
 
     /**
      * Gets a new unique User id.

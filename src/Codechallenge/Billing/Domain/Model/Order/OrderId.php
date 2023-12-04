@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Domain\Model\Order;
 
 use Symfony\Component\Uid\Uuid;
@@ -11,14 +13,14 @@ use Symfony\Component\Uid\Uuid;
  */
 class OrderId
 {
-    private $id;
+    private Uuid $id;
 
     /**
      * Constructor.
      *
      * @param Uuid|null an Uuid order identity
      */
-    public function __construct($id = null)
+    public function __construct(Uuid $id = null)
     {
         $this->id = $id ?: Uuid::v4();
         // $this->id = $id ? :Uuid::uuid4()->toString();
@@ -31,7 +33,7 @@ class OrderId
      *
      * @return OrderId new OrderId object
      */
-    public static function create($anId = null): OrderId
+    public static function create(Uuid $anId = null): OrderId
     {
         return new static($anId);
     }
@@ -43,17 +45,17 @@ class OrderId
      */
     public function __toString(): string
     {
-        return $this->id;
+        return $this->id->__toString();
     }
 
     /**
      * Get the id.
      *
-     * @return string the id Uuid
+     * @return string the id string
      */
     public function id(): string
     {
-        return $this->id;
+        return $this->id->__toString();
     }
 
     /**

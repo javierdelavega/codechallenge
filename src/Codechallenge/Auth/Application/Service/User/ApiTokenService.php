@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Application\Service\User;
 
 use App\Codechallenge\Auth\Application\Exceptions\UserDoesNotExistException;
@@ -13,8 +15,8 @@ use App\Codechallenge\Auth\Domain\Model\UserRepository;
  */
 abstract class ApiTokenService
 {
-    protected $userRepository;
-    protected $apiTokenRepository;
+    protected UserRepository $userRepository;
+    protected ApiTokenRepository $apiTokenRepository;
 
     /**
      * Constructor.
@@ -37,9 +39,9 @@ abstract class ApiTokenService
      *
      * @throws UserDoesNotExistException
      */
-    protected function findUserOrFail($userId): User
+    protected function findUserOrFail(UserId $userId): User
     {
-        $user = $this->userRepository->userOfId(new UserId($userId));
+        $user = $this->userRepository->userOfId($userId);
         if (null === $user) {
             throw new UserDoesNotExistException();
         }

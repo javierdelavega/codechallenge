@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Catalog\Domain\Model;
 
 /**
@@ -40,7 +42,7 @@ interface ProductRepository
      *
      * @return Product
      */
-    public function productOfReference($reference);
+    public function productOfReference(string $reference);
 
     /**
      * Gets a new unique Product id.

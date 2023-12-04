@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Domain\Model\Order;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -16,8 +18,8 @@ class Order
     private UserId $userId;
     private Collection $orderLines;
     private string $address;
-    private $productCount;
-    private $orderTotal;
+    private int $productCount;
+    private float $orderTotal;
     private \DateTimeImmutable $createdAt;
 
     /**
@@ -25,7 +27,7 @@ class Order
      *
      * @param OrderId $orderId the order id
      * @param UserId  $userId  the user id
-     * @param address $address the post address to send the order
+     * @param string  $address the post address to send the order
      */
     public function __construct(OrderId $orderId, UserId $userId, string $address)
     {
@@ -77,7 +79,7 @@ class Order
      * @param int       $quantity  the quantity
      * @param float     $price     the price
      */
-    public function addLine(ProductId $productId, $quantity, $price)
+    public function addLine(ProductId $productId, int $quantity, float $price): void
     {
         $orderLine = new OrderLine(
             new OrderLineId(),
