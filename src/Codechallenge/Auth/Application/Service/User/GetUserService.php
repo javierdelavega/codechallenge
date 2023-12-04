@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Application\Service\User;
 
 use App\Codechallenge\Auth\Application\DTO\UserDTO;
@@ -12,7 +14,7 @@ use App\Codechallenge\Auth\Domain\Model\UserRepository;
  */
 class GetUserService
 {
-    private $userRepository;
+    private UserRepository $userRepository;
 
     /**
      * Constructor.

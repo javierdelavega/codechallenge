@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Infrastructure\Domain\Model;
 
 // use Doctrine\ORM\EntityManagerInterface;
@@ -8,6 +10,7 @@ use App\Codechallenge\Auth\Domain\Model\ApiToken;
 use App\Codechallenge\Auth\Domain\Model\ApiTokenId;
 use App\Codechallenge\Auth\Domain\Model\ApiTokenRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -15,8 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DoctrineApiTokenRepository extends ServiceEntityRepository implements ApiTokenRepository
 {
-    protected $em;
-    private $entityManager;
+    private EntityManager $entityManager;
 
     /**
      * Constructor.
@@ -30,7 +32,7 @@ class DoctrineApiTokenRepository extends ServiceEntityRepository implements ApiT
     /**
      * Adds a token and persist in the database.
      */
-    public function save(ApiToken $apiToken)
+    public function save(ApiToken $apiToken): void
     {
         $this->entityManager->persist($apiToken);
         $this->entityManager->flush();
@@ -39,7 +41,7 @@ class DoctrineApiTokenRepository extends ServiceEntityRepository implements ApiT
     /**
      * Removes a token and delete from the database.
      */
-    public function remove(ApiToken $apiToken)
+    public function remove(ApiToken $apiToken): void
     {
         $this->entityManager->remove($apiToken);
         $this->entityManager->flush();
@@ -74,10 +76,8 @@ class DoctrineApiTokenRepository extends ServiceEntityRepository implements ApiT
 
     /**
      * Gets a new unique ApiToken id.
-     *
-     * @return ApiTokenId
      */
-    public function nextIdentity()
+    public function nextIdentity(): ApiTokenId
     {
         return new ApiTokenId();
     }

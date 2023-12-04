@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Domain\Model;
 
 /**
@@ -8,9 +10,9 @@ namespace App\Codechallenge\Auth\Domain\Model;
  */
 class ApiToken
 {
-    private $apiTokenId;
-    private $userId;
-    private $token;
+    private ApiTokenId $apiTokenId;
+    private UserId $userId;
+    private string $token;
 
     /**
      * Constructor.
@@ -19,7 +21,7 @@ class ApiToken
      * @param UserId     $userId      the user id
      * @param string     $tokenString the token string
      */
-    public function __construct(ApiTokenId $apiTokenId, UserId $userId, $tokenString)
+    public function __construct(ApiTokenId $apiTokenId, UserId $userId, string $tokenString)
     {
         $this->apiTokenId = $apiTokenId;
         $this->userId = $userId;

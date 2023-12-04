@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Application\DTO;
 
 use App\Codechallenge\Auth\Domain\Model\User;
@@ -9,10 +11,10 @@ use App\Codechallenge\Auth\Domain\Model\User;
  */
 class UserDTO
 {
-    private $name;
-    private $email;
-    private $address;
-    private $registered;
+    private ?string $name;
+    private ?string $email;
+    private ?string $address;
+    private bool $registered;
 
     /**
      * Constructor.

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Application\Service\User;
 
 use App\Codechallenge\Auth\Domain\Model\User;
@@ -12,8 +14,8 @@ use App\Codechallenge\Auth\Domain\Model\UserRepository;
  */
 class CreateGuestUserService
 {
-    private $userRepository;
-    private $userFactory;
+    private UserRepository $userRepository;
+    private UserFactory $userFactory;
 
     /**
      * Constructor.

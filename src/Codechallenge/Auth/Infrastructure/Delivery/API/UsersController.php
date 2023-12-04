@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Infrastructure\Delivery\API;
 
 use App\Codechallenge\Auth\Application\Exceptions\UserAlreadyExistException;
@@ -18,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @group User management
@@ -66,7 +69,7 @@ class UsersController extends AbstractController
     public function login(#[CurrentUser] ?SecurityUser $securityUser,
         CreateTokenService $createTokenService): JsonResponse
     {
-        $apiToken = $createTokenService->execute(new UserId($securityUser->getUserIdentifier()));
+        $apiToken = $createTokenService->execute(new UserId($securityUser->getUserUuid()));
 
         return $this->json([
             'token' => $apiToken->token(),
@@ -100,7 +103,7 @@ class UsersController extends AbstractController
         );
 
         try {
-            $signUpService->execute(new UserId($securityUser->getUserIdentifier()), $signUpUserRequest);
+            $signUpService->execute(new UserId(new Uuid($securityUser->getUserIdentifier())), $signUpUserRequest);
         } catch (UserAlreadyExistException|UserAlreadyRegisteredException|\InvalidArgumentException $e) {
             return new JsonResponse(
                 ['message' => $e->getMessage()],
@@ -129,7 +132,7 @@ class UsersController extends AbstractController
     #[Route('/api/user', name: 'get_user', methods: ['GET'])]
     public function get(#[CurrentUser] ?SecurityUser $securityUser, GetUserService $getUserService): JsonResponse
     {
-        $user = $getUserService->execute(new UserId($securityUser->getUserIdentifier()));
+        $user = $getUserService->execute(new UserId($securityUser->getUserUuid()));
 
         return new JsonResponse(
             [
@@ -165,7 +168,7 @@ class UsersController extends AbstractController
     #[Route('/api/user/orders', name: 'get_orders', methods: ['GET'])]
     public function orders(#[CurrentUser] ?SecurityUser $securityUser, GetUserOrdersService $getUserOrdersService): JsonResponse
     {
-        $orders = $getUserOrdersService->execute(new UserId($securityUser->getUserIdentifier()));
+        $orders = $getUserOrdersService->execute(new UserId(new Uuid($securityUser->getUserIdentifier())));
         $jsonArray = [];
         $i = 0;
         foreach ($orders as $order) {

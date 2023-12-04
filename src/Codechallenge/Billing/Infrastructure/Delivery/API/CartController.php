@@ -29,7 +29,7 @@ class CartController extends AbstractController
         GetItemsService $getItemsService, GetItemCountService $getItemCountService,
         GetCartTotalService $getCartTotalService): JsonResponse
     {
-        $items = $getItemsService->execute(new UserId($securityUser->getUserIdentifier()));
+        $items = $getItemsService->execute(new UserId($securityUser->getUserUuid()));
 
         $jsonArray = [];
 
@@ -46,8 +46,8 @@ class CartController extends AbstractController
             ];
             ++$i;
         }
-        $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserIdentifier()));
-        $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserIdentifier()));
+        $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserUuid()));
+        $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserUuid()));
 
         return new JsonResponse($jsonArray);
     }
@@ -56,7 +56,7 @@ class CartController extends AbstractController
     public function itemsCount(#[CurrentUser] ?SecurityUser $securityUser,
         GetItemCountService $getItemCountService): JsonResponse
     {
-        $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserIdentifier()));
+        $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserUuid()));
 
         return new JsonResponse($jsonArray);
     }
@@ -65,7 +65,7 @@ class CartController extends AbstractController
     public function itemsTotal(#[CurrentUser] ?SecurityUser $securityUser,
         GetCartTotalService $getCartTotalService): JsonResponse
     {
-        $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserIdentifier()));
+        $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserUuid()));
 
         return new JsonResponse($jsonArray);
     }
@@ -76,7 +76,7 @@ class CartController extends AbstractController
     {
         $request = $request->getPayload();
         $addProductRequest = new AddProductRequest($request->get('id'), $request->getInt('quantity'));
-        $addProductService->execute(new UserId($securityUser->getUserIdentifier()), $addProductRequest);
+        $addProductService->execute(new UserId($securityUser->getUserUuid()), $addProductRequest);
 
         return new JsonResponse();
     }
@@ -87,7 +87,7 @@ class CartController extends AbstractController
     {
         $request = $request->getPayload();
         $updateProductRequest = new UpdateProductRequest($id, $request->getInt('quantity'));
-        $updateProductService->execute(new UserId($securityUser->getUserIdentifier()), $updateProductRequest);
+        $updateProductService->execute(new UserId($securityUser->getUserUuid()), $updateProductRequest);
 
         return new JsonResponse();
     }
@@ -97,7 +97,7 @@ class CartController extends AbstractController
         RemoveProductService $removeProductService): JsonResponse
     {
         $removeProductRequest = new RemoveProductRequest($id);
-        $removeProductService->execute(new UserId($securityUser->getUserIdentifier()), $removeProductRequest);
+        $removeProductService->execute(new UserId($securityUser->getUserUuid()), $removeProductRequest);
 
         return new JsonResponse();
     }
@@ -106,7 +106,7 @@ class CartController extends AbstractController
     public function confirm(#[CurrentUser] ?SecurityUser $securityUser,
         CreateOrderFromCartService $createOrderFromCartService): JsonResponse
     {
-        $createOrderFromCartService->execute(new UserId($securityUser->getUserIdentifier()));
+        $createOrderFromCartService->execute(new UserId($securityUser->getUserUuid()));
 
         return new JsonResponse();
     }

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Infrastructure\Persistence\Doctrine\Types;
 
 use App\Codechallenge\Auth\Domain\Model\ApiTokenId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * ApiTokenId Type object represents ApiTokenId Value object for the doctrine mapping system.
@@ -28,7 +31,7 @@ class ApiTokenIdType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ApiTokenId
     {
-        return new ApiTokenId($value);
+        return new ApiTokenId(new Uuid($value));
     }
 
     /**

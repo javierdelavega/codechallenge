@@ -5,6 +5,7 @@ namespace App\Codechallenge\Auth\Infrastructure\Domain\Model;
 use App\Codechallenge\Auth\Domain\Model\User;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Class for decouple the Domain User model and the framwork security system
@@ -66,6 +67,16 @@ class SecurityUser implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return $this->userId->id();
+    }
+
+    /**
+     * A Uuid identifier that represents this user.
+     *
+     * @return Uuid the user Uuid id
+     */
+    public function getUserUuid(): Uuid
+    {
+        return new Uuid($this->userId->id());
     }
 
     /**

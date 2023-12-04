@@ -1,27 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Domain\Model;
 
 use Symfony\Component\Uid\Uuid;
-
-// use Ramsey\Uuid\Uuid;
 
 /**
  * Value Object for ApiToken id management.
  */
 class ApiTokenId
 {
-    private $id;
+    private Uuid $id;
 
     /**
      * Constructor.
      *
      * @param Uuid|null an Uuid token identity
      */
-    public function __construct($id = null)
+    public function __construct(Uuid $id = null)
     {
         $this->id = $id ?: Uuid::v4();
-        // $this->id = $id ? :Uuid::uuid4()->toString();
     }
 
     /**
@@ -31,7 +30,7 @@ class ApiTokenId
      *
      * @return self new ApiTokenId object
      */
-    public static function create($anId = null): ApiTokenId
+    public static function create(Uuid $anId = null): ApiTokenId
     {
         return new static($anId);
     }
@@ -43,16 +42,16 @@ class ApiTokenId
      */
     public function __toString(): string
     {
-        return $this->id;
+        return $this->id->__toString();
     }
 
     /**
      * Get the id Uuid.
      *
-     * @return Uuid the id Uuid
+     * @return string the id string
      */
-    public function id(): Uuid
+    public function id(): string
     {
-        return $this->id;
+        return $this->id->__toString();
     }
 }

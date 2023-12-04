@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Application\Service\User;
 
 /**
@@ -7,10 +9,10 @@ namespace App\Codechallenge\Auth\Application\Service\User;
  */
 class SignUpUserRequest
 {
-    private $email;
-    private $password;
-    private $name;
-    private $address;
+    private string $email;
+    private string $password;
+    private string $name;
+    private string $address;
 
     /**
      * Constructor.
@@ -20,7 +22,7 @@ class SignUpUserRequest
      * @param string $password the user plain password
      * @param string $address  the user post address
      */
-    public function __construct($name, $email, $password, $address)
+    public function __construct(string $name, string $email, string $password, string $address)
     {
         $this->name = $name;
         $this->email = $email;
