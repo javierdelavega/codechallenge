@@ -51,11 +51,11 @@ class OrderId
     /**
      * Get the id.
      *
-     * @return Uuid the id Uuid
+     * @return string the id string
      */
-    public function id(): Uuid
+    public function id(): string
     {
-        return $this->id;
+        return $this->id->__toString();
     }
 
     /**

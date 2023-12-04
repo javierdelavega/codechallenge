@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Shared\Domain\Event;
 
 /**
@@ -7,7 +9,7 @@ namespace App\Codechallenge\Shared\Domain\Event;
  */
 class DomainEventPublisher
 {
-    private $subscribers;
+    private array $subscribers;
     private static $instance;
 
     /**
@@ -15,7 +17,7 @@ class DomainEventPublisher
      *
      * @return DomainEventPublisher the instance of DomainEventPublisher
      */
-    public static function instance()
+    public static function instance(): self
     {
         if (null === static::$instance) {
             static::$instance = new static();
@@ -47,7 +49,7 @@ class DomainEventPublisher
      *
      * @param DomainEventSubscriber $aDomainEventSubscriber the subscriber object
      */
-    public function subscribe(DomainEventSubscriber $aDomainEventSubscriber)
+    public function subscribe(DomainEventSubscriber $aDomainEventSubscriber): void
     {
         $this->subscribers[] = $aDomainEventSubscriber;
     }
@@ -56,7 +58,7 @@ class DomainEventPublisher
      * Publishes a DomainEvent, checks if the subscribers listen for the
      * type of Event, if true calls the handle method.
      */
-    public function publish(DomainEvent $anEvent)
+    public function publish(DomainEvent $anEvent): void
     {
         foreach ($this->subscribers as $aSubscriber) {
             if ($aSubscriber->isSubscribedTo($anEvent)) {

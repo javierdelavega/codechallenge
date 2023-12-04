@@ -11,6 +11,7 @@ use App\Codechallenge\Billing\Application\Service\Cart\AddProductService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetCartTotalService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetItemCountService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetItemsService;
+use App\Codechallenge\Billing\Application\Service\Cart\RemoveProductRequest;
 use App\Codechallenge\Billing\Application\Service\Cart\RemoveProductService;
 use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductRequest;
 use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductService;
@@ -74,7 +75,7 @@ class CartController extends AbstractController
         AddProductService $addProductService): JsonResponse
     {
         $request = $request->getPayload();
-        $addProductRequest = new AddProductRequest($request->get('id'), (int) $request->get('quantity'));
+        $addProductRequest = new AddProductRequest($request->get('id'), $request->getInt('quantity'));
         $addProductService->execute(new UserId($securityUser->getUserIdentifier()), $addProductRequest);
 
         return new JsonResponse();
@@ -85,7 +86,7 @@ class CartController extends AbstractController
         UpdateProductService $updateProductService): JsonResponse
     {
         $request = $request->getPayload();
-        $updateProductRequest = new UpdateProductRequest($id, (int) $request->get('quantity'));
+        $updateProductRequest = new UpdateProductRequest($id, $request->getInt('quantity'));
         $updateProductService->execute(new UserId($securityUser->getUserIdentifier()), $updateProductRequest);
 
         return new JsonResponse();
@@ -95,7 +96,8 @@ class CartController extends AbstractController
     public function removeProduct(#[CurrentUser] ?SecurityUser $securityUser, string $id,
         RemoveProductService $removeProductService): JsonResponse
     {
-        $removeProductService->execute(new UserId($securityUser->getUserIdentifier()), $id);
+        $removeProductRequest = new RemoveProductRequest($id);
+        $removeProductService->execute(new UserId($securityUser->getUserIdentifier()), $removeProductRequest);
 
         return new JsonResponse();
     }

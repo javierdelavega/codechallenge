@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Catalog\Domain\Model;
 
 /**
@@ -7,11 +9,11 @@ namespace App\Codechallenge\Catalog\Domain\Model;
  */
 class Product
 {
-    private $productId;
-    private $reference;
-    private $name;
-    private $description;
-    private $price;
+    private ProductId $productId;
+    private string $reference;
+    private string $name;
+    private string $description;
+    private Money $price;
 
     /**
      * Constructor.
@@ -22,7 +24,7 @@ class Product
      * @param string    $description the product description
      * @param Money     $price       the price of the product
      */
-    public function __construct(ProductId $productId, $reference, $name, $description, Money $price)
+    public function __construct(ProductId $productId, string $reference, string $name, string $description, Money $price)
     {
         $this->productId = $productId;
         $this->reference = $reference;

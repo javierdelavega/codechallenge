@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Catalog\Infrastructure\Delivery\API;
 
 use App\Codechallenge\Catalog\Application\Service\ListProductsService;
@@ -30,7 +32,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductsController extends AbstractController
 {
     #[Route('/api/products', name: 'api_products', methods: ['GET'])]
-    public function products(ListProductsService $listProductsService)
+    public function products(ListProductsService $listProductsService): JsonResponse
     {
         $products = $listProductsService->execute();
         $jsonArray = [];

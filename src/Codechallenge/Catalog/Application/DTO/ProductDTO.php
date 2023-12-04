@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Catalog\Application\DTO;
 
 use App\Codechallenge\Catalog\Domain\Model\Product;
+use App\Codechallenge\Catalog\Domain\Model\ProductId;
 
 /**
  * Data Transfer Object for delivery product data from Domain layer to Application layer.
  */
 class ProductDTO
 {
-    private $productId;
-    private $reference;
-    private $name;
-    private $description;
-    private $price;
+    private ProductId $productId;
+    private string $reference;
+    private string $name;
+    private string $description;
+    private float $price;
 
     /**
      * Constructor.
@@ -22,7 +25,7 @@ class ProductDTO
      */
     public function __construct(Product $product)
     {
-        $this->productId = $product->id()->id();
+        $this->productId = $product->id();
         $this->reference = $product->reference();
         $this->name = $product->name();
         $this->description = $product->description();
@@ -32,9 +35,9 @@ class ProductDTO
     /**
      * Get the product id.
      *
-     * @return string the product id
+     * @return ProductId the product id
      */
-    public function id(): string
+    public function id(): ProductId
     {
         return $this->productId;
     }

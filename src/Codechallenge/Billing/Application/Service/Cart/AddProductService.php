@@ -6,6 +6,7 @@ namespace App\Codechallenge\Billing\Application\Service\Cart;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Service for add a product to the cart.
@@ -20,7 +21,7 @@ class AddProductService extends CartService
      */
     public function execute(UserId $userId, AddProductRequest $request): void
     {
-        $productId = new ProductId($request->id());
+        $productId = new ProductId(new Uuid($request->id()));
         $quantity = $request->quantity();
 
         $this->findProductOrFail($productId);

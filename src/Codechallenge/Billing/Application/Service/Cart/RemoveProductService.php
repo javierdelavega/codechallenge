@@ -6,6 +6,7 @@ namespace App\Codechallenge\Billing\Application\Service\Cart;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Service to remove a item from the cart.
@@ -14,12 +15,10 @@ class RemoveProductService extends CartService
 {
     /**
      * Remove a item from the cart.
-     *
-     * @param ProductId $productId the id of the product to remove from the cart
      */
-    public function execute(UserId $userId, $productId)
+    public function execute(UserId $userId, RemoveProductRequest $request)
     {
-        $productId = new ProductId($productId);
+        $productId = new ProductId(new Uuid($request->id()));
         $this->findProductOrFail($productId);
 
         $cart = $this->findCartOrFail($userId);

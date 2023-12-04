@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Catalog\Application\Service;
 
 use App\Codechallenge\Catalog\Application\DTO\ProductDTO;
@@ -10,7 +12,7 @@ use App\Codechallenge\Catalog\Domain\Model\ProductRepository;
  */
 class ListProductsService
 {
-    private $productRepository;
+    private ProductRepository $productRepository;
 
     /**
      * Constructor.

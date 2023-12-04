@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Catalog\Infrastructure\Domain\Model;
 
 use App\Codechallenge\Catalog\Domain\Model\Product;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use App\Codechallenge\Catalog\Domain\Model\ProductRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -13,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DoctrineProductRepository extends ServiceEntityRepository implements ProductRepository
 {
-    private $entityManager;
+    private EntityManager $entityManager;
 
     /**
      * Constructor.
@@ -29,7 +32,7 @@ class DoctrineProductRepository extends ServiceEntityRepository implements Produ
     /**
      * Adds a product and persist in the database.
      */
-    public function save(Product $product)
+    public function save(Product $product): void
     {
         $this->entityManager->persist($product);
         $this->entityManager->flush();
@@ -38,7 +41,7 @@ class DoctrineProductRepository extends ServiceEntityRepository implements Produ
     /**
      * Removes a product and delete from the database.
      */
-    public function remove(Product $product)
+    public function remove(Product $product): void
     {
         $this->entityManager->remove($product);
         $this->entityManager->flush();
@@ -74,8 +77,10 @@ class DoctrineProductRepository extends ServiceEntityRepository implements Produ
      * Retrieves a product with the given reference from the database.
      *
      * @param string $reference the product reference
+     *
+     * @return Product|null the product, null if does not exist
      */
-    public function productOfReference($reference): Product
+    public function productOfReference(string $reference): Product|null
     {
         return $this->findOneBy(['reference' => $reference]);
     }

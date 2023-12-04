@@ -10,6 +10,7 @@ use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use App\Codechallenge\Shared\Domain\Event\DomainEventPublisher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * Cart Model
@@ -127,6 +128,11 @@ class Cart
             }
             ++$i;
         }
+        // dump($this->items, $productId);die;
+        // $uuid1 = Uuid::v4();
+        // $uuid2 = Uuid::fromString($uuid1->__toString());
+        // $uuid3 = new Uuid($uuid1->__toString());
+        // dump($uuid1, $uuid2, $uuid3, $uuid1->__toString());die;
 
         if (null === $key) {
             throw new ProductNotInCartException();
