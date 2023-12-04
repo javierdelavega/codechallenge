@@ -24,7 +24,7 @@ node {
                         },
                         "Static Analysis": {
                             sh 'vendor/bin/psalm src'
-                        }
+                        },
                         "PHPUnit Tests": {
                             sh 'XDEBUG_MODE=coverage php bin/phpunit'
                             recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'build/logs/cobertura.xml']])
