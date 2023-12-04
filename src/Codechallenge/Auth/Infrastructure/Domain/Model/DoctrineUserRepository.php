@@ -30,7 +30,7 @@ class DoctrineUserRepository extends ServiceEntityRepository implements UserRepo
     /**
      * Adds a user and persist in the database.
      */
-    public function save(User $user) : void
+    public function save(User $user): void
     {
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -39,7 +39,7 @@ class DoctrineUserRepository extends ServiceEntityRepository implements UserRepo
     /**
      * Removes a user and delete from the database.
      */
-    public function remove(User $user) : void
+    public function remove(User $user): void
     {
         $this->entityManager->remove($user);
         $this->entityManager->flush();
@@ -69,10 +69,8 @@ class DoctrineUserRepository extends ServiceEntityRepository implements UserRepo
 
     /**
      * Gets a new unique User id.
-     *
-     * @return UserId
      */
-    public function nextIdentity() : UserId
+    public function nextIdentity(): UserId
     {
         return new UserId();
     }
