@@ -6,8 +6,11 @@ namespace App\Codechallenge\Billing\Infrastructure\Delivery\API;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\SecurityUser;
+use App\Codechallenge\Billing\Application\Command\AddProductCommand;
+use App\Codechallenge\Billing\Application\Command\ExecuteCommand;
 use App\Codechallenge\Billing\Application\Service\Cart\AddProductRequest;
 use App\Codechallenge\Billing\Application\Service\Cart\AddProductService;
+use App\Codechallenge\Billing\Application\Service\Cart\CreateEmailService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetCartTotalService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetItemCountService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetItemsService;
@@ -16,6 +19,7 @@ use App\Codechallenge\Billing\Application\Service\Cart\RemoveProductService;
 use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductRequest;
 use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductService;
 use App\Codechallenge\Billing\Application\Service\Order\CreateOrderFromCartService;
+use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,6 +85,20 @@ class CartController extends AbstractController
         return new JsonResponse();
     }
 
+    /*#[Route('/api/cart/product', methods: ['POST'])]
+    public function addProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request,
+        CommandBus $commandBus): JsonResponse
+    {
+        $request = $request->getPayload();
+        $addProductRequest = new AddProductRequest($request->get('id'), $request->getInt('quantity'));
+        
+        $commandBus->dispatch(
+            new AddProductCommand(new UserId($securityUser->getUserUuid()), $addProductRequest)
+        );
+
+        return new JsonResponse();
+    }*/
+
     #[Route('/api/cart/product/{id}', methods: ['PUT'])]
     public function updateProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request, string $id,
         UpdateProductService $updateProductService): JsonResponse
@@ -110,4 +128,18 @@ class CartController extends AbstractController
 
         return new JsonResponse();
     }
+    
+    #[Route('/api/cart/commandproduct', methods: ['POST'])]
+    public function commandProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request,
+        CommandBus $commandBus): JsonResponse
+        {
+            $request = $request->getPayload();
+            $addProductRequest = new AddProductRequest($request->get('id'), $request->getInt('quantity'));
+            
+            $commandBus->dispatch(
+                new AddProductCommand(new UserId($securityUser->getUserUuid()), $addProductRequest)
+            );
+    
+            return new JsonResponse();
+        }
 }

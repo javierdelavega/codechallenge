@@ -20,6 +20,27 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Codechallenge\Shared\Infrastructure\Bus\Command\CommandBus:
+        arguments: ['@messenger.bus.commands']
+
+    App\Codechallenge\Shared\Infrastructure\Bus\Query\QueryBus:
+        arguments: ['@messenger.bus.queries']
+
+    App\Codechallenge\Shared\Infrastructure\Bus\Event\EventBus:
+        arguments: ['@messenger.bus.events']
+    
+    App\Codechallenge\Billing\Application\CommandHandler\:
+        resource: '../src/Codechallenge/Billing/Application/CommandHandler'
+        tags: [{ name: 'messenger.message_handler', bus: 'messenger.bus.commands' }]
+
+    App\Codechallenge\Billing\Application\QueryHandler\:
+        resource: '../src/Codechallenge/Billing/Application/QueryHandler'
+        tags: [{ name: 'messenger.message_handler', bus: 'messenger.bus.queries' }]
+
+    #App\Codechallenge\Billing\Domain\EventHandler\:
+    #    resource: '../src/Codechallenge/Billing/Domain/EventHandler'
+    #    tags: [{ name: 'messenger.message_handler', bus: 'messenger.bus.events' }]
+    
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     #App\Codechallenge\Auth\Domain\Model\User\UserRepository: '@App\Codechallenge\Auth\Infrastructure\Domain\Model\User\DoctrineUserRepository'

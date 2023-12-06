@@ -1,0 +1,8 @@
+framework:
+    messenger:
+        default_bus: messenger.bus.commands
+        buses:
+            messenger.bus.commands: ~
+            messenger.bus.queries: ~
+            messenger.bus.events:
+                default_middleware: allow_no_handlers
