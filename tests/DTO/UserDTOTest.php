@@ -18,35 +18,35 @@ class UserDTOTest extends TestCase
   public function returnValidName()
   {
     $user = new User(new UserId(), $this->name, $this->email, $this->password, $this->address);
-    $userDTO = new UserDTO($user);
+    $userDTO = new UserDTO($user->name(), $user->email(), $user->address(), $user->registered());
 
-    $this->assertEquals($userDTO->name(), $user->name());
+    $this->assertEquals($userDTO->name, $user->name());
   }
 
   /** @test */
   public function returnValidEmail()
   {
     $user = new User(new UserId(), $this->name, $this->email, $this->password, $this->address);
-    $userDTO = new UserDTO($user);
+    $userDTO = new UserDTO($user->name(), $user->email(), $user->address(), $user->registered());
 
-    $this->assertEquals($userDTO->email(), $user->email());
+    $this->assertEquals($userDTO->email, $user->email());
   }
 
   /** @test */
   public function returnValidAddress()
   {
     $user = new User(new UserId(), $this->name, $this->email, $this->password, $this->address);
-    $userDTO = new UserDTO($user);
+    $userDTO = new UserDTO($user->name(), $user->email(), $user->address(), $user->registered());
 
-    $this->assertEquals($userDTO->address(), $user->address());
+    $this->assertEquals($userDTO->address, $user->address());
   }
 
   /** @test */
   public function returnValidRegisteredStatus()
   {
     $user = new User(new UserId(), $this->name, $this->email, $this->password, $this->address);
-    $userDTO = new UserDTO($user);
+    $userDTO = new UserDTO($user->name(), $user->email(), $user->address(), $user->registered());
 
-    $this->assertEquals($userDTO->registered(), $user->registered());
+    $this->assertEquals($userDTO->registered, $user->registered());
   }
 }

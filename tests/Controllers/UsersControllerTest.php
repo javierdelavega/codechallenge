@@ -252,7 +252,7 @@ class UsersControllerTest extends WebTestCase
     $this->guestUser = $this->createGuestUserService->execute();
     $token = $this->createTokenService->execute($this->guestUser->id());
     $this->registeredUser = $this->signUpUserService->execute($this->guestUser->id(), $this->signUpUserRequest);
-    $order = new Order(new OrderId(), $this->guestUser->id(), $this->registeredUser->address());
+    $order = new Order(new OrderId(), $this->guestUser->id(), $this->registeredUser->address);
     $this->doctrineOrderRepository->save($order);
 
 

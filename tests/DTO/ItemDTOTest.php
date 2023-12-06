@@ -42,63 +42,119 @@ class ItemDTOTest extends TestCase
   public function returnValidItemId()
   {
     $item = new Item($this->itemId, $this->cartId, $this->productId, $this->quantity);
-    $itemDTO = new ItemDTO($item, $this->product);
+    $itemDTO = new ItemDTO(
+      $item->id(), 
+      $this->product->id(),
+      $this->product->reference(),
+      $this->product->name(),
+      $this->product->description(),
+      $this->product->price()->amount(),
+      $item->quantity()
+    );
 
-    $this->assertEquals($item->id(), $itemDTO->id());
+    $this->assertEquals($item->id(), $itemDTO->id);
   }
 
   /** @test */
   public function returnValidProductId()
   {
     $item = new Item($this->itemId, $this->cartId, $this->productId, $this->quantity);
-    $itemDTO = new ItemDTO($item, $this->product);
+    $itemDTO = new ItemDTO(
+      $item->id(), 
+      $this->product->id(),
+      $this->product->reference(),
+      $this->product->name(),
+      $this->product->description(),
+      $this->product->price()->amount(),
+      $item->quantity()
+    );
 
-    $this->assertEquals($item->productId()->id(), $itemDTO->productId());
+    $this->assertEquals($item->productId()->id(), $itemDTO->productId);
   }
 
   /** @test */
   public function returnValidQuantity()
   {
     $item = new Item($this->itemId, $this->cartId, $this->productId, $this->quantity);
-    $itemDTO = new ItemDTO($item, $this->product);
+    $itemDTO = new ItemDTO(
+      $item->id(), 
+      $this->product->id(),
+      $this->product->reference(),
+      $this->product->name(),
+      $this->product->description(),
+      $this->product->price()->amount(),
+      $item->quantity()
+    );
 
-    $this->assertEquals($item->quantity(), $itemDTO->quantity());
+    $this->assertEquals($item->quantity(), $itemDTO->quantity);
   }
 
   /** @test */
   public function returnValidProductReference()
   {
     $item = new Item($this->itemId, $this->cartId, $this->productId, $this->quantity);
-    $itemDTO = new ItemDTO($item, $this->product);
+    $itemDTO = new ItemDTO(
+      $item->id(), 
+      $this->product->id(),
+      $this->product->reference(),
+      $this->product->name(),
+      $this->product->description(),
+      $this->product->price()->amount(),
+      $item->quantity()
+    );
 
-    $this->assertEquals($this->reference, $itemDTO->reference());
+    $this->assertEquals($this->reference, $itemDTO->reference);
   }
 
   /** @test */
   public function returnValidProductName()
   {
     $item = new Item($this->itemId, $this->cartId, $this->productId, $this->quantity);
-    $itemDTO = new ItemDTO($item, $this->product);
+    $itemDTO = new ItemDTO(
+      $item->id(), 
+      $this->product->id(),
+      $this->product->reference(),
+      $this->product->name(),
+      $this->product->description(),
+      $this->product->price()->amount(),
+      $item->quantity()
+    );
 
-    $this->assertEquals($this->name, $itemDTO->name());
+    $this->assertEquals($this->name, $itemDTO->name);
   }
 
   /** @test */
   public function returnValidProductDescription()
   {
     $item = new Item($this->itemId, $this->cartId, $this->productId, $this->quantity);
-    $itemDTO = new ItemDTO($item, $this->product);
+    $itemDTO = new ItemDTO(
+      $item->id(), 
+      $this->product->id(),
+      $this->product->reference(),
+      $this->product->name(),
+      $this->product->description(),
+      $this->product->price()->amount(),
+      $item->quantity()
+    );
 
-    $this->assertEquals($this->description, $itemDTO->description());
+    $this->assertEquals($this->description, $itemDTO->description);
   }
 
   /** @test */
   public function returnValidProductPrice()
   {
     $item = new Item($this->itemId, $this->cartId, $this->productId, $this->quantity);
-    $itemDTO = new ItemDTO($item, $this->product);
+    $itemDTO = new ItemDTO(
+      $item->id(), 
+      $this->product->id(),
+      $this->product->reference(),
+      $this->product->name(),
+      $this->product->description(),
+      $this->product->price()->amount(),
+      $item->quantity()
+    );
 
-    $this->assertEquals($this->price->amount(), $itemDTO->price());
+    $this->assertEquals($this->price->amount(), $itemDTO->price);
   }
 
 }

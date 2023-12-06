@@ -36,7 +36,13 @@ class ListProductsService
 
         $i = 0;
         foreach ($products as $product) {
-            $productDTOs[$i] = new ProductDTO($product);
+            $productDTOs[$i] = new ProductDTO(
+                $product->id(),
+                $product->reference(),
+                $product->name(),
+                $product->description(),
+                $product->price()->amount()
+            );
             ++$i;
         }
 

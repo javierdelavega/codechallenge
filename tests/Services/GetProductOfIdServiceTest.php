@@ -39,7 +39,7 @@ class GetProductOfIdServiceTest extends KernelTestCase
     $productDTO = $this->getProductOfIdService->execute($this->product->id());
 
     $this->assertInstanceOf(ProductDTO::class, $productDTO);
-    $this->assertEquals($productDTO->id(), $this->product->id()->id());
+    $this->assertEquals($productDTO->id, $this->product->id()->id());
   }
 
   /** @test */

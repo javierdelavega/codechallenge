@@ -41,11 +41,11 @@ class ProductsController extends AbstractController
         foreach ($products as $product) {
             $jsonArray['data'][$i] =
             [
-              'id' => $product->id(),
-              'reference' => $product->reference(),
-              'name' => $product->name(),
-              'description' => $product->description(),
-              'price' => $product->price(),
+              'id' => $product->id,
+              'reference' => $product->reference,
+              'name' => $product->name,
+              'description' => $product->description,
+              'price' => $product->price,
             ];
             ++$i;
         }

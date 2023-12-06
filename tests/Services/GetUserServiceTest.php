@@ -35,10 +35,10 @@ class GetUserServiceTest extends KernelTestCase
     $userDTO = $this->getUserService->execute($user->id());
 
     $this->assertInstanceOf(UserDTO::class, $userDTO);
-    $this->assertEquals($userDTO->name(), $user->name());
-    $this->assertEquals($userDTO->email(), $user->email());
-    $this->assertEquals($userDTO->address(), $user->address());
-    $this->assertEquals($userDTO->registered(), $user->registered());
+    $this->assertEquals($userDTO->name, $user->name());
+    $this->assertEquals($userDTO->email, $user->email());
+    $this->assertEquals($userDTO->address, $user->address());
+    $this->assertEquals($userDTO->registered, $user->registered());
   }
 
   /** @test */

@@ -136,10 +136,10 @@ class UsersController extends AbstractController
 
         return new JsonResponse(
             [
-              'name' => $user->name(),
-              'email' => $user->email(),
-              'address' => $user->address(),
-              'registered' => $user->registered(),
+              'name' => $user->name,
+              'email' => $user->email,
+              'address' => $user->address,
+              'registered' => $user->registered,
             ],
             Response::HTTP_OK
         );

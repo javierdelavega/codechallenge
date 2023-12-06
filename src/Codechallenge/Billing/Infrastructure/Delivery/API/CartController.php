@@ -37,12 +37,12 @@ class CartController extends AbstractController
         foreach ($items as $item) {
             $jsonArray['products'][$i] =
             [
-              'id' => $item->productId(),
-              'reference' => $item->reference(),
-              'name' => $item->name(),
-              'description' => $item->description(),
-              'price' => $item->price(),
-              'quantity' => $item->quantity(),
+              'id' => $item->productId,
+              'reference' => $item->reference,
+              'name' => $item->name,
+              'description' => $item->description,
+              'price' => $item->price,
+              'quantity' => $item->quantity,
             ];
             ++$i;
         }

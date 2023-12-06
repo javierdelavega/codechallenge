@@ -43,7 +43,12 @@ class GetProductOfIdService
             throw new ProductDoesNotExistException();
         }
 
-        $productDTO = new ProductDTO($product);
+        $productDTO = new ProductDTO(
+            $product->id(),
+            $product->reference(),
+            $product->name(),
+            $product->description(),
+            $product->price()->amount());
 
         return $productDTO;
     }
