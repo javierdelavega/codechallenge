@@ -44,7 +44,7 @@ class GetProductOfIdService
         }
 
         $productDTO = new ProductDTO(
-            $product->id(),
+            $product->id()->__toString(),
             $product->reference(),
             $product->name(),
             $product->description(),

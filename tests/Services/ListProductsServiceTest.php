@@ -14,6 +14,7 @@ class ListProductsServiceTest extends KernelTestCase
 {
   private $listProductsService;
   private $productRepository;
+  private $productId;
   private $product;
 
   protected function setUp(): void
@@ -24,7 +25,8 @@ class ListProductsServiceTest extends KernelTestCase
 
     $this->listProductsService = $container->get(ListProductsService::class);
     $this->productRepository = $container->get(DoctrineProductRepository::class);
-    $this->product = new Product(new ProductId(), "testReference", "testName", "testDescription", 
+    $this->productId = new ProductId();
+    $this->product = new Product($this->productId, "testReference", "testName", "testDescription", 
                                 new Money(30.60, new Currency("EUR")));
   }
 
@@ -35,6 +37,15 @@ class ListProductsServiceTest extends KernelTestCase
     $products = $this->listProductsService->execute();
 
     $this->assertEquals(1, count($products));
+  }
+
+  /** @test */
+  public function canGetIdOfProductsFromCatalog()
+  {
+    $this->productRepository->save($this->product);
+    $products = $this->listProductsService->execute();
+
+    $this->assertEquals($this->productId->__tostring(), $products[0]->id);
   }
 
 }

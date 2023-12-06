@@ -8,6 +8,7 @@ use App\Codechallenge\Catalog\Domain\Model\Product;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @codeCoverageIgnore
@@ -37,7 +38,7 @@ class ProductFixtures extends Fixture
         $i = 0;
         foreach ($products as $product) {
             $fixture = new Product(
-                new ProductId($uuids[$i]),
+                new ProductId(new Uuid($uuids[$i])),
                 $product['reference'],
                 $product['name'],
                 $product['description'],
