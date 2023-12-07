@@ -76,17 +76,6 @@ class CartController extends AbstractController
 
     #[Route('/api/cart/product', methods: ['POST'])]
     public function addProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request,
-        AddProductService $addProductService): JsonResponse
-    {
-        $request = $request->getPayload();
-        $addProductRequest = new AddProductRequest($request->get('id'), $request->getInt('quantity'));
-        $addProductService->execute(new UserId($securityUser->getUserUuid()), $addProductRequest);
-
-        return new JsonResponse();
-    }
-
-    /*#[Route('/api/cart/product', methods: ['POST'])]
-    public function addProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request,
         CommandBus $commandBus): JsonResponse
     {
         $request = $request->getPayload();
@@ -97,7 +86,7 @@ class CartController extends AbstractController
         );
 
         return new JsonResponse();
-    }*/
+    }
 
     #[Route('/api/cart/product/{id}', methods: ['PUT'])]
     public function updateProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request, string $id,
