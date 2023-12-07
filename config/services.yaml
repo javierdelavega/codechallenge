@@ -20,6 +20,18 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    #App\Codechallenge\Auth\Domain\Model\User\UserRepository: '@App\Codechallenge\Auth\Infrastructure\Domain\Model\User\DoctrineUserRepository'
+    
+    # Services not currently used marked as public in order to access them from container for test purposes
+    #App\Codechallenge\Auth\Application\Service\User\DeleteUserService:
+    #    public: true
+    #App\Codechallenge\Auth\Application\Service\User\DeleteApiTokenService:
+    #    public: true
+    App\Codechallenge\Catalog\Application\Service\GetProductOfIdService:
+        public: true
+
     App\Codechallenge\Shared\Infrastructure\Bus\Command\CommandBus:
         arguments: ['@messenger.bus.commands']
 
@@ -36,19 +48,3 @@ services:
     App\Codechallenge\Billing\Application\QueryHandler\:
         resource: '../src/Codechallenge/Billing/Application/QueryHandler'
         tags: [{ name: 'messenger.message_handler', bus: 'messenger.bus.queries' }]
-
-    #App\Codechallenge\Billing\Domain\EventHandler\:
-    #    resource: '../src/Codechallenge/Billing/Domain/EventHandler'
-    #    tags: [{ name: 'messenger.message_handler', bus: 'messenger.bus.events' }]
-    
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
-    #App\Codechallenge\Auth\Domain\Model\User\UserRepository: '@App\Codechallenge\Auth\Infrastructure\Domain\Model\User\DoctrineUserRepository'
-    
-    # Services not currently used marked as public in order to access them from container for test purposes
-    #App\Codechallenge\Auth\Application\Service\User\DeleteUserService:
-    #    public: true
-    #App\Codechallenge\Auth\Application\Service\User\DeleteApiTokenService:
-    #    public: true
-    App\Codechallenge\Catalog\Application\Service\GetProductOfIdService:
-        public: true

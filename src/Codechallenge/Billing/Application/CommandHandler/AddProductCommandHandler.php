@@ -7,9 +7,7 @@ use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use Symfony\Component\Uid\Uuid;
 
 class AddProductCommandHandler extends CartCommandHandler
-{
-    public function __construct() {}
-   
+{  
     public function __invoke(AddProductCommand $command): void
     {
       $productId = new ProductId(new Uuid($command->request->id()));
