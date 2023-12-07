@@ -135,10 +135,10 @@ class UsersControllerTest extends WebTestCase
     
     $crawler = $this->client->request('POST', '/api/user/register',
       [
-        "name" => $this->signUpUserRequest->name(),
-        "email" => $this->signUpUserRequest->email(),
-        "password" => $this->signUpUserRequest->password(),
-        "address" => $this->signUpUserRequest->address(),
+        "name" => $this->signUpUserRequest->name,
+        "email" => $this->signUpUserRequest->email,
+        "password" => $this->signUpUserRequest->password,
+        "address" => $this->signUpUserRequest->address,
       ],
       [],
       [
@@ -160,10 +160,10 @@ class UsersControllerTest extends WebTestCase
     
     $crawler = $this->client->request('POST', '/api/user/register',
       [
-        "name" => $this->signUpUserRequest->name(),
-        "email" => $this->signUpUserRequest->email(),
-        "password" => $this->signUpUserRequest->password(),
-        "address" => $this->signUpUserRequest->address(),
+        "name" => $this->signUpUserRequest->name,
+        "email" => $this->signUpUserRequest->email,
+        "password" => $this->signUpUserRequest->password,
+        "address" => $this->signUpUserRequest->address,
       ],
       [],
       [
@@ -181,10 +181,10 @@ class UsersControllerTest extends WebTestCase
     
     $crawler = $this->client->request('POST', '/api/user/register',
       [
-        "name" => $this->invalidSignUpUserRequest->name(),
-        "email" => $this->invalidSignUpUserRequest->email(),
-        "password" => $this->invalidSignUpUserRequest->password(),
-        "address" => $this->invalidSignUpUserRequest->address(),
+        "name" => $this->invalidSignUpUserRequest->name,
+        "email" => $this->invalidSignUpUserRequest->email,
+        "password" => $this->invalidSignUpUserRequest->password,
+        "address" => $this->invalidSignUpUserRequest->address,
       ],
       [],
       [

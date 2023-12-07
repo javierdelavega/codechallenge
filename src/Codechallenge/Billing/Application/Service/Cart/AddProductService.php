@@ -21,8 +21,8 @@ class AddProductService extends CartService
      */
     public function execute(UserId $userId, AddProductRequest $request): void
     {
-        $productId = new ProductId(new Uuid($request->id()));
-        $quantity = $request->quantity();
+        $productId = new ProductId(new Uuid($request->id));
+        $quantity = $request->quantity;
 
         $this->findProductOrFail($productId);
 

@@ -18,7 +18,7 @@ class RemoveProductService extends CartService
      */
     public function execute(UserId $userId, RemoveProductRequest $request)
     {
-        $productId = new ProductId(new Uuid($request->id()));
+        $productId = new ProductId(new Uuid($request->id));
         $this->findProductOrFail($productId);
 
         $cart = $this->findCartOrFail($userId);

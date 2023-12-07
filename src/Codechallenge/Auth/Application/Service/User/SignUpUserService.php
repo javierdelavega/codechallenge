@@ -44,10 +44,10 @@ class SignUpUserService
      */
     public function execute(UserId $userId, $request): UserDTO
     {
-        $name = $request->name();
-        $email = $request->email();
-        $password = $request->password();
-        $address = $request->address();
+        $name = $request->name;
+        $email = $request->email;
+        $password = $request->password;
+        $address = $request->address;
 
         // Check if the email is already registered
         $user = $this->userRepository->userOfEmail($email);
