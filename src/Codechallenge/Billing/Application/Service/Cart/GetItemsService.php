@@ -31,7 +31,7 @@ class GetItemsService extends CartService
             $product = $this->findProductOrFail($item->productId());
             $itemDTOs[$i] = new ItemDTO(
                 $item->id(),
-                $product->id(),
+                $product->id()->__toString(),
                 $product->reference(),
                 $product->name(),
                 $product->description(),
