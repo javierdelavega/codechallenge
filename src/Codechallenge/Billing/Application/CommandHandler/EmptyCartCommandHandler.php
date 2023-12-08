@@ -9,14 +9,12 @@ use App\Codechallenge\Billing\Application\Service\Cart\CartService;
 
 class EmptyCartCommandHandler extends CartService
 {
-
-  public function __invoke(EmptyCartCommand $command)
-  {
-    $cart = $this->findCartOrFail($command->userId);
+    public function __invoke(EmptyCartCommand $command)
+    {
+        $cart = $this->findCartOrFail($command->userId);
 
         $cart->empty();
 
         $this->cartRepository->save($cart);
-  }
-  
+    }
 }

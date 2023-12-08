@@ -12,16 +12,16 @@ class UpdateProductCommandHandler extends CartService
 {
     public function __invoke(UpdateProductCommand $command): void
     {
-      $productId = new ProductId(new Uuid($command->productId));
-      $quantity = $command->quantity;
+        $productId = new ProductId(new Uuid($command->productId));
+        $quantity = $command->quantity;
 
-      $this->findProductOrFail($productId);
+        $this->findProductOrFail($productId);
 
-      $cart = $this->findCartOrFail($command->userId);
+        $cart = $this->findCartOrFail($command->userId);
 
-      $cart->updateProduct($productId, $quantity);
+        $cart->updateProduct($productId, $quantity);
 
-      DomainEventPublisher::instance()->publishAll($cart->releaseEvents());
-      $this->cartRepository->save($cart);
+        DomainEventPublisher::instance()->publishAll($cart->releaseEvents());
+        $this->cartRepository->save($cart);
     }
 }

@@ -10,14 +10,9 @@ use App\Codechallenge\Billing\Application\Command\AddProductCommand;
 use App\Codechallenge\Billing\Application\Command\RemoveProductCommand;
 use App\Codechallenge\Billing\Application\Command\UpdateProductCommand;
 use App\Codechallenge\Billing\Application\Query\GetItemsQuery;
-use App\Codechallenge\Billing\Application\Service\Cart\AddProductRequest;
 use App\Codechallenge\Billing\Application\Service\Cart\GetCartTotalService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetItemCountService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetItemsService;
-use App\Codechallenge\Billing\Application\Service\Cart\RemoveProductRequest;
-use App\Codechallenge\Billing\Application\Service\Cart\RemoveProductService;
-use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductRequest;
-use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductService;
 use App\Codechallenge\Billing\Application\Service\Order\CreateOrderFromCartService;
 use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
 use App\Codechallenge\Shared\Domain\Bus\Query\QueryBus;
@@ -111,7 +106,7 @@ class CartController extends AbstractController
 
         $commandBus->dispatch(
             new AddProductCommand(
-                new UserId($securityUser->getUserUuid()), 
+                new UserId($securityUser->getUserUuid()),
                 $request->get('id'),
                 $request->getInt('quantity')
             )
@@ -128,7 +123,7 @@ class CartController extends AbstractController
 
         $commandBus->dispatch(
             new UpdateProductCommand(
-                new UserId($securityUser->getUserUuid()), 
+                new UserId($securityUser->getUserUuid()),
                 $request->get('id'),
                 $request->getInt('quantity')
             )
@@ -143,7 +138,7 @@ class CartController extends AbstractController
     {
         $commandBus->dispatch(
             new RemoveProductCommand(
-                new UserId($securityUser->getUserUuid()), 
+                new UserId($securityUser->getUserUuid()),
                 $id
             )
         );
@@ -159,5 +154,4 @@ class CartController extends AbstractController
 
         return new JsonResponse();
     }
-
 }

@@ -8,7 +8,6 @@ use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Billing\Application\Exceptions\ProductNotInCartException;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use App\Codechallenge\Shared\Domain\Aggregate\AggregateRoot;
-use App\Codechallenge\Shared\Domain\Event\DomainEventPublisher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -206,5 +205,4 @@ class Cart extends AggregateRoot
     {
         return $this->productCount;
     }
-
 }

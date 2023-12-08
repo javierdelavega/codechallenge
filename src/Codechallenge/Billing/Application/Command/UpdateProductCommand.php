@@ -12,9 +12,9 @@ final readonly class UpdateProductCommand implements Command
     /**
      * Constructor.
      *
-     * @param UserId            $userId  The user id
+     * @param UserId $userId    The user id
      * @param string $productId the productId to update
-     * @param int $quantity the new quantity
+     * @param int    $quantity  the new quantity
      */
     public function __construct(
         public UserId $userId,

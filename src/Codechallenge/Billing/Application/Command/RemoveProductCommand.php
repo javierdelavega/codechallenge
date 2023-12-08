@@ -12,7 +12,7 @@ final readonly class RemoveProductCommand implements Command
     /**
      * Constructor.
      *
-     * @param UserId            $userId  The user id
+     * @param UserId $userId    The user id
      * @param string $productId the product id to add to the cart
      */
     public function __construct(

@@ -12,9 +12,9 @@ final readonly class AddProductCommand implements Command
     /**
      * Constructor.
      *
-     * @param UserId            $userId  The user id
+     * @param UserId $userId    The user id
      * @param string $productId the product id
-     * @param int $quantity the product quantity
+     * @param int    $quantity  the product quantity
      */
     public function __construct(
         public UserId $userId,

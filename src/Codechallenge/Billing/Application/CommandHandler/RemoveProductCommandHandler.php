@@ -12,7 +12,7 @@ class RemoveProductCommandHandler extends CartService
 {
     public function __invoke(RemoveProductCommand $command): void
     {
-      $productId = new ProductId(new Uuid($command->productId));
+        $productId = new ProductId(new Uuid($command->productId));
         $this->findProductOrFail($productId);
 
         $cart = $this->findCartOrFail($command->userId);
