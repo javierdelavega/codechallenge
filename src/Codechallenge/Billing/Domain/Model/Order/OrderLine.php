@@ -8,19 +8,13 @@ use App\Codechallenge\Catalog\Domain\Model\ProductId;
 
 class OrderLine
 {
-    private OrderLineId $orderLineId;
-    private OrderId $orderId;
-    private ProductId $productId;
-    private int $quantity;
-    private float $price;
-
-    public function __construct(OrderLineId $orderLineId, OrderId $orderId, ProductId $productId, int $quantity, float $price)
-    {
-        $this->orderLineId = $orderLineId;
-        $this->orderId = $orderId;
-        $this->productId = $productId;
-        $this->quantity = $quantity;
-        $this->price = $price;
+    public function __construct(
+        private OrderLineId $orderLineId,
+        private OrderId $orderId,
+        private ProductId $productId,
+        private int $quantity,
+        private float $price
+    ) {
     }
 
     public function id(): OrderLineId

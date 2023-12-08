@@ -12,16 +12,13 @@ use App\Codechallenge\Billing\Domain\Model\Order\OrderRepository;
  */
 class GetUserOrdersService
 {
-    private OrderRepository $orderRepository;
-
     /**
      * Constructor.
      *
      * @param OrderRepository $orderRepository the order repository object
      */
-    public function __construct(OrderRepository $orderRepository)
+    public function __construct(private OrderRepository $orderRepository)
     {
-        $this->orderRepository = $orderRepository;
     }
 
     /**

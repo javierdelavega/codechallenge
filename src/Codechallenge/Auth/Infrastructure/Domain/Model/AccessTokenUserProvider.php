@@ -15,16 +15,13 @@ use Symfony\Component\Uid\Uuid;
  */
 class AccessTokenUserProvider implements UserProviderInterface
 {
-    private $userRepository;
-
     /**
      * Constructor.
      *
      * @param UserRepository $userRepository the repository for retrieve the users
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
 
     /**

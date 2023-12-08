@@ -14,19 +14,16 @@ use App\Codechallenge\Auth\Domain\Model\UserRepository;
  */
 class CreateGuestUserService
 {
-    private UserRepository $userRepository;
-    private UserFactory $userFactory;
-
     /**
      * Constructor.
      *
      * @param UserRepository $userRepository the user repository object
      * @param UserFactory    $userFactory    the user factory object
      */
-    public function __construct(UserRepository $userRepository, UserFactory $userFactory)
+    public function __construct(
+        private UserRepository $userRepository,
+        private UserFactory $userFactory)
     {
-        $this->userRepository = $userRepository;
-        $this->userFactory = $userFactory;
     }
 
     /**

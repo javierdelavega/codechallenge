@@ -15,19 +15,16 @@ use App\Codechallenge\Auth\Domain\Model\UserRepository;
  */
 abstract class ApiTokenService
 {
-    protected UserRepository $userRepository;
-    protected ApiTokenRepository $apiTokenRepository;
-
     /**
      * Constructor.
      *
      * @param UserRepository     $userRepository     the user repository object
      * @param ApiTokenRepository $apiTokenRepository the apitoken repository object
      */
-    public function __construct(UserRepository $userRepository, ApiTokenRepository $apiTokenRepository)
-    {
-        $this->userRepository = $userRepository;
-        $this->apiTokenRepository = $apiTokenRepository;
+    public function __construct(
+        protected UserRepository $userRepository,
+        protected ApiTokenRepository $apiTokenRepository
+    ) {
     }
 
     /**

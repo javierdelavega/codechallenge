@@ -16,16 +16,13 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class ApiLoginUserProvider implements UserProviderInterface
 {
-    private UserRepository $userRepository;
-
     /**
      * Constructor.
      *
      * @param UserRepository $userRepository the repository for retrieve the users
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
 
     /**

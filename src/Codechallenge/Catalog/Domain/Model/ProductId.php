@@ -6,8 +6,6 @@ namespace App\Codechallenge\Catalog\Domain\Model;
 
 use Symfony\Component\Uid\Uuid;
 
-// use Ramsey\Uuid\Uuid;
-
 /**
  * Value Object for Product id management.
  */
@@ -23,7 +21,6 @@ class ProductId
     public function __construct(Uuid $id = null)
     {
         $this->id = $id ?: Uuid::v4();
-        // $this->id = $id ? :Uuid::uuid4()->toString();
     }
 
     /**

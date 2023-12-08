@@ -17,19 +17,16 @@ use App\Codechallenge\Auth\Domain\Model\UserRepository;
  */
 class SignUpUserService
 {
-    private UserRepository $userRepository;
-    private PasswordHashingInterface $userPasswordHasher;
-
     /**
      * Constructor.
      *
      * @param UserRepository           $userRepository     the user repository object
      * @param PasswordHashingInterface $userPasswordHasher the password hasher object
      */
-    public function __construct(UserRepository $userRepository, PasswordHashingInterface $userPasswordHasher)
-    {
-        $this->userRepository = $userRepository;
-        $this->userPasswordHasher = $userPasswordHasher;
+    public function __construct(
+        private UserRepository $userRepository,
+        private PasswordHashingInterface $userPasswordHasher
+    ) {
     }
 
     /**

@@ -12,16 +12,13 @@ use App\Codechallenge\Catalog\Domain\Model\ProductRepository;
  */
 class ListProductsService
 {
-    private ProductRepository $productRepository;
-
     /**
      * Constructor.
      *
      * @param ProductRepository $productRepository the products repository
      */
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(private ProductRepository $productRepository)
     {
-        $this->productRepository = $productRepository;
     }
 
     /**
