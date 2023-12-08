@@ -6,7 +6,6 @@ namespace App\Codechallenge\Auth\Infrastructure\Domain\Model;
 
 use App\Codechallenge\Auth\Domain\Model\PasswordHashingInterface;
 use App\Codechallenge\Auth\Domain\Model\User;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
@@ -14,11 +13,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class SymfonyPasswordHashing implements PasswordHashingInterface
 {
-    private UserPasswordHasher $symfonyHasher;
-
-    public function __construct(UserPasswordHasherInterface $symfonyHasher)
+    public function __construct(private UserPasswordHasherInterface $symfonyHasher)
     {
-        $this->symfonyHasher = $symfonyHasher;
     }
 
     /**

@@ -14,16 +14,14 @@ use App\Codechallenge\Auth\Domain\Model\UserRepository;
  */
 class GetUserService
 {
-    private UserRepository $userRepository;
-
     /**
      * Constructor.
      *
      * @param UserRepository $userRepository the user repository object
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(
+        private UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
 
     /**

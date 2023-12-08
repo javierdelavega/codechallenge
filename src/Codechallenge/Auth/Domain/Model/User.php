@@ -15,12 +15,6 @@ use App\Codechallenge\Auth\Application\Exceptions\UserAlreadyRegisteredException
  */
 class User
 {
-    private UserId $userId;
-    private ?string $name;
-    private ?string $email;
-    private ?string $password;
-    private ?string $address;
-
     public const NAME_MIN_LENGTH = 4;
     public const NAME_MAX_LENGTH = 64;
     public const NAME_FORMAT = '/^[A-Za-zÀ-ÖØ-öø-ÿ0-9 _\-]+$/';
@@ -39,17 +33,12 @@ class User
      * @param string|null $address  the post address of the user, null for guest users
      */
     public function __construct(
-        UserId $userId,
-        string $name = null,
-        string $email = null,
-        string $password = null,
-        string $address = null)
-    {
-        $this->userId = $userId;
-        $this->name = $name;
-        $this->email = $email;
-        $this->password = $password;
-        $this->address = $address;
+        private UserId $userId,
+        private ?string $name = null,
+        private ?string $email = null,
+        private ?string $password = null,
+        private ?string $address = null
+    ) {
     }
 
     /**
