@@ -7,27 +7,15 @@ namespace App\Codechallenge\Billing\Application\Service\Cart;
 /**
  * Request for remove a product from the cart.
  */
-class RemoveProductRequest
+readonly class RemoveProductRequest
 {
-    private string $id;
-
     /**
      * Constructor.
      *
      * @param string $id the product id
      */
-    public function __construct(string $id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * Get the product id.
-     *
-     * @return string the product id
-     */
-    public function id(): string
-    {
-        return $this->id;
+    public function __construct(
+        public string $id,
+    ) {
     }
 }

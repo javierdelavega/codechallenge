@@ -154,7 +154,7 @@ class CartControllerTest extends WebTestCase
         "HTTP_AUTHORIZATION" => "Bearer ".$token->token(),
         'CONTENT_TYPE' => 'application/json'
       ],
-      '{"id": "'.$this->addProductRequest->id().'", "quantity": "'.$this->addProductRequest->quantity().'"}'
+      '{"id": "'.$this->addProductRequest->id.'", "quantity": "'.$this->addProductRequest->quantity.'"}'
     );
     $response = $this->client->getResponse();
     $responseData = json_decode($response->getContent(), true);
@@ -179,18 +179,18 @@ class CartControllerTest extends WebTestCase
         "HTTP_AUTHORIZATION" => "Bearer ".$token->token(),
         'CONTENT_TYPE' => 'application/json'
       ],
-      '{"id": "'.$this->addProductRequest->id().'", "quantity": "'.$this->addProductRequest->quantity().'"}'
+      '{"id": "'.$this->addProductRequest->id.'", "quantity": "'.$this->addProductRequest->quantity.'"}'
     );
     $this->assertResponseIsSuccessful();
 
-    $crawler = $this->client->request('PUT', '/api/cart/product/'.$this->updateProductRequest->id(),
+    $crawler = $this->client->request('PUT', '/api/cart/product/'.$this->updateProductRequest->id,
       [],
       [],
       [
         "HTTP_AUTHORIZATION" => "Bearer ".$token->token(),
         'CONTENT_TYPE' => 'application/json'
       ],
-      '{"id": "'.$this->updateProductRequest->id().'", "quantity": "'.$this->updateProductRequest->quantity().'"}'
+      '{"id": "'.$this->updateProductRequest->id.'", "quantity": "'.$this->updateProductRequest->quantity.'"}'
     );
     $this->assertResponseIsSuccessful();
   }
@@ -212,11 +212,11 @@ class CartControllerTest extends WebTestCase
         "HTTP_AUTHORIZATION" => "Bearer ".$token->token(),
         'CONTENT_TYPE' => 'application/json'
       ],
-      '{"id": "'.$this->addProductRequest->id().'", "quantity": "'.$this->addProductRequest->quantity().'"}'
+      '{"id": "'.$this->addProductRequest->id.'", "quantity": "'.$this->addProductRequest->quantity.'"}'
     );
     $this->assertResponseIsSuccessful();
 
-    $crawler = $this->client->request('DELETE', '/api/cart/product/'.$this->addProductRequest->id(),
+    $crawler = $this->client->request('DELETE', '/api/cart/product/'.$this->addProductRequest->id,
       [],
       [],
       [
@@ -245,7 +245,7 @@ class CartControllerTest extends WebTestCase
         "HTTP_AUTHORIZATION" => "Bearer ".$token->token(),
         'CONTENT_TYPE' => 'application/json'
       ],
-      '{"id": "'.$this->addProductRequest->id().'", "quantity": "'.$this->addProductRequest->quantity().'"}'
+      '{"id": "'.$this->addProductRequest->id.'", "quantity": "'.$this->addProductRequest->quantity.'"}'
     );
     $this->assertResponseIsSuccessful();
 

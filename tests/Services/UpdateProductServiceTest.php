@@ -74,7 +74,7 @@ class UpdateProductServiceTest extends KernelTestCase
 
     $this->updateProductService->execute($this->user->id(), $this->updateProductRequest);
 
-    $this->assertEquals($this->updateProductRequest->quantity(), $cart->productCount());
+    $this->assertEquals($this->updateProductRequest->quantity, $cart->productCount());
   }
 
   /** @test */

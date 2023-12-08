@@ -9,11 +9,6 @@ namespace App\Codechallenge\Auth\Application\Service\User;
  */
 class SignUpUserRequest
 {
-    private string $email;
-    private string $password;
-    private string $name;
-    private string $address;
-
     /**
      * Constructor.
      *
@@ -22,51 +17,11 @@ class SignUpUserRequest
      * @param string $password the user plain password
      * @param string $address  the user post address
      */
-    public function __construct(string $name, string $email, string $password, string $address)
-    {
-        $this->name = $name;
-        $this->email = $email;
-        $this->password = $password;
-        $this->address = $address;
-    }
-
-    /**
-     * Get the user name.
-     *
-     * @return string the user name
-     */
-    public function name(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Get the user email.
-     *
-     * @return string the user email
-     */
-    public function email(): string
-    {
-        return $this->email;
-    }
-
-    /**
-     * Get the user plain password.
-     *
-     * @return string the user plain password
-     */
-    public function password(): string
-    {
-        return $this->password;
-    }
-
-    /**
-     * Get the user post address.
-     *
-     * @return string the user post address
-     */
-    public function address(): string
-    {
-        return $this->address;
+    public function __construct(
+        public string $name,
+        public string $email,
+        public string $password,
+        public string $address
+    ) {
     }
 }
