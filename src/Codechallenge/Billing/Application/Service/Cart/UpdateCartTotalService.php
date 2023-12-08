@@ -25,12 +25,13 @@ class UpdateCartTotalService implements DomainEventSubscriber
         private CartRepository $cartRepository,
         private ProductRepository $productRepository
     ) {
+        $this->initialize();
     }
 
     /**
      * Initializes the service subscribing to the DomainEventPublisher to listen for CartUpdated Domain events.
      */
-    public function initialize(): void
+    private function initialize(): void
     {
         DomainEventPublisher::instance()->subscribe($this);
     }

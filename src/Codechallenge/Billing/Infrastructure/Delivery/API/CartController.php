@@ -7,6 +7,8 @@ namespace App\Codechallenge\Billing\Infrastructure\Delivery\API;
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\SecurityUser;
 use App\Codechallenge\Billing\Application\Command\AddProductCommand;
+use App\Codechallenge\Billing\Application\Command\RemoveProductCommand;
+use App\Codechallenge\Billing\Application\Command\UpdateProductCommand;
 use App\Codechallenge\Billing\Application\Query\GetItemsQuery;
 use App\Codechallenge\Billing\Application\Service\Cart\AddProductRequest;
 use App\Codechallenge\Billing\Application\Service\Cart\GetCartTotalService;
@@ -106,10 +108,13 @@ class CartController extends AbstractController
         CommandBus $commandBus): JsonResponse
     {
         $request = $request->getPayload();
-        $addProductRequest = new AddProductRequest($request->get('id'), $request->getInt('quantity'));
 
         $commandBus->dispatch(
-            new AddProductCommand(new UserId($securityUser->getUserUuid()), $addProductRequest)
+            new AddProductCommand(
+                new UserId($securityUser->getUserUuid()), 
+                $request->get('id'),
+                $request->getInt('quantity')
+            )
         );
 
         return new JsonResponse();
@@ -117,21 +122,31 @@ class CartController extends AbstractController
 
     #[Route('/api/cart/product/{id}', methods: ['PUT'])]
     public function updateProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request, string $id,
-        UpdateProductService $updateProductService): JsonResponse
+        CommandBus $commandBus): JsonResponse
     {
         $request = $request->getPayload();
-        $updateProductRequest = new UpdateProductRequest($id, $request->getInt('quantity'));
-        $updateProductService->execute(new UserId($securityUser->getUserUuid()), $updateProductRequest);
+
+        $commandBus->dispatch(
+            new UpdateProductCommand(
+                new UserId($securityUser->getUserUuid()), 
+                $request->get('id'),
+                $request->getInt('quantity')
+            )
+        );
 
         return new JsonResponse();
     }
 
     #[Route('/api/cart/product/{id}', methods: ['DELETE'])]
     public function removeProduct(#[CurrentUser] ?SecurityUser $securityUser, string $id,
-        RemoveProductService $removeProductService): JsonResponse
+        CommandBus $commandBus): JsonResponse
     {
-        $removeProductRequest = new RemoveProductRequest($id);
-        $removeProductService->execute(new UserId($securityUser->getUserUuid()), $removeProductRequest);
+        $commandBus->dispatch(
+            new RemoveProductCommand(
+                new UserId($securityUser->getUserUuid()), 
+                $id
+            )
+        );
 
         return new JsonResponse();
     }
@@ -145,17 +160,4 @@ class CartController extends AbstractController
         return new JsonResponse();
     }
 
-    #[Route('/api/cart/commandproduct', methods: ['POST'])]
-    public function commandProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request,
-        CommandBus $commandBus): JsonResponse
-    {
-        $request = $request->getPayload();
-        $addProductRequest = new AddProductRequest($request->get('id'), $request->getInt('quantity'));
-
-        $commandBus->dispatch(
-            new AddProductCommand(new UserId($securityUser->getUserUuid()), $addProductRequest)
-        );
-
-        return new JsonResponse();
-    }
 }

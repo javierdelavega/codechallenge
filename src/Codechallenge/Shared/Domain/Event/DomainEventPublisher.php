@@ -58,12 +58,19 @@ class DomainEventPublisher
      * Publishes a DomainEvent, checks if the subscribers listen for the
      * type of Event, if true calls the handle method.
      */
-    public function publish(DomainEvent $anEvent): void
+    private function publish(DomainEvent $anEvent): void
     {
         foreach ($this->subscribers as $aSubscriber) {
             if ($aSubscriber->isSubscribedTo($anEvent)) {
                 $aSubscriber->handle($anEvent);
             }
+        }
+    }
+
+    public function publishAll(array $events): void
+    {
+        foreach ($events as $event) {
+            $this->publish($event);
         }
     }
 }

@@ -7,14 +7,14 @@ namespace App\Codechallenge\Billing\Application\Command;
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Shared\Domain\Bus\Command\Command;
 
-final readonly class AddProductCommand implements Command
+final readonly class UpdateProductCommand implements Command
 {
     /**
      * Constructor.
      *
      * @param UserId            $userId  The user id
-     * @param string $productId the product id
-     * @param int $quantity the product quantity
+     * @param string $productId the productId to update
+     * @param int $quantity the new quantity
      */
     public function __construct(
         public UserId $userId,

@@ -33,9 +33,8 @@ abstract class CartService
         protected CartRepository $cartRepository,
         protected CartFactory $cartFactory,
         protected ProductRepository $productRepository,
-        UpdateCartTotalService $updateCartTotalService)
-    {
-        $updateCartTotalService->initialize();
+        protected UpdateCartTotalService $updateCartTotalService,
+    ) {
     }
 
     /**
