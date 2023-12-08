@@ -19,24 +19,22 @@ use App\Codechallenge\Catalog\Domain\Model\ProductRepository;
  */
 abstract class CartService
 {
-    protected UserRepository $userRepository;
-    protected CartRepository $cartRepository;
-    protected CartFactory $cartFactory;
-    protected ProductRepository $productRepository;
-
     /**
      * Constructor.
      *
-     * @param UserRepository $userRepository the user repository object
+     * @param UserRepository         $userRepository         the user repository object
+     * @param CartRepository         $cartRepository         the cart repository object
+     * @param CartFactory            $cartFactory            the cart factory object
+     * @param ProductRepository      $productRepository      the product repository object
+     * @param UpdateCartTotalService $updateCartTotalService the update cart total service object
      */
-    public function __construct(UserRepository $userRepository, CartRepository $cartRepository,
-        CartFactory $cartFactory, ProductRepository $productRepository,
+    public function __construct(
+        protected UserRepository $userRepository,
+        protected CartRepository $cartRepository,
+        protected CartFactory $cartFactory,
+        protected ProductRepository $productRepository,
         UpdateCartTotalService $updateCartTotalService)
     {
-        $this->userRepository = $userRepository;
-        $this->cartRepository = $cartRepository;
-        $this->cartFactory = $cartFactory;
-        $this->productRepository = $productRepository;
         $updateCartTotalService->initialize();
     }
 

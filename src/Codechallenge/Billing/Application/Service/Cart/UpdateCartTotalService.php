@@ -21,13 +21,10 @@ use App\Codechallenge\Shared\Domain\Event\DomainEventSubscriber;
  */
 class UpdateCartTotalService implements DomainEventSubscriber
 {
-    private CartRepository $cartRepository;
-    private ProductRepository $productRepository;
-
-    public function __construct(CartRepository $cartRepository, ProductRepository $productRepository)
-    {
-        $this->cartRepository = $cartRepository;
-        $this->productRepository = $productRepository;
+    public function __construct(
+        private CartRepository $cartRepository,
+        private ProductRepository $productRepository
+    ) {
     }
 
     /**

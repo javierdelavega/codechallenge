@@ -12,11 +12,6 @@ use App\Codechallenge\Catalog\Domain\Model\ProductId;
  */
 class Item
 {
-    private ItemId $itemId;
-    private CartId $cartId;
-    private ProductId $productId;
-    private int $quantity;
-
     /**
      * Constructor.
      *
@@ -25,12 +20,12 @@ class Item
      * @param ProductId $productId the product id
      * @param int       $quantity  the quantity
      */
-    public function __construct(ItemId $itemId, CartId $cartId, ProductId $productId, int $quantity)
-    {
-        $this->itemId = $itemId;
-        $this->cartId = $cartId;
-        $this->productId = $productId;
-        $this->quantity = $quantity;
+    public function __construct(
+        private ItemId $itemId,
+        private CartId $cartId,
+        private ProductId $productId,
+        private int $quantity
+    ) {
     }
 
     /**

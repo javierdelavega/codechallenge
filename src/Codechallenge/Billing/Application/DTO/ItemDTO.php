@@ -11,11 +11,12 @@ use App\Codechallenge\Catalog\Domain\Model\Product;
 /**
  * Data Transfer Object for delivery cart item data from Domain layer to Application layer.
  */
-class ItemDTO
+readonly class ItemDTO
 {
     /**
      * Constructor.
      *
+     * @param ItemId $id          the item id
      * @param string $productId   the cart product id
      * @param string $reference   the cart product reference
      * @param string $name        the cart product name

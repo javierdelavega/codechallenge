@@ -23,12 +23,6 @@ use App\Codechallenge\Catalog\Domain\Model\ProductRepository;
  */
 class CreateOrderFromCartService
 {
-    private OrderRepository $orderRepository;
-    private CartRepository $cartRepository;
-    private ProductRepository $productRepository;
-    private UserRepository $userRepository;
-    private EmptyCartService $emptyCartService;
-
     /**
      * Constructor.
      *
@@ -38,15 +32,13 @@ class CreateOrderFromCartService
      * @param UserRepository    $userRepository    the user repository object
      * @param EmptyCartService  $emptyCartService  the empty cart service object
      */
-    public function __construct(OrderRepository $orderRepository, CartRepository $cartRepository,
-        ProductRepository $productRepository, UserRepository $userRepository,
-        EmptyCartService $emptyCartService)
-    {
-        $this->orderRepository = $orderRepository;
-        $this->cartRepository = $cartRepository;
-        $this->productRepository = $productRepository;
-        $this->emptyCartService = $emptyCartService;
-        $this->userRepository = $userRepository;
+    public function __construct(
+        private OrderRepository $orderRepository,
+        private CartRepository $cartRepository,
+        private ProductRepository $productRepository,
+        private UserRepository $userRepository,
+        private EmptyCartService $emptyCartService
+    ) {
     }
 
     /**

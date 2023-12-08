@@ -7,7 +7,7 @@ namespace App\Codechallenge\Billing\Application\Service\Cart;
 /**
  * Request for update a cart product a user.
  */
-class UpdateProductRequest
+readonly class UpdateProductRequest
 {
     /**
      * Constructor.
