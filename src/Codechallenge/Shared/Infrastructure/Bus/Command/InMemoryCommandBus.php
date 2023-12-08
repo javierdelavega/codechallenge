@@ -10,7 +10,9 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class InMemoryCommandBus implements CommandBus
 {
-    public function __construct(private MessageBusInterface $commandMessageBus){}
+    public function __construct(private MessageBusInterface $commandMessageBus)
+    {
+    }
 
     public function dispatch(Command $command): void
     {

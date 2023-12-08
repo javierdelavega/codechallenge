@@ -27,10 +27,10 @@ abstract class CartService
     /**
      * Constructor.
      *
-     * @param UserRepository $userRepository the user repository object
-     * @param CartRepository $cartRepository the cart repository object
-     * @param CartFactory    $cartRepository the cart factory object
-     * @param ProductRepository $productRepository the product repository object
+     * @param UserRepository         $userRepository         the user repository object
+     * @param CartRepository         $cartRepository         the cart repository object
+     * @param CartFactory            $cartRepository         the cart factory object
+     * @param ProductRepository      $productRepository      the product repository object
      * @param UpdateCartTotalService $updateCartTotalService the update cart total service object
      */
     public function __construct(UserRepository $userRepository, CartRepository $cartRepository,

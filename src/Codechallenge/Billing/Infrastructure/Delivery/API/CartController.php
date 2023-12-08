@@ -7,10 +7,8 @@ namespace App\Codechallenge\Billing\Infrastructure\Delivery\API;
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\SecurityUser;
 use App\Codechallenge\Billing\Application\Command\AddProductCommand;
-use App\Codechallenge\Billing\Application\Command\ExecuteCommand;
+use App\Codechallenge\Billing\Application\Query\GetItemsQuery;
 use App\Codechallenge\Billing\Application\Service\Cart\AddProductRequest;
-use App\Codechallenge\Billing\Application\Service\Cart\AddProductService;
-use App\Codechallenge\Billing\Application\Service\Cart\CreateEmailService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetCartTotalService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetItemCountService;
 use App\Codechallenge\Billing\Application\Service\Cart\GetItemsService;
@@ -20,6 +18,7 @@ use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductRequest;
 use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductService;
 use App\Codechallenge\Billing\Application\Service\Order\CreateOrderFromCartService;
 use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
+use App\Codechallenge\Shared\Domain\Bus\Query\QueryBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,12 +27,40 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class CartController extends AbstractController
 {
-    #[Route('/api/cart/products', methods: ['GET'])]
+    /*#[Route('/api/cart/products', methods: ['GET'])]
     public function items(#[CurrentUser] ?SecurityUser $securityUser,
         GetItemsService $getItemsService, GetItemCountService $getItemCountService,
         GetCartTotalService $getCartTotalService): JsonResponse
     {
         $items = $getItemsService->execute(new UserId($securityUser->getUserUuid()));
+
+        $jsonArray = [];
+
+        $i = 0;
+        foreach ($items as $item) {
+            $jsonArray['products'][$i] =
+            [
+              'id' => $item->productId,
+              'reference' => $item->reference,
+              'name' => $item->name,
+              'description' => $item->description,
+              'price' => $item->price,
+              'quantity' => $item->quantity,
+            ];
+            ++$i;
+        }
+        $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserUuid()));
+        $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserUuid()));
+
+        return new JsonResponse($jsonArray);
+    }*/
+
+    #[Route('/api/cart/products', methods: ['GET'])]
+    public function items(#[CurrentUser] ?SecurityUser $securityUser,
+        QueryBus $queryBus, GetItemCountService $getItemCountService,
+        GetCartTotalService $getCartTotalService): JsonResponse
+    {
+        $items = $queryBus->dispatch(new GetItemsQuery(new UserId($securityUser->getUserUuid())));
 
         $jsonArray = [];
 
@@ -80,7 +107,7 @@ class CartController extends AbstractController
     {
         $request = $request->getPayload();
         $addProductRequest = new AddProductRequest($request->get('id'), $request->getInt('quantity'));
-        
+
         $commandBus->dispatch(
             new AddProductCommand(new UserId($securityUser->getUserUuid()), $addProductRequest)
         );
@@ -117,18 +144,18 @@ class CartController extends AbstractController
 
         return new JsonResponse();
     }
-    
+
     #[Route('/api/cart/commandproduct', methods: ['POST'])]
     public function commandProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request,
         CommandBus $commandBus): JsonResponse
-        {
-            $request = $request->getPayload();
-            $addProductRequest = new AddProductRequest($request->get('id'), $request->getInt('quantity'));
-            
-            $commandBus->dispatch(
-                new AddProductCommand(new UserId($securityUser->getUserUuid()), $addProductRequest)
-            );
-    
-            return new JsonResponse();
-        }
+    {
+        $request = $request->getPayload();
+        $addProductRequest = new AddProductRequest($request->get('id'), $request->getInt('quantity'));
+
+        $commandBus->dispatch(
+            new AddProductCommand(new UserId($securityUser->getUserUuid()), $addProductRequest)
+        );
+
+        return new JsonResponse();
+    }
 }

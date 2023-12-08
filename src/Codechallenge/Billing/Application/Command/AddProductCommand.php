@@ -10,8 +10,15 @@ use App\Codechallenge\Shared\Domain\Bus\Command\Command;
 
 final readonly class AddProductCommand implements Command
 {
-  public function __construct(
-    public UserId $userId,
-    public AddProductRequest $request,
-  ){ }
+    /**
+     * Constructor.
+     *
+     * @param UserId            $userId  The user id
+     * @param AddProductRequest $request request to add a product to the cart
+     */
+    public function __construct(
+        public UserId $userId,
+        public AddProductRequest $request,
+    ) {
+    }
 }

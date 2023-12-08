@@ -3,15 +3,16 @@
 namespace App\Codechallenge\Billing\Application\CommandHandler;
 
 use App\Codechallenge\Billing\Application\Command\AddProductCommand;
+use App\Codechallenge\Billing\Application\Service\Cart\CartService;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use Symfony\Component\Uid\Uuid;
 
-class AddProductCommandHandler extends CartCommandHandler
-{  
+class AddProductCommandHandler extends CartService
+{
     public function __invoke(AddProductCommand $command): void
     {
-      $productId = new ProductId(new Uuid($command->request->id()));
-        $quantity = $command->request->quantity();
+        $productId = new ProductId(new Uuid($command->request->id));
+        $quantity = $command->request->quantity;
 
         $this->findProductOrFail($productId);
 
