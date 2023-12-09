@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Services;
+namespace App\Tests\Commands;
 
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -8,8 +8,6 @@ use App\Codechallenge\Auth\Infrastructure\Domain\Model\DoctrineUserFactory;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\DoctrineUserRepository;
 use App\Codechallenge\Billing\Application\Command\UpdateProductCommand;
 use App\Codechallenge\Billing\Application\Exceptions\ProductNotInCartException;
-use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductRequest;
-use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductService;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartId;
 use App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineCartFactory;
 use App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineCartRepository;
@@ -21,7 +19,7 @@ use App\Codechallenge\Catalog\Infrastructure\Domain\Model\DoctrineProductReposit
 use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class UpdateProductServiceTest extends KernelTestCase
+class UpdateProductCommandTest extends KernelTestCase
 {
   private $commandBus;
   private $doctrineUserRepository;

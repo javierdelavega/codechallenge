@@ -9,10 +9,9 @@ use App\Codechallenge\Auth\Infrastructure\Domain\Model\SecurityUser;
 use App\Codechallenge\Billing\Application\Command\AddProductCommand;
 use App\Codechallenge\Billing\Application\Command\RemoveProductCommand;
 use App\Codechallenge\Billing\Application\Command\UpdateProductCommand;
+use App\Codechallenge\Billing\Application\Query\GetCartTotalQuery;
+use App\Codechallenge\Billing\Application\Query\GetItemCountQuery;
 use App\Codechallenge\Billing\Application\Query\GetItemsQuery;
-use App\Codechallenge\Billing\Application\Service\Cart\GetCartTotalService;
-use App\Codechallenge\Billing\Application\Service\Cart\GetItemCountService;
-use App\Codechallenge\Billing\Application\Service\Cart\GetItemsService;
 use App\Codechallenge\Billing\Application\Service\Order\CreateOrderFromCartService;
 use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
 use App\Codechallenge\Shared\Domain\Bus\Query\QueryBus;
@@ -24,38 +23,9 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class CartController extends AbstractController
 {
-    /*#[Route('/api/cart/products', methods: ['GET'])]
-    public function items(#[CurrentUser] ?SecurityUser $securityUser,
-        GetItemsService $getItemsService, GetItemCountService $getItemCountService,
-        GetCartTotalService $getCartTotalService): JsonResponse
-    {
-        $items = $getItemsService->execute(new UserId($securityUser->getUserUuid()));
-
-        $jsonArray = [];
-
-        $i = 0;
-        foreach ($items as $item) {
-            $jsonArray['products'][$i] =
-            [
-              'id' => $item->productId,
-              'reference' => $item->reference,
-              'name' => $item->name,
-              'description' => $item->description,
-              'price' => $item->price,
-              'quantity' => $item->quantity,
-            ];
-            ++$i;
-        }
-        $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserUuid()));
-        $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserUuid()));
-
-        return new JsonResponse($jsonArray);
-    }*/
-
     #[Route('/api/cart/products', methods: ['GET'])]
     public function items(#[CurrentUser] ?SecurityUser $securityUser,
-        QueryBus $queryBus, GetItemCountService $getItemCountService,
-        GetCartTotalService $getCartTotalService): JsonResponse
+        QueryBus $queryBus): JsonResponse
     {
         $items = $queryBus->dispatch(new GetItemsQuery(new UserId($securityUser->getUserUuid())));
 
@@ -74,26 +44,26 @@ class CartController extends AbstractController
             ];
             ++$i;
         }
-        $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserUuid()));
-        $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserUuid()));
+        $jsonArray['count'] = $queryBus->dispatch(new GetItemCountQuery(new UserId($securityUser->getUserUuid())));
+        $jsonArray['total'] = $queryBus->dispatch(new GetCartTotalQuery(new UserId($securityUser->getUserUuid())));
 
         return new JsonResponse($jsonArray);
     }
 
     #[Route('/api/cart/products/count', methods: ['GET'])]
     public function itemsCount(#[CurrentUser] ?SecurityUser $securityUser,
-        GetItemCountService $getItemCountService): JsonResponse
+        QueryBus $queryBus): JsonResponse
     {
-        $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserUuid()));
+        $jsonArray['count'] = $queryBus->dispatch(new GetItemCountQuery(new UserId($securityUser->getUserUuid())));
 
         return new JsonResponse($jsonArray);
     }
 
     #[Route('/api/cart/products/total', methods: ['GET'])]
     public function itemsTotal(#[CurrentUser] ?SecurityUser $securityUser,
-        GetCartTotalService $getCartTotalService): JsonResponse
+        QueryBus $queryBus): JsonResponse
     {
-        $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserUuid()));
+        $jsonArray['total'] = $queryBus->dispatch(new GetCartTotalQuery(new UserId($securityUser->getUserUuid())));
 
         return new JsonResponse($jsonArray);
     }

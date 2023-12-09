@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Services;
+namespace App\Tests\Commands;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\DoctrineUserFactory;
@@ -10,10 +10,6 @@ use App\Codechallenge\Auth\Infrastructure\Domain\Model\DoctrineUserRepository;
 use App\Codechallenge\Billing\Application\Command\AddProductCommand;
 use App\Codechallenge\Billing\Application\Command\RemoveProductCommand;
 use App\Codechallenge\Billing\Application\Exceptions\ProductNotInCartException;
-use App\Codechallenge\Billing\Application\Service\Cart\AddProductRequest;
-use App\Codechallenge\Billing\Application\Service\Cart\AddProductService;
-use App\Codechallenge\Billing\Application\Service\Cart\RemoveProductRequest;
-use App\Codechallenge\Billing\Application\Service\Cart\RemoveProductService;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartId;
 use App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineCartFactory;
 use App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineCartRepository;
@@ -25,7 +21,7 @@ use App\Codechallenge\Catalog\Infrastructure\Domain\Model\DoctrineProductReposit
 use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class RemoveProductServiceTest extends KernelTestCase
+class RemoveProductCommandTest extends KernelTestCase
 {
   private CommandBus $commandBus;
   private RemoveProductCommand $removeProductCommand;

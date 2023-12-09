@@ -6,13 +6,14 @@ namespace App\Codechallenge\Billing\Application\Service\Order;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Auth\Domain\Model\UserRepository;
+use App\Codechallenge\Billing\Application\Command\EmptyCartCommand;
 use App\Codechallenge\Billing\Application\Exceptions\CartIsEmptyException;
 use App\Codechallenge\Billing\Application\Exceptions\UserNotRegisteredException;
-use App\Codechallenge\Billing\Application\Service\Cart\EmptyCartService;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartRepository;
 use App\Codechallenge\Billing\Domain\Model\Order\Order;
 use App\Codechallenge\Billing\Domain\Model\Order\OrderRepository;
 use App\Codechallenge\Catalog\Domain\Model\ProductRepository;
+use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
 
 /**
  * Service for create an order from a cart
@@ -30,14 +31,13 @@ class CreateOrderFromCartService
      * @param CartRepository    $cartRepository    the cart repository object
      * @param ProductRepository $productRepository the product repository object
      * @param UserRepository    $userRepository    the user repository object
-     * @param EmptyCartService  $emptyCartService  the empty cart service object
      */
     public function __construct(
         private OrderRepository $orderRepository,
         private CartRepository $cartRepository,
         private ProductRepository $productRepository,
         private UserRepository $userRepository,
-        private EmptyCartService $emptyCartService
+        private CommandBus $commandBus
     ) {
     }
 
@@ -76,6 +76,6 @@ class CreateOrderFromCartService
         }
 
         $this->orderRepository->save($order);
-        $this->emptyCartService->execute($userId);
+        $this->commandBus->dispatch(new EmptyCartCommand($user->id()));
     }
 }

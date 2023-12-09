@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Services;
+namespace App\Tests\Commands;
 
 use App\Codechallenge\Auth\Application\Exceptions\UserDoesNotExistException;
 use App\Codechallenge\Auth\Domain\Model\UserId;
@@ -17,7 +17,7 @@ use App\Codechallenge\Catalog\Infrastructure\Domain\Model\DoctrineProductReposit
 use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class AddProductServiceTest extends KernelTestCase
+class AddProductCommandTest extends KernelTestCase
 {
   private CommandBus $commandBus;
   private $doctrineUserRepository;
