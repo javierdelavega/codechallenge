@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Application\Exceptions;
 
-use Exception;
-
-class UserAlreadyHaveCartException extends Exception
+class UserAlreadyHaveCartException extends \Exception
 {
-  protected $message = 'The user already hace a cart';
+    protected $message = 'The user already hace a cart';
 }

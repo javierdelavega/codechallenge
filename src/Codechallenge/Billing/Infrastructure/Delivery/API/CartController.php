@@ -1,110 +1,127 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Billing\Infrastructure\Delivery\API;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\SecurityUser;
-use App\Codechallenge\Billing\Application\Service\Cart\AddProductService;
-use App\Codechallenge\Billing\Application\Service\Cart\AddProductRequest;
-use App\Codechallenge\Billing\Application\Service\Cart\GetItemCountService;
-use App\Codechallenge\Billing\Application\Service\Cart\GetItemsService;
-use App\Codechallenge\Billing\Application\Service\Cart\GetCartTotalService;
-use App\Codechallenge\Billing\Application\Service\Cart\RemoveProductService;
-use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductRequest;
-use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductService;
+use App\Codechallenge\Billing\Application\Command\AddProductCommand;
+use App\Codechallenge\Billing\Application\Command\RemoveProductCommand;
+use App\Codechallenge\Billing\Application\Command\UpdateProductCommand;
+use App\Codechallenge\Billing\Application\Query\GetCartTotalQuery;
+use App\Codechallenge\Billing\Application\Query\GetItemCountQuery;
+use App\Codechallenge\Billing\Application\Query\GetItemsQuery;
 use App\Codechallenge\Billing\Application\Service\Order\CreateOrderFromCartService;
+use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
+use App\Codechallenge\Shared\Domain\Bus\Query\QueryBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class CartController extends AbstractController
 {
-  #[Route('/api/cart/products', methods: ['GET'])]
-  public function items(#[CurrentUser] ?SecurityUser $securityUser, 
-            GetItemsService $getItemsService, GetItemCountService $getItemCountService,
-            GetCartTotalService $getCartTotalService)
-  {
-    $items = $getItemsService->execute(new UserId($securityUser->getUserIdentifier()));
+    #[Route('/api/cart/products', methods: ['GET'])]
+    public function items(#[CurrentUser] ?SecurityUser $securityUser,
+        QueryBus $queryBus): JsonResponse
+    {
+        $items = $queryBus->dispatch(new GetItemsQuery(new UserId($securityUser->getUserUuid())));
 
-    $jsonArray = array();
+        $jsonArray = [];
 
-    $i = 0;
-    foreach($items as $item) {
-      $jsonArray["products"][$i] = 
-      [
-        'id' => $item->productId(),
-        'reference' => $item->reference(),
-        'name' => $item->name(),
-        'description' => $item->description(),
-        'price' => $item->price(),
-        'quantity' => $item->quantity(),
-      ];
-      $i++;
+        $i = 0;
+        foreach ($items as $item) {
+            $jsonArray['products'][$i] =
+            [
+              'id' => $item->productId,
+              'reference' => $item->reference,
+              'name' => $item->name,
+              'description' => $item->description,
+              'price' => $item->price,
+              'quantity' => $item->quantity,
+            ];
+            ++$i;
+        }
+        $jsonArray['count'] = $queryBus->dispatch(new GetItemCountQuery(new UserId($securityUser->getUserUuid())));
+        $jsonArray['total'] = $queryBus->dispatch(new GetCartTotalQuery(new UserId($securityUser->getUserUuid())));
+
+        return new JsonResponse($jsonArray);
     }
-    $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserIdentifier()));
-    $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserIdentifier()));
 
-    return new JsonResponse($jsonArray);
-    
-  }
+    #[Route('/api/cart/products/count', methods: ['GET'])]
+    public function itemsCount(#[CurrentUser] ?SecurityUser $securityUser,
+        QueryBus $queryBus): JsonResponse
+    {
+        $jsonArray['count'] = $queryBus->dispatch(new GetItemCountQuery(new UserId($securityUser->getUserUuid())));
 
-  #[Route('/api/cart/products/count', methods: ['GET'])]
-  public function itemsCount(#[CurrentUser] ?SecurityUser $securityUser, 
-                                    GetItemCountService $getItemCountService)
-  {
-    $jsonArray['count'] = $getItemCountService->execute(new UserId($securityUser->getUserIdentifier()));
-    return new JsonResponse($jsonArray);
-  }
+        return new JsonResponse($jsonArray);
+    }
 
-  #[Route('/api/cart/products/total', methods: ['GET'])]
-  public function itemsTotal(#[CurrentUser] ?SecurityUser $securityUser, 
-                                    GetCartTotalService $getCartTotalService)
-  {
-    $jsonArray['total'] = $getCartTotalService->execute(new UserId($securityUser->getUserIdentifier()));
-    return new JsonResponse($jsonArray);
-  }
+    #[Route('/api/cart/products/total', methods: ['GET'])]
+    public function itemsTotal(#[CurrentUser] ?SecurityUser $securityUser,
+        QueryBus $queryBus): JsonResponse
+    {
+        $jsonArray['total'] = $queryBus->dispatch(new GetCartTotalQuery(new UserId($securityUser->getUserUuid())));
 
-  #[Route('/api/cart/product', methods: ['POST'])]
-  public function addProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request, 
-                            AddProductService $addProductService)
-  {
-    $request = $request->getPayload();
-    $addProductRequest = new AddProductRequest($request->get("id"), $request->get("quantity"));
-    $addProductService->execute(new UserId($securityUser->getUserIdentifier()), $addProductRequest);
+        return new JsonResponse($jsonArray);
+    }
 
-    return new JsonResponse();
-  }
+    #[Route('/api/cart/product', methods: ['POST'])]
+    public function addProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request,
+        CommandBus $commandBus): JsonResponse
+    {
+        $request = $request->getPayload();
 
-  #[Route('/api/cart/product/{id}', methods: ['PUT'])]
-  public function updateProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request, string $id, 
-                            UpdateProductService $updateProductService)
-  {
-    $request = $request->getPayload();
-    $updateProductRequest = new UpdateProductRequest($id, $request->get("quantity"));
-    $updateProductService->execute(new UserId($securityUser->getUserIdentifier()), $updateProductRequest);
+        $commandBus->dispatch(
+            new AddProductCommand(
+                new UserId($securityUser->getUserUuid()),
+                $request->get('id'),
+                $request->getInt('quantity')
+            )
+        );
 
-    return new JsonResponse();
-  }
+        return new JsonResponse();
+    }
 
-  #[Route('/api/cart/product/{id}', methods: ['DELETE'])]
-  public function removeProduct(#[CurrentUser] ?SecurityUser $securityUser, string $id, 
-                            RemoveProductService $removeProductService)
-  {
-    $removeProductService->execute(new UserId($securityUser->getUserIdentifier()), $id);
+    #[Route('/api/cart/product/{id}', methods: ['PUT'])]
+    public function updateProduct(#[CurrentUser] ?SecurityUser $securityUser, Request $request, string $id,
+        CommandBus $commandBus): JsonResponse
+    {
+        $request = $request->getPayload();
 
-    return new JsonResponse();
-  }
+        $commandBus->dispatch(
+            new UpdateProductCommand(
+                new UserId($securityUser->getUserUuid()),
+                $request->get('id'),
+                $request->getInt('quantity')
+            )
+        );
 
-  #[Route('/api/cart/confirm', methods: ['POST'])]
-  public function confirm(#[CurrentUser] ?SecurityUser $securityUser, 
-                          CreateOrderFromCartService $createOrderFromCartService)
-  {
-    $createOrderFromCartService->execute(new UserId($securityUser->getUserIdentifier()));
+        return new JsonResponse();
+    }
 
-    return new JsonResponse();
-  }
+    #[Route('/api/cart/product/{id}', methods: ['DELETE'])]
+    public function removeProduct(#[CurrentUser] ?SecurityUser $securityUser, string $id,
+        CommandBus $commandBus): JsonResponse
+    {
+        $commandBus->dispatch(
+            new RemoveProductCommand(
+                new UserId($securityUser->getUserUuid()),
+                $id
+            )
+        );
 
+        return new JsonResponse();
+    }
 
+    #[Route('/api/cart/confirm', methods: ['POST'])]
+    public function confirm(#[CurrentUser] ?SecurityUser $securityUser,
+        CreateOrderFromCartService $createOrderFromCartService): JsonResponse
+    {
+        $createOrderFromCartService->execute(new UserId($securityUser->getUserUuid()));
+
+        return new JsonResponse();
+    }
 }

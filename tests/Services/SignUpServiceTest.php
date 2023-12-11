@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Services;
 
 use App\Codechallenge\Auth\Application\Exceptions\UserAlreadyExistException;
@@ -40,9 +42,9 @@ class SignUpServiceTest extends KernelTestCase
     $this->userRepository->save($this->guestUser);
     $userDTO = $this->signUpUserService->execute($this->guestUser->id(), $this->signUpUserRequest);
 
-    $this->assertEquals($userDTO->name(), $this->signUpUserRequest->name());
-    $this->assertEquals($userDTO->email(), $this->signUpUserRequest->email());
-    $this->assertEquals($userDTO->address(), $this->signUpUserRequest->address());
+    $this->assertEquals($userDTO->name, $this->signUpUserRequest->name);
+    $this->assertEquals($userDTO->email, $this->signUpUserRequest->email);
+    $this->assertEquals($userDTO->address, $this->signUpUserRequest->address);
   }
 
   /** @test */

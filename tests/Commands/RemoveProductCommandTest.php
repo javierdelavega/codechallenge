@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Tests\Services;
+declare(strict_types=1);
+
+namespace App\Tests\Commands;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\DoctrineUserFactory;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\DoctrineUserRepository;
+use App\Codechallenge\Billing\Application\Command\AddProductCommand;
+use App\Codechallenge\Billing\Application\Command\RemoveProductCommand;
 use App\Codechallenge\Billing\Application\Exceptions\ProductNotInCartException;
-use App\Codechallenge\Billing\Application\Service\Cart\GetItemCountService;
-use App\Codechallenge\Billing\Application\Service\Cart\RemoveProductService;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartId;
 use App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineCartFactory;
 use App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineCartRepository;
@@ -16,11 +18,16 @@ use App\Codechallenge\Catalog\Domain\Model\Money;
 use App\Codechallenge\Catalog\Domain\Model\Product;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use App\Codechallenge\Catalog\Infrastructure\Domain\Model\DoctrineProductRepository;
+use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class RemoveProductServiceTest extends KernelTestCase
+class RemoveProductCommandTest extends KernelTestCase
 {
-  private $removeProductService;
+  private CommandBus $commandBus;
+  private RemoveProductCommand $removeProductCommand;
+  private RemoveProductCommand $invalidRemoveProductCommand;
+  private AddProductCommand $addProductCommand;
+  private $quantity;
   private $doctrineUserRepository;
   private $doctrineUserFactory;
   private $doctrineCartRepository;
@@ -36,7 +43,7 @@ class RemoveProductServiceTest extends KernelTestCase
 
     $container = static::getContainer();
 
-    $this->removeProductService = $container->get(RemoveProductService::class);
+    $this->commandBus = $container->get(CommandBus::class);
     $this->doctrineUserRepository = $container->get(DoctrineUserRepository::class);
     $this->doctrineUserFactory = $container->get(DoctrineUserFactory::class);
     $this->doctrineCartRepository = $container->get(DoctrineCartRepository::class);
@@ -52,25 +59,29 @@ class RemoveProductServiceTest extends KernelTestCase
     $this->product = new Product(new ProductId(), "testReference", "testName", "testDescription", 
                                 new Money(10.50, new Currency("EUR")));
 
+    $this->quantity = 5;
+
     $this->doctrineProductRepository->save($this->product);
 
     $this->anotherProduct = new Product(new ProductId(), "testReference", "testName", "testDescription", 
                                 new Money(10.50, new Currency("EUR")));
 
     $this->doctrineProductRepository->save($this->anotherProduct);
+
+    $this->addProductCommand = new AddProductCommand($this->user->id(), $this->product->id()->__toString(), $this->quantity);
+    $this->removeProductCommand = new RemoveProductCommand($this->user->id(), $this->product->id()->__toString());
+    $this->invalidRemoveProductCommand = new RemoveProductCommand($this->user->id(), $this->anotherProduct->id()->__toString());
   }
 
   /** @test */
   public function canRemoveProduct()
   {
-    $quantity = 5;
+    
+    $this->commandBus->dispatch($this->addProductCommand);
     $cart = $this->doctrineCartRepository->cartOfUser($this->user->id());
+    $this->assertEquals($this->quantity, $cart->productCount());
 
-    $cart->addProduct($this->product->id(), $quantity);
-    $this->doctrineCartRepository->save($cart);
-    $this->assertEquals($quantity, $cart->productCount());
-
-    $this->removeProductService->execute($this->user->id(), $this->product->id());
+    $this->commandBus->dispatch($this->removeProductCommand);
 
     $this->assertEquals(0, $cart->productCount());
 
@@ -79,17 +90,14 @@ class RemoveProductServiceTest extends KernelTestCase
   /** @test */
   public function canNotRemoveNotAddedproduct()
   {
-    $quantity = 5;
+    $this->commandBus->dispatch($this->addProductCommand);
     $cart = $this->doctrineCartRepository->cartOfUser($this->user->id());
-
-    $cart->addProduct($this->anotherProduct->id(), $quantity);
-    $this->doctrineCartRepository->save($cart);
-    $this->assertEquals($quantity, $cart->productCount());
+    $this->assertEquals($this->quantity, $cart->productCount());
     
     $this->expectException(ProductNotInCartException::class);
-    $this->removeProductService->execute($this->user->id(), $this->product->id());
+    $this->commandBus->dispatch($this->invalidRemoveProductCommand);
 
-    $this->assertEquals($quantity, $cart->productCount());
+    $this->assertEquals($this->quantity, $cart->productCount());
     
   }
 

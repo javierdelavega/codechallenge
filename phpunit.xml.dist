@@ -34,6 +34,12 @@
         <testsuite name="Services">
             <directory>tests/Services</directory>
         </testsuite>
+        <testsuite name="Commands">
+            <directory>tests/Commands</directory>
+        </testsuite>
+        <testsuite name="Querys">
+            <directory>tests/Querys</directory>
+        </testsuite>
         <testsuite name="Events">
             <directory>tests/Events</directory>
         </testsuite>
@@ -52,6 +58,7 @@
         <report>
             <html outputDirectory="build/coverage" />
             <cobertura outputFile="build/logs/cobertura.xml"/>
+            <clover outputFile="build/logs/clover.xml"/>
         </report>
     </coverage>
     <logging>

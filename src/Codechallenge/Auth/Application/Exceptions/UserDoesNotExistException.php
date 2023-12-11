@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Auth\Application\Exceptions;
 
-use Exception;
-
-class UserDoesNotExistException extends Exception
+class UserDoesNotExistException extends \Exception
 {
-  protected $message = 'The user does not exist';
+    protected $message = 'The user does not exist';
 }

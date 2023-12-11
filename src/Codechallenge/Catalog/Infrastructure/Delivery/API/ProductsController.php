@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Codechallenge\Catalog\Infrastructure\Delivery\API;
 
 use App\Codechallenge\Catalog\Application\Service\ListProductsService;
@@ -7,11 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-/** 
- * GET api/products
- * 
+/**
+ * GET api/products.
+ *
  * Return a json with the products of the catalog
- * 
+ *
  * @response scenario=success {
  * "data": [
  *   {
@@ -24,32 +26,30 @@ use Symfony\Component\Routing\Annotation\Route;
  *  ]
  * }
  * @response status=401 scenario="unauthenticated" {"message": "Unauthenticated"}
- * 
+ *
  * @return Illuminate\Http\JsonResponse json with the content of the cart, count of items and total price
  */
 class ProductsController extends AbstractController
 {
-  #[Route('/api/products', name: 'api_products', methods: ['GET'])]
-  public function products(ListProductsService $listProductsService)
-  {
-    $products = $listProductsService->execute();
-    $jsonArray = array();
+    #[Route('/api/products', name: 'api_products', methods: ['GET'])]
+    public function products(ListProductsService $listProductsService): JsonResponse
+    {
+        $products = $listProductsService->execute();
+        $jsonArray = [];
 
-    $i = 0;
-    foreach($products as $product) {
-      $jsonArray["data"][$i] = 
-      [
-        'id' => $product->id(),
-        'reference' => $product->reference(),
-        'name' => $product->name(),
-        'description' => $product->description(),
-        'price' => $product->price(),
-      ];
-      $i++;
+        $i = 0;
+        foreach ($products as $product) {
+            $jsonArray['data'][$i] =
+            [
+              'id' => $product->id,
+              'reference' => $product->reference,
+              'name' => $product->name,
+              'description' => $product->description,
+              'price' => $product->price,
+            ];
+            ++$i;
+        }
+
+        return new JsonResponse($jsonArray);
     }
-
-    return new JsonResponse($jsonArray);
-  }
-
-
 }
