@@ -40,9 +40,6 @@ services:
 
     App\Codechallenge\Shared\Infrastructure\Bus\Query\QueryBus:
         arguments: ['@query.bus']
-
-    App\Codechallenge\Shared\Infrastructure\Bus\Event\EventBus:
-        arguments: ['@event.bus']
     
     App\Codechallenge\Billing\Application\CommandHandler\:
         resource: '../src/Codechallenge/Billing/Application/CommandHandler'
