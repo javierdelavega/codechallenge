@@ -71,7 +71,6 @@ class DoctrineOrderRepository extends ServiceEntityRepository implements OrderRe
         return $this->createQueryBuilder('o')
             ->andWhere('o.userId = :userId')
             ->setParameter('userId', $userId->id())
-            ->orderBy('o.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
         ;
