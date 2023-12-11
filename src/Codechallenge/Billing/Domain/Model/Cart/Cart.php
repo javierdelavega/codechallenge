@@ -7,7 +7,7 @@ namespace App\Codechallenge\Billing\Domain\Model\Cart;
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Billing\Application\Exceptions\ProductNotInCartException;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
-use App\Codechallenge\Shared\Domain\Event\DomainEventPublisher;
+use App\Codechallenge\Shared\Domain\Aggregate\AggregateRoot;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\Collection;
  * Users can add products to the cart
  * Registered users can confirm the cart to place an order.
  */
-class Cart
+class Cart extends AggregateRoot
 {
     private CartId $cartId;
     private UserId $userId;
@@ -104,7 +104,7 @@ class Cart
 
             $this->items->add($item);
             $this->productCount += $item->quantity();
-            $this->publishCartUpdatedEvent();
+            $this->record(new CartContentChanged($this->cartId));
         }
     }
 
@@ -134,7 +134,7 @@ class Cart
 
         $this->items->remove($key);
         $this->productCount -= $prevQuantity;
-        $this->publishCartUpdatedEvent();
+        $this->record(new CartContentChanged($this->cartId));
     }
 
     /**
@@ -163,7 +163,7 @@ class Cart
 
         $quantityDiff = $quantity - $prevQuantity;
         $this->productCount += $quantityDiff;
-        $this->publishCartUpdatedEvent();
+        $this->record(new CartContentChanged($this->cartId));
     }
 
     /**
@@ -204,13 +204,5 @@ class Cart
     public function productCount(): int
     {
         return $this->productCount;
-    }
-
-    /**
-     * Publish a CartContentChanged Domain event.
-     */
-    protected function publishCartUpdatedEvent(): void
-    {
-        DomainEventPublisher::instance()->publish(new CartContentChanged($this->cartId));
     }
 }

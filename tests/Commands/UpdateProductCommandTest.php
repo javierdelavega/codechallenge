@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Tests\Services;
+namespace App\Tests\Commands;
 
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\DoctrineUserFactory;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\DoctrineUserRepository;
+use App\Codechallenge\Billing\Application\Command\UpdateProductCommand;
 use App\Codechallenge\Billing\Application\Exceptions\ProductNotInCartException;
-use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductRequest;
-use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductService;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartId;
 use App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineCartFactory;
 use App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineCartRepository;
@@ -17,18 +16,19 @@ use App\Codechallenge\Catalog\Domain\Model\Money;
 use App\Codechallenge\Catalog\Domain\Model\Product;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use App\Codechallenge\Catalog\Infrastructure\Domain\Model\DoctrineProductRepository;
+use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class UpdateProductServiceTest extends KernelTestCase
+class UpdateProductCommandTest extends KernelTestCase
 {
-  private $updateProductService;
+  private $commandBus;
   private $doctrineUserRepository;
   private $doctrineUserFactory;
   private $doctrineCartRepository;
   private $doctrineCartFactory;
   private $doctrineProductRepository;
-  private $updateProductRequest;
-  private $invalidUpdateProductRequest;
+  private $updateProductCommand;
+  private $invalidUpdateProductCommand;
   private $product;
   private $anotherProduct;
   private $user;
@@ -39,7 +39,7 @@ class UpdateProductServiceTest extends KernelTestCase
 
     $container = static::getContainer();
 
-    $this->updateProductService = $container->get(UpdateProductService::class);
+    $this->commandBus = $container->get(CommandBus::class);
     $this->doctrineUserRepository = $container->get(DoctrineUserRepository::class);
     $this->doctrineUserFactory = $container->get(DoctrineUserFactory::class);
     $this->doctrineCartRepository = $container->get(DoctrineCartRepository::class);
@@ -53,10 +53,10 @@ class UpdateProductServiceTest extends KernelTestCase
                                 new Money(10.50, new Currency("EUR")));
 
     $this->doctrineProductRepository->save($this->anotherProduct);
-    $this->updateProductRequest = new UpdateProductRequest($this->product->id(), 2);
-    $this->invalidUpdateProductRequest = new UpdateProductRequest($this->anotherProduct->id(), 2);
     $this->user = $this->doctrineUserFactory->guestUser()->build(new UserId());
     $this->doctrineUserRepository->save($this->user);
+    $this->updateProductCommand = new UpdateProductCommand($this->user->id(), $this->product->id(), 2);
+    $this->invalidUpdateProductCommand = new UpdateProductCommand($this->user->id(), $this->anotherProduct->id(), 2);
     $cart = $this->doctrineCartFactory->ofUser($this->user->id())->build(new CartId());
     $this->doctrineCartRepository->save($cart);
     
@@ -72,9 +72,9 @@ class UpdateProductServiceTest extends KernelTestCase
     $this->doctrineCartRepository->save($cart);
     $this->assertEquals($quantity, $cart->productCount());
 
-    $this->updateProductService->execute($this->user->id(), $this->updateProductRequest);
+    $this->commandBus->dispatch($this->updateProductCommand);
 
-    $this->assertEquals($this->updateProductRequest->quantity, $cart->productCount());
+    $this->assertEquals($this->updateProductCommand->quantity, $cart->productCount());
   }
 
   /** @test */
@@ -88,7 +88,7 @@ class UpdateProductServiceTest extends KernelTestCase
     $this->assertEquals($quantity, $cart->productCount());
 
     $this->expectException(ProductNotInCartException::class);
-    $this->updateProductService->execute($this->user->id(), $this->invalidUpdateProductRequest);
+    $this->commandBus->dispatch($this->invalidUpdateProductCommand);
 
     $this->assertEquals($quantity, $cart->productCount());
   }

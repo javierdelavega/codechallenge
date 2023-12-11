@@ -2,26 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Codechallenge\Billing\Application\Service\Cart;
+namespace App\Codechallenge\Billing\Application\QueryHandler;
 
-use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Billing\Application\DTO\ItemDTO;
+use App\Codechallenge\Billing\Application\Query\GetItemsQuery;
+use App\Codechallenge\Billing\Application\Service\Cart\CartService;
 
-/**
- * Service to get the items in the cart.
- */
-class GetItemsService extends CartService
+class GetItemsQueryHandler extends CartService
 {
-    /**
-     * Get the items in the cart.
-     *
-     * @param UserId $userId the user id of the current user who owns the cart
-     *
-     * @return array the items in the cart
-     */
-    public function execute(UserId $userId): array
+    public function __invoke(GetItemsQuery $query): array
     {
-        $cart = $this->findCartOrFail($userId);
+        $cart = $this->findCartOrFail($query->userId);
 
         $items = $cart->items();
 

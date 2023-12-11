@@ -6,6 +6,8 @@ use App\Codechallenge\Auth\Application\Service\User\CreateGuestUserService;
 use App\Codechallenge\Auth\Application\Service\User\CreateTokenService;
 use App\Codechallenge\Auth\Application\Service\User\SignUpUserRequest;
 use App\Codechallenge\Auth\Application\Service\User\SignUpUserService;
+use App\Codechallenge\Billing\Application\Command\AddProductCommand;
+use App\Codechallenge\Billing\Application\Command\UpdateProductCommand;
 use App\Codechallenge\Billing\Application\Service\Cart\AddProductRequest;
 use App\Codechallenge\Billing\Application\Service\Cart\AddProductService;
 use App\Codechallenge\Billing\Application\Service\Cart\UpdateProductRequest;
@@ -17,6 +19,7 @@ use App\Codechallenge\Catalog\Domain\Model\Money;
 use App\Codechallenge\Catalog\Domain\Model\Product;
 use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use App\Codechallenge\Catalog\Infrastructure\Domain\Model\DoctrineProductRepository;
+use App\Codechallenge\Shared\Domain\Bus\Command\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CartControllerTest extends WebTestCase
@@ -30,9 +33,9 @@ class CartControllerTest extends WebTestCase
   private $doctrineCartFactory;
   private $doctrineCartRepository;
   private $product;
-  private $addProductService;
-  private $addProductRequest;
-  private $updateProductRequest;
+  private CommandBus $commandBus;
+  private AddProductCommand $addProductCommand;
+  private UpdateProductCommand $updateProductCommand;
   private $signUpUserService;
   private $signUpUserRequest;
   private $quantity;
@@ -49,7 +52,7 @@ class CartControllerTest extends WebTestCase
     $this->doctrineProductRepository = $container->get(DoctrineProductRepository::class);
     $this->doctrineCartFactory = $container->get(DoctrineCartFactory::class);
     $this->doctrineCartRepository = $container->get(DoctrineCartRepository::class);
-    $this->addProductService = $container->get(AddProductService::class);
+    $this->commandBus = $container->get(CommandBus::class);
     $this->signUpUserService = $container->get(SignUpUserService::class);
     $this->signUpUserRequest = new SignUpUserRequest("testName", "test@email.com", "testPassword", "testAddress");
 
@@ -57,17 +60,18 @@ class CartControllerTest extends WebTestCase
                                 new Money(10.50, new Currency("EUR")));
     $this->doctrineProductRepository->save($this->product);
 
+    $this->user = $this->createGuestUserService->execute();
     $this->quantity = 5;
     $this->newQuantity = 10;
-    $this->addProductRequest = new AddProductRequest($this->product->id(), $this->quantity);
-    $this->updateProductRequest = new UpdateProductRequest($this->product->id(), $this->newQuantity);
+    $this->addProductCommand = new AddProductCommand($this->user->id(), $this->product->id(), $this->quantity);
+    $this->updateProductCommand = new UpdateProductCommand($this->user->id(), $this->product->id(), $this->newQuantity);
 
   }
 
   /** @test */
   public function canGetCartItems()
   {
-    $this->user = $this->createGuestUserService->execute();
+    
     $token = $this->createTokenService->execute($this->user->id());
 
     $cart = $this->doctrineCartFactory->ofUser($this->user->id())->build(new CartId());
@@ -89,7 +93,7 @@ class CartControllerTest extends WebTestCase
   /** @test */
   public function canGetItemCount()
   {
-    $this->user = $this->createGuestUserService->execute();
+    
     $token = $this->createTokenService->execute($this->user->id());
 
     $cart = $this->doctrineCartFactory->ofUser($this->user->id())->build(new CartId());
@@ -115,13 +119,13 @@ class CartControllerTest extends WebTestCase
   /** @test */
   public function canGetCartTotal()
   {
-    $this->user = $this->createGuestUserService->execute();
+    
     $token = $this->createTokenService->execute($this->user->id());
 
     $cart = $this->doctrineCartFactory->ofUser($this->user->id())->build(new CartId());
     $this->doctrineCartRepository->save($cart);
     
-    $this->addProductService->execute($this->user->id(), $this->addProductRequest);
+    $this->commandBus->dispatch($this->addProductCommand);
 
     $crawler = $this->client->request('GET', '/api/cart/products/total',
       [],
@@ -140,7 +144,7 @@ class CartControllerTest extends WebTestCase
   /** @test */
   public function canAddProduct()
   {
-    $this->user = $this->createGuestUserService->execute();
+    
     $token = $this->createTokenService->execute($this->user->id());
 
     $cart = $this->doctrineCartFactory->ofUser($this->user->id())->build(new CartId());
@@ -154,7 +158,7 @@ class CartControllerTest extends WebTestCase
         "HTTP_AUTHORIZATION" => "Bearer ".$token->token(),
         'CONTENT_TYPE' => 'application/json'
       ],
-      '{"id": "'.$this->addProductRequest->id.'", "quantity": "'.$this->addProductRequest->quantity.'"}'
+      '{"id": "'.$this->addProductCommand->productId.'", "quantity": "'.$this->addProductCommand->quantity.'"}'
     );
     $response = $this->client->getResponse();
     $responseData = json_decode($response->getContent(), true);
@@ -165,7 +169,7 @@ class CartControllerTest extends WebTestCase
   /** @test */
   public function canUpdateProduct()
   {
-    $this->user = $this->createGuestUserService->execute();
+    
     $token = $this->createTokenService->execute($this->user->id());
 
     $cart = $this->doctrineCartFactory->ofUser($this->user->id())->build(new CartId());
@@ -179,18 +183,18 @@ class CartControllerTest extends WebTestCase
         "HTTP_AUTHORIZATION" => "Bearer ".$token->token(),
         'CONTENT_TYPE' => 'application/json'
       ],
-      '{"id": "'.$this->addProductRequest->id.'", "quantity": "'.$this->addProductRequest->quantity.'"}'
+      '{"id": "'.$this->addProductCommand->productId.'", "quantity": "'.$this->addProductCommand->quantity.'"}'
     );
     $this->assertResponseIsSuccessful();
 
-    $crawler = $this->client->request('PUT', '/api/cart/product/'.$this->updateProductRequest->id,
+    $crawler = $this->client->request('PUT', '/api/cart/product/'.$this->addProductCommand->productId,
       [],
       [],
       [
         "HTTP_AUTHORIZATION" => "Bearer ".$token->token(),
         'CONTENT_TYPE' => 'application/json'
       ],
-      '{"id": "'.$this->updateProductRequest->id.'", "quantity": "'.$this->updateProductRequest->quantity.'"}'
+      '{"id": "'.$this->addProductCommand->productId.'", "quantity": "'.$this->addProductCommand->quantity.'"}'
     );
     $this->assertResponseIsSuccessful();
   }
@@ -198,7 +202,7 @@ class CartControllerTest extends WebTestCase
   /** @test */
   public function canRemoveProduct()
   {
-    $this->user = $this->createGuestUserService->execute();
+    
     $token = $this->createTokenService->execute($this->user->id());
 
     $cart = $this->doctrineCartFactory->ofUser($this->user->id())->build(new CartId());
@@ -212,11 +216,11 @@ class CartControllerTest extends WebTestCase
         "HTTP_AUTHORIZATION" => "Bearer ".$token->token(),
         'CONTENT_TYPE' => 'application/json'
       ],
-      '{"id": "'.$this->addProductRequest->id.'", "quantity": "'.$this->addProductRequest->quantity.'"}'
+      '{"id": "'.$this->addProductCommand->productId.'", "quantity": "'.$this->addProductCommand->quantity.'"}'
     );
     $this->assertResponseIsSuccessful();
 
-    $crawler = $this->client->request('DELETE', '/api/cart/product/'.$this->addProductRequest->id,
+    $crawler = $this->client->request('DELETE', '/api/cart/product/'.$this->addProductCommand->productId,
       [],
       [],
       [
@@ -230,7 +234,7 @@ class CartControllerTest extends WebTestCase
   /** @test */
   public function registeredUserCanConfirCartToPlaceOrder()
   {
-    $this->user = $this->createGuestUserService->execute();
+    
     $token = $this->createTokenService->execute($this->user->id());
     $this->signUpUserService->execute($this->user->id(), $this->signUpUserRequest);
 
@@ -245,7 +249,7 @@ class CartControllerTest extends WebTestCase
         "HTTP_AUTHORIZATION" => "Bearer ".$token->token(),
         'CONTENT_TYPE' => 'application/json'
       ],
-      '{"id": "'.$this->addProductRequest->id.'", "quantity": "'.$this->addProductRequest->quantity.'"}'
+      '{"id": "'.$this->addProductCommand->productId.'", "quantity": "'.$this->addProductCommand->quantity.'"}'
     );
     $this->assertResponseIsSuccessful();
 

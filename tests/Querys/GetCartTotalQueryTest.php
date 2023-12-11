@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Tests\Services;
+namespace App\Tests\Querys;
 
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\DoctrineUserFactory;
 use App\Codechallenge\Auth\Infrastructure\Domain\Model\DoctrineUserRepository;
-use App\Codechallenge\Billing\Application\Service\Cart\GetCartTotalService;
+use App\Codechallenge\Billing\Application\Query\GetCartTotalQuery;
 use App\Codechallenge\Billing\Domain\Model\Cart\CartId;
 use App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineCartFactory;
 use App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineCartRepository;
+use App\Codechallenge\Shared\Domain\Bus\Query\QueryBus;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class GetCartTotalServiceTest extends KernelTestCase
+class GetCartTotalQueryTest extends KernelTestCase
 {
-  private $getCartTotalService;
+  private $queryBus;
   private $doctrineUserRepository;
   private $doctrineUserFactory;
   private $doctrineCartRepository;
@@ -26,7 +27,7 @@ class GetCartTotalServiceTest extends KernelTestCase
 
     $container = static::getContainer();
 
-    $this->getCartTotalService = $container->get(GetCartTotalService::class);
+    $this->queryBus = $container->get(QueryBus::class);
     $this->doctrineUserRepository = $container->get(DoctrineUserRepository::class);
     $this->doctrineUserFactory = $container->get(DoctrineUserFactory::class);
     $this->doctrineCartRepository = $container->get(DoctrineCartRepository::class);
@@ -49,7 +50,10 @@ class GetCartTotalServiceTest extends KernelTestCase
     $cart->setCartTotal($cartTotal);
     $this->doctrineCartRepository->save($cart);
 
-    $this->assertEquals($cartTotal, $this->getCartTotalService->execute($this->user->id()));
+    $this->assertEquals(
+      $cartTotal, 
+      $this->queryBus->dispatch(new GetCartTotalQuery($this->user->id()))
+    );
   }
 
 }
