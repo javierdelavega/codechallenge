@@ -8,8 +8,14 @@ use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use App\Codechallenge\Shared\Domain\Event\DomainEventPublisher;
 use Symfony\Component\Uid\Uuid;
 
+/**
+ * Handles the UpdateProductCommand.
+ */
 class UpdateProductCommandHandler extends CartService
 {
+    /**
+     * @param UpdateProductCommand $command to update a product of the cart
+     */
     public function __invoke(UpdateProductCommand $command): void
     {
         $productId = new ProductId(new Uuid($command->productId));

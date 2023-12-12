@@ -7,6 +7,9 @@ namespace App\Codechallenge\Billing\Application\Command;
 use App\Codechallenge\Auth\Domain\Model\UserId;
 use App\Codechallenge\Shared\Domain\Bus\Command\Command;
 
+/**
+ * Command to empty the cart.
+ */
 final readonly class EmptyCartCommand implements Command
 {
     /**

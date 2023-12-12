@@ -8,8 +8,14 @@ use App\Codechallenge\Catalog\Domain\Model\ProductId;
 use App\Codechallenge\Shared\Domain\Event\DomainEventPublisher;
 use Symfony\Component\Uid\Uuid;
 
+/**
+ * Handles the RemoveProductCommand.
+ */
 class RemoveProductCommandHandler extends CartService
 {
+    /**
+     * @param RemoveProductCommand $command to remove a product from the cart
+     */
     public function __invoke(RemoveProductCommand $command): void
     {
         $productId = new ProductId(new Uuid($command->productId));
