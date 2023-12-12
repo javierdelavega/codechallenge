@@ -2,6 +2,33 @@
 
 Misión: Desarrollar una API para la gestión de una cesta de la compra.
 
+## Actualización Diciembre 2023 ##
+
+### Aprovechar novedades PHP8.2 ###
+
+* Refactorización usando tipado de variables junto con la directiva ``` declare(strict_types=1); ```
+* Uso de readonly classes para los DTO y los Comandos
+* Uso de Constructor Property Promotion donde simplifique código y no interfiera con la fácil legibilidad
+
+### Implementar command/query bus con symfony messenger ###
+
+* Configuración de tres buses en **[`messenger.yml`](https://github.com/javierdelavega/codechallenge/blob/main/config/packages/messenger.yaml)** command, query, y event, este último en previsión de migrar la gestión de eventos a symfony messenger.
+* Configuración de los servicios y handlers para cada bus en **[`services.yml`](https://github.com/javierdelavega/codechallenge/blob/main/config/services.yaml)**
+* En la capa Application del subdominio Billing, se han sustituido la mayoría de los servicios de dominio, por comandos y consultas
+
+| Directorio | Descripción |
+| ---- | ----------- |
+| **[`Codechallenge/Billing/Application/Command`](https://github.com/javierdelavega/codechallenge/tree/main/src/Codechallenge/Billing/Application/Command)** | Comandos para añadir, eliminar y actualizar productos o vaciar carrito |
+| **[`Codechallenge/Billing/Application/CommandHandler`](https://github.com/javierdelavega/codechallenge/tree/main/src/Codechallenge/Billing/Application/CommandHandler)** | Los handlers para los comandos |
+| **[`Codechallenge/Billing/Application/Query`](https://github.com/javierdelavega/codechallenge/tree/main/src/Codechallenge/Billing/Application/Query)** | Consultas para obtener artículos del carrito, la cantidad y el total del carrito |
+| **[`Codechallenge/Billing/Application/QueryHandler`](https://github.com/javierdelavega/codechallenge/tree/main/src/Codechallenge/Billing/Application/QueryHandler)** | Los handlers para las consultas |
+
+
+### Agregados ###
+
+* Sobre el agregado Cart, asegurar la persistencia de forma atómica y consistente. Responsabilidad de grabar y gestionar sus eventos, abriendo posibilidad de persistencia originada desde eventos.
+
+
 ## Requisitos ##
 
 * Gestión de productos eficiente que permita: añadir, actualizar y eliminar productos del carrito.
@@ -13,8 +40,8 @@ Misión: Desarrollar una API para la gestión de una cesta de la compra.
 
 Para la instalación del entorno de desarrollo y pruebas he preparado un contenedor docker. Para instalarlo:
 
-```git clone https://github.com/javierdelavega/codechallenge-ddd.git```  
-```cd codechallenge-ddd```  
+```git clone https://github.com/javierdelavega/codechallenge.git```  
+```cd codechallenge/docker```  
 ```docker-compose up -d --build```
 
 NOTA: La primera vez el contenedor tardará en iniciar completamente de 1-2 minutos, mientras realiza las tareas de preparación de la BD y la instalación de los paquetes con composer install.
