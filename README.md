@@ -61,7 +61,7 @@ La documentación está accesible a través del servicio frontend:
 
 Para la realización de los tests:
 
-```docker exec -it codechallenge-ddd run-test-coverage```
+```docker exec -it codechallenge run-test-coverage```
 
 ## Pruebas performance ##
 
