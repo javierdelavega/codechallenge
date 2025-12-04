@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Codechallenge\Billing\Domain\Model\Cart\Cart" table="cart" repository-class="App\Codechallenge\Billing\Domain\Model\Cart\CartRepository">
+        <id name="cartId" type="cart_id" column="id" length="36" />
+        <field name="userId" type="user_id" column="user_id" length="36" />
+        <field name="productCount" type="integer" column="product_count" />
+        <field name="cartTotal" type="decimal" column="cart_total" />
+
+        <many-to-many 
+            field="items" 
+            inversed-by="cart" 
+            target-entity="App\Codechallenge\Billing\Domain\Model\Cart\Item"
+            orphan-removal="true">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+            <join-table name="cart_items">
+                <join-columns>
+                    <join-column name="cart_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="item_id" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+        
+    </entity>
+
+</doctrine-mapping>

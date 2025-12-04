@@ -1,0 +1,86 @@
+doctrine:
+    dbal:
+        logging: true
+        url: '%env(resolve:DATABASE_URL)%'
+        types:
+            user_id:  App\Codechallenge\Auth\Infrastructure\Persistence\Doctrine\Types\UserIdType
+            api_token_id:  App\Codechallenge\Auth\Infrastructure\Persistence\Doctrine\Types\ApiTokenIdType
+            product_id: App\Codechallenge\Catalog\Infrastructure\Persistence\Doctrine\Types\ProductIdType
+            cart_id: App\Codechallenge\Billing\Infrastructure\Persistence\Cart\Doctrine\Types\CartIdType
+            item_id: App\Codechallenge\Billing\Infrastructure\Persistence\Cart\Doctrine\Types\ItemIdType
+            order_id: App\Codechallenge\Billing\Infrastructure\Persistence\Order\Doctrine\Types\OrderIdType
+            order_line_id: App\Codechallenge\Billing\Infrastructure\Persistence\Order\Doctrine\Types\OrderLineIdType
+
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '15'
+    orm:
+        auto_generate_proxy_classes: true
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            #App:
+            #    is_bundle: false
+            #    dir: '%kernel.project_dir%/src/Entity'
+            #    prefix: 'App\Entity'
+            #    alias: App
+            User:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Codechallenge/Auth/Infrastructure/Persistence/Doctrine/Mapping'
+                prefix: 'App\Codechallenge\Auth\Domain\Model'
+                alias: User
+            ApiToken:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Codechallenge/Auth/Infrastructure/Persistence/Doctrine/Mapping'
+                prefix: 'App\Codechallenge\Auth\Domain\Model'
+                alias: ApiToken
+            Product:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Codechallenge/Catalog/Infrastructure/Persistence/Doctrine/Mapping'
+                prefix: 'App\Codechallenge\Catalog\Domain\Model'
+                alias: Product
+            Cart:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Codechallenge/Billing/Infrastructure/Persistence/Cart/Doctrine/Mapping'
+                prefix: 'App\Codechallenge\Billing\Domain\Model\Cart'
+                alias: Cart
+            Order:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Codechallenge/Billing/Infrastructure/Persistence/Order/Doctrine/Mapping'
+                prefix: 'App\Codechallenge\Billing\Domain\Model\Order'
+                alias: Order
+
+            
+when@test:
+    doctrine:
+        dbal:
+            # "TEST_TOKEN" is typically set by ParaTest
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

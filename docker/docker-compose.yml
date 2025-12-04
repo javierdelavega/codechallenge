@@ -1,0 +1,51 @@
+name: codechallenge
+services:
+  db:
+    image: 'mariadb:10.11.4'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'codechallenge'
+      MYSQL_USER: 'codechallenge'
+      MYSQL_PASSWORD: 'codechallenge'
+      MYSQL_DATABASE: 'codechallenge'
+    volumes:
+      - "./mysql/:/var/lib/mysql"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: "dev"
+    depends_on:
+      - db   
+    restart: unless-stopped
+    env_file:
+      - .env
+    container_name: 'codechallenge'
+    volumes:
+        - ../:/app/codechallenge
+        - ./php.ini:/usr/local/etc/php/php.ini
+
+  backend:
+    image: nginx:latest
+    depends_on:
+      - app
+    env_file:
+      - .env
+    restart: unless-stopped
+    ports:
+        - "8005:8005"
+    volumes:
+        - ./nginx.conf.backend:/etc/nginx/conf.d/nginx.conf
+        - ../:/app/codechallenge
+
+  frontend:
+    image: nginx:latest
+    depends_on:
+      - backend
+    restart: unless-stopped
+    ports:
+        - "8006:8080"
+    volumes:
+        - ./nginx.conf.frontend:/etc/nginx/conf.d/nginx.conf
+        - ../frontend:/app/frontend

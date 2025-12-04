@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /app/codechallenge/src/Codechallenge/Billing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../../_css/bootstrap.min.css?v=9.2.27" rel="stylesheet" type="text/css">
+  <link href="../../_css/nv.d3.min.css?v=9.2.27" rel="stylesheet" type="text/css">
+  <link href="../../_css/style.css?v=9.2.27" rel="stylesheet" type="text/css">
+  <link href="../../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../../index.html">/app/codechallenge/src</a></li>
+         <li class="breadcrumb-item"><a href="../index.html">Codechallenge</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Billing</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Infrastructure/Domain/Model/Cart/DoctrineItemRepository.php.html#15">App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineItemRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Domain/Model/Order/DoctrineOrderLineRepository.php.html#15">App\Codechallenge\Billing\Infrastructure\Domain\Model\Order\DoctrineOrderLineRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Order/Doctrine/Types/OrderLineIdType.php.html#15">App\Codechallenge\Billing\Infrastructure\Persistence\Order\Doctrine\Types\OrderLineIdType</a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Cart/Doctrine/Types/CartIdType.php.html#15">App\Codechallenge\Billing\Infrastructure\Persistence\Cart\Doctrine\Types\CartIdType</a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Cart/Doctrine/Types/ItemIdType.php.html#15">App\Codechallenge\Billing\Infrastructure\Persistence\Cart\Doctrine\Types\ItemIdType</a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Order/Doctrine/Types/OrderIdType.php.html#15">App\Codechallenge\Billing\Infrastructure\Persistence\Order\Doctrine\Types\OrderIdType</a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Application/Service/Cart/UpdateCartTotalService.php.html#22">App\Codechallenge\Billing\Application\Service\Cart\UpdateCartTotalService</a></td><td class="text-right">88%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Application/Service/Cart/UpdateCartTotalService.php.html#22">App\Codechallenge\Billing\Application\Service\Cart\UpdateCartTotalService</a></td><td class="text-right">9</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Infrastructure/Domain/Model/Cart/DoctrineItemRepository.php.html#24"><abbr title="App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineItemRepository::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Domain/Model/Cart/DoctrineItemRepository.php.html#35"><abbr title="App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineItemRepository::save">save</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Domain/Model/Cart/DoctrineItemRepository.php.html#46"><abbr title="App\Codechallenge\Billing\Infrastructure\Domain\Model\Cart\DoctrineItemRepository::remove">remove</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Domain/Model/Order/DoctrineOrderLineRepository.php.html#24"><abbr title="App\Codechallenge\Billing\Infrastructure\Domain\Model\Order\DoctrineOrderLineRepository::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Domain/Model/Order/DoctrineOrderLineRepository.php.html#33"><abbr title="App\Codechallenge\Billing\Infrastructure\Domain\Model\Order\DoctrineOrderLineRepository::save">save</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Domain/Model/Order/DoctrineOrderLineRepository.php.html#42"><abbr title="App\Codechallenge\Billing\Infrastructure\Domain\Model\Order\DoctrineOrderLineRepository::remove">remove</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Cart/Doctrine/Types/CartIdType.php.html#22"><abbr title="App\Codechallenge\Billing\Infrastructure\Persistence\Cart\Doctrine\Types\CartIdType::getSQLDeclaration">getSQLDeclaration</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Cart/Doctrine/Types/ItemIdType.php.html#22"><abbr title="App\Codechallenge\Billing\Infrastructure\Persistence\Cart\Doctrine\Types\ItemIdType::getSQLDeclaration">getSQLDeclaration</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Order/Doctrine/Types/OrderIdType.php.html#22"><abbr title="App\Codechallenge\Billing\Infrastructure\Persistence\Order\Doctrine\Types\OrderIdType::getSQLDeclaration">getSQLDeclaration</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Order/Doctrine/Types/OrderLineIdType.php.html#22"><abbr title="App\Codechallenge\Billing\Infrastructure\Persistence\Order\Doctrine\Types\OrderLineIdType::getSQLDeclaration">getSQLDeclaration</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Order/Doctrine/Types/OrderLineIdType.php.html#32"><abbr title="App\Codechallenge\Billing\Infrastructure\Persistence\Order\Doctrine\Types\OrderLineIdType::convertToPHPValue">convertToPHPValue</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/Service/Cart/UpdateCartTotalService.php.html#98"><abbr title="App\Codechallenge\Billing\Application\Service\Cart\UpdateCartTotalService::findProductOrFail">findProductOrFail</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Application/Service/Cart/UpdateCartTotalService.php.html#46"><abbr title="App\Codechallenge\Billing\Application\Service\Cart\UpdateCartTotalService::execute">execute</abbr></a></td><td class="text-right">88%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Application/Service/Cart/UpdateCartTotalService.php.html#46"><abbr title="App\Codechallenge\Billing\Application\Service\Cart\UpdateCartTotalService::execute">execute</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Application/Service/Cart/UpdateCartTotalService.php.html#98"><abbr title="App\Codechallenge\Billing\Application\Service\Cart\UpdateCartTotalService::findProductOrFail">findProductOrFail</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.27</a> using <a href="https://secure.php.net/" target="_top">PHP 8.2.29</a> and <a href="https://phpunit.de/">PHPUnit 9.6.11</a> at Thu Dec 4 18:57:28 UTC 2025.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../../_js/jquery.min.js?v=9.2.27" type="text/javascript"></script>
+  <script src="../../_js/d3.min.js?v=9.2.27" type="text/javascript"></script>
+  <script src="../../_js/nv.d3.min.js?v=9.2.27" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([2,0,0,0,0,0,1,0,3,1,0,36], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([11,0,0,0,0,0,0,0,1,1,0,113], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Application\/Command\/AddProductCommand.php.html#13\">App\\Codechallenge\\Billing\\Application\\Command\\AddProductCommand<\/a>"],[100,1,"<a href=\"Application\/Command\/EmptyCartCommand.php.html#13\">App\\Codechallenge\\Billing\\Application\\Command\\EmptyCartCommand<\/a>"],[100,1,"<a href=\"Application\/Command\/RemoveProductCommand.php.html#13\">App\\Codechallenge\\Billing\\Application\\Command\\RemoveProductCommand<\/a>"],[100,1,"<a href=\"Application\/Command\/UpdateProductCommand.php.html#13\">App\\Codechallenge\\Billing\\Application\\Command\\UpdateProductCommand<\/a>"],[100,1,"<a href=\"Application\/CommandHandler\/AddProductCommandHandler.php.html#14\">App\\Codechallenge\\Billing\\Application\\CommandHandler\\AddProductCommandHandler<\/a>"],[100,1,"<a href=\"Application\/CommandHandler\/EmptyCartCommandHandler.php.html#13\">App\\Codechallenge\\Billing\\Application\\CommandHandler\\EmptyCartCommandHandler<\/a>"],[100,1,"<a href=\"Application\/CommandHandler\/RemoveProductCommandHandler.php.html#14\">App\\Codechallenge\\Billing\\Application\\CommandHandler\\RemoveProductCommandHandler<\/a>"],[100,1,"<a href=\"Application\/CommandHandler\/UpdateProductCommandHandler.php.html#14\">App\\Codechallenge\\Billing\\Application\\CommandHandler\\UpdateProductCommandHandler<\/a>"],[100,1,"<a href=\"Application\/DTO\/ItemDTO.php.html#14\">App\\Codechallenge\\Billing\\Application\\DTO\\ItemDTO<\/a>"],[100,0,"<a href=\"Application\/Exceptions\/CartDoesNotExistException.php.html#7\">App\\Codechallenge\\Billing\\Application\\Exceptions\\CartDoesNotExistException<\/a>"],[100,0,"<a href=\"Application\/Exceptions\/CartIsEmptyException.php.html#7\">App\\Codechallenge\\Billing\\Application\\Exceptions\\CartIsEmptyException<\/a>"],[100,0,"<a href=\"Application\/Exceptions\/ProductNotInCartException.php.html#7\">App\\Codechallenge\\Billing\\Application\\Exceptions\\ProductNotInCartException<\/a>"],[100,0,"<a href=\"Application\/Exceptions\/UserAlreadyHaveCartException.php.html#7\">App\\Codechallenge\\Billing\\Application\\Exceptions\\UserAlreadyHaveCartException<\/a>"],[100,0,"<a href=\"Application\/Exceptions\/UserNotRegisteredException.php.html#7\">App\\Codechallenge\\Billing\\Application\\Exceptions\\UserNotRegisteredException<\/a>"],[100,1,"<a href=\"Application\/Query\/GetCartTotalQuery.php.html#10\">App\\Codechallenge\\Billing\\Application\\Query\\GetCartTotalQuery<\/a>"],[100,1,"<a href=\"Application\/Query\/GetItemCountQuery.php.html#10\">App\\Codechallenge\\Billing\\Application\\Query\\GetItemCountQuery<\/a>"],[100,1,"<a href=\"Application\/Query\/GetItemsQuery.php.html#10\">App\\Codechallenge\\Billing\\Application\\Query\\GetItemsQuery<\/a>"],[100,1,"<a href=\"Application\/QueryHandler\/GetCartTotalQueryHandler.php.html#10\">App\\Codechallenge\\Billing\\Application\\QueryHandler\\GetCartTotalQueryHandler<\/a>"],[100,1,"<a href=\"Application\/QueryHandler\/GetItemCountQueryHandler.php.html#10\">App\\Codechallenge\\Billing\\Application\\QueryHandler\\GetItemCountQueryHandler<\/a>"],[100,2,"<a href=\"Application\/QueryHandler\/GetItemsQueryHandler.php.html#11\">App\\Codechallenge\\Billing\\Application\\QueryHandler\\GetItemsQueryHandler<\/a>"],[100,6,"<a href=\"Application\/Service\/Cart\/CartService.php.html#20\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\CartService<\/a>"],[88.23529411764706,9,"<a href=\"Application\/Service\/Cart\/UpdateCartTotalService.php.html#22\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\UpdateCartTotalService<\/a>"],[100,5,"<a href=\"Application\/Service\/Order\/CreateOrderFromCartService.php.html#25\">App\\Codechallenge\\Billing\\Application\\Service\\Order\\CreateOrderFromCartService<\/a>"],[100,2,"<a href=\"Application\/Service\/Order\/GetUserOrdersService.php.html#13\">App\\Codechallenge\\Billing\\Application\\Service\\Order\\GetUserOrdersService<\/a>"],[100,20,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#20\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart<\/a>"],[100,3,"<a href=\"Domain\/Model\/Cart\/CartContentChanged.php.html#12\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\CartContentChanged<\/a>"],[100,6,"<a href=\"Domain\/Model\/Cart\/CartId.php.html#12\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\CartId<\/a>"],[100,6,"<a href=\"Domain\/Model\/Cart\/Item.php.html#13\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Item<\/a>"],[100,6,"<a href=\"Domain\/Model\/Cart\/ItemId.php.html#12\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\ItemId<\/a>"],[100,9,"<a href=\"Domain\/Model\/Order\/Order.php.html#15\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\Order<\/a>"],[100,6,"<a href=\"Domain\/Model\/Order\/OrderId.php.html#14\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderId<\/a>"],[100,6,"<a href=\"Domain\/Model\/Order\/OrderLine.php.html#9\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLine<\/a>"],[100,6,"<a href=\"Domain\/Model\/Order\/OrderLineId.php.html#14\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLineId<\/a>"],[100,8,"<a href=\"Infrastructure\/Delivery\/API\/CartController.php.html#24\">App\\Codechallenge\\Billing\\Infrastructure\\Delivery\\API\\CartController<\/a>"],[100,2,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineCartFactory.php.html#15\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineCartFactory<\/a>"],[100,6,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineCartRepository.php.html#18\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineCartRepository<\/a>"],[0,3,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineItemRepository.php.html#15\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineItemRepository<\/a>"],[0,3,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderLineRepository.php.html#15\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderLineRepository<\/a>"],[100,6,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderRepository.php.html#17\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderRepository<\/a>"],[75,4,"<a href=\"Infrastructure\/Persistence\/Cart\/Doctrine\/Types\/CartIdType.php.html#15\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Cart\\Doctrine\\Types\\CartIdType<\/a>"],[75,4,"<a href=\"Infrastructure\/Persistence\/Cart\/Doctrine\/Types\/ItemIdType.php.html#15\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Cart\\Doctrine\\Types\\ItemIdType<\/a>"],[75,4,"<a href=\"Infrastructure\/Persistence\/Order\/Doctrine\/Types\/OrderIdType.php.html#15\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Order\\Doctrine\\Types\\OrderIdType<\/a>"],[50,4,"<a href=\"Infrastructure\/Persistence\/Order\/Doctrine\/Types\/OrderLineIdType.php.html#15\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Order\\Doctrine\\Types\\OrderLineIdType<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Application\/Command\/AddProductCommand.php.html#22\">App\\Codechallenge\\Billing\\Application\\Command\\AddProductCommand::__construct<\/a>"],[100,1,"<a href=\"Application\/Command\/EmptyCartCommand.php.html#20\">App\\Codechallenge\\Billing\\Application\\Command\\EmptyCartCommand::__construct<\/a>"],[100,1,"<a href=\"Application\/Command\/RemoveProductCommand.php.html#21\">App\\Codechallenge\\Billing\\Application\\Command\\RemoveProductCommand::__construct<\/a>"],[100,1,"<a href=\"Application\/Command\/UpdateProductCommand.php.html#22\">App\\Codechallenge\\Billing\\Application\\Command\\UpdateProductCommand::__construct<\/a>"],[100,1,"<a href=\"Application\/CommandHandler\/AddProductCommandHandler.php.html#19\">App\\Codechallenge\\Billing\\Application\\CommandHandler\\AddProductCommandHandler::__invoke<\/a>"],[100,1,"<a href=\"Application\/CommandHandler\/EmptyCartCommandHandler.php.html#18\">App\\Codechallenge\\Billing\\Application\\CommandHandler\\EmptyCartCommandHandler::__invoke<\/a>"],[100,1,"<a href=\"Application\/CommandHandler\/RemoveProductCommandHandler.php.html#19\">App\\Codechallenge\\Billing\\Application\\CommandHandler\\RemoveProductCommandHandler::__invoke<\/a>"],[100,1,"<a href=\"Application\/CommandHandler\/UpdateProductCommandHandler.php.html#19\">App\\Codechallenge\\Billing\\Application\\CommandHandler\\UpdateProductCommandHandler::__invoke<\/a>"],[100,1,"<a href=\"Application\/DTO\/ItemDTO.php.html#27\">App\\Codechallenge\\Billing\\Application\\DTO\\ItemDTO::__construct<\/a>"],[100,1,"<a href=\"Application\/Query\/GetCartTotalQuery.php.html#17\">App\\Codechallenge\\Billing\\Application\\Query\\GetCartTotalQuery::__construct<\/a>"],[100,1,"<a href=\"Application\/Query\/GetItemCountQuery.php.html#17\">App\\Codechallenge\\Billing\\Application\\Query\\GetItemCountQuery::__construct<\/a>"],[100,1,"<a href=\"Application\/Query\/GetItemsQuery.php.html#17\">App\\Codechallenge\\Billing\\Application\\Query\\GetItemsQuery::__construct<\/a>"],[100,1,"<a href=\"Application\/QueryHandler\/GetCartTotalQueryHandler.php.html#12\">App\\Codechallenge\\Billing\\Application\\QueryHandler\\GetCartTotalQueryHandler::__invoke<\/a>"],[100,1,"<a href=\"Application\/QueryHandler\/GetItemCountQueryHandler.php.html#12\">App\\Codechallenge\\Billing\\Application\\QueryHandler\\GetItemCountQueryHandler::__invoke<\/a>"],[100,2,"<a href=\"Application\/QueryHandler\/GetItemsQueryHandler.php.html#13\">App\\Codechallenge\\Billing\\Application\\QueryHandler\\GetItemsQueryHandler::__invoke<\/a>"],[100,1,"<a href=\"Application\/Service\/Cart\/CartService.php.html#31\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\CartService::__construct<\/a>"],[100,3,"<a href=\"Application\/Service\/Cart\/CartService.php.html#48\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\CartService::findCartOrFail<\/a>"],[100,2,"<a href=\"Application\/Service\/Cart\/CartService.php.html#72\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\CartService::findProductOrFail<\/a>"],[100,1,"<a href=\"Application\/Service\/Cart\/UpdateCartTotalService.php.html#24\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\UpdateCartTotalService::__construct<\/a>"],[100,1,"<a href=\"Application\/Service\/Cart\/UpdateCartTotalService.php.html#34\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\UpdateCartTotalService::initialize<\/a>"],[88.88888888888889,3,"<a href=\"Application\/Service\/Cart\/UpdateCartTotalService.php.html#46\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\UpdateCartTotalService::execute<\/a>"],[100,1,"<a href=\"Application\/Service\/Cart\/UpdateCartTotalService.php.html#74\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\UpdateCartTotalService::isSubscribedTo<\/a>"],[100,1,"<a href=\"Application\/Service\/Cart\/UpdateCartTotalService.php.html#84\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\UpdateCartTotalService::handle<\/a>"],[75,2,"<a href=\"Application\/Service\/Cart\/UpdateCartTotalService.php.html#98\">App\\Codechallenge\\Billing\\Application\\Service\\Cart\\UpdateCartTotalService::findProductOrFail<\/a>"],[100,1,"<a href=\"Application\/Service\/Order\/CreateOrderFromCartService.php.html#35\">App\\Codechallenge\\Billing\\Application\\Service\\Order\\CreateOrderFromCartService::__construct<\/a>"],[100,4,"<a href=\"Application\/Service\/Order\/CreateOrderFromCartService.php.html#51\">App\\Codechallenge\\Billing\\Application\\Service\\Order\\CreateOrderFromCartService::execute<\/a>"],[100,1,"<a href=\"Application\/Service\/Order\/GetUserOrdersService.php.html#20\">App\\Codechallenge\\Billing\\Application\\Service\\Order\\GetUserOrdersService::__construct<\/a>"],[100,1,"<a href=\"Application\/Service\/Order\/GetUserOrdersService.php.html#31\">App\\Codechallenge\\Billing\\Application\\Service\\Order\\GetUserOrdersService::execute<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#34\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::__construct<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#48\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::id<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#58\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::items<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#70\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::userId<\/a>"],[100,4,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#81\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::addProduct<\/a>"],[100,4,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#118\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::removeProduct<\/a>"],[100,4,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#148\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::updateProduct<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#172\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::empty<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#184\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::cartTotal<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#194\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::setCartTotal<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Cart.php.html#204\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Cart::productCount<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/CartContentChanged.php.html#22\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\CartContentChanged::__construct<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/CartContentChanged.php.html#33\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\CartContentChanged::cartId<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/CartContentChanged.php.html#43\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\CartContentChanged::occurredOn<\/a>"],[100,2,"<a href=\"Domain\/Model\/Cart\/CartId.php.html#21\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\CartId::__construct<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/CartId.php.html#33\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\CartId::create<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/CartId.php.html#43\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\CartId::__toString<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/CartId.php.html#53\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\CartId::id<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/CartId.php.html#65\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\CartId::equals<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Item.php.html#23\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Item::__construct<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Item.php.html#36\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Item::id<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Item.php.html#46\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Item::cartId<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Item.php.html#56\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Item::quantity<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Item.php.html#66\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Item::productId<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/Item.php.html#76\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\Item::setQuantity<\/a>"],[100,2,"<a href=\"Domain\/Model\/Cart\/ItemId.php.html#21\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\ItemId::__construct<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/ItemId.php.html#33\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\ItemId::create<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/ItemId.php.html#43\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\ItemId::__toString<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/ItemId.php.html#53\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\ItemId::id<\/a>"],[100,1,"<a href=\"Domain\/Model\/Cart\/ItemId.php.html#65\">App\\Codechallenge\\Billing\\Domain\\Model\\Cart\\ItemId::equals<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/Order.php.html#32\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\Order::__construct<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/Order.php.html#48\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\Order::id<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/Order.php.html#58\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\Order::orderLines<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/Order.php.html#70\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\Order::userId<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/Order.php.html#82\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\Order::addLine<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/Order.php.html#102\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\Order::address<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/Order.php.html#112\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\Order::orderTotal<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/Order.php.html#122\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\Order::productCount<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/Order.php.html#132\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\Order::createdAt<\/a>"],[100,2,"<a href=\"Domain\/Model\/Order\/OrderId.php.html#23\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderId::__construct<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderId.php.html#36\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderId::create<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderId.php.html#46\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderId::__toString<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderId.php.html#56\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderId::id<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderId.php.html#68\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderId::equals<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderLine.php.html#11\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLine::__construct<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderLine.php.html#20\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLine::id<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderLine.php.html#25\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLine::orderId<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderLine.php.html#30\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLine::quantity<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderLine.php.html#35\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLine::price<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderLine.php.html#40\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLine::productId<\/a>"],[100,2,"<a href=\"Domain\/Model\/Order\/OrderLineId.php.html#23\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLineId::__construct<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderLineId.php.html#36\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLineId::create<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderLineId.php.html#46\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLineId::__toString<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderLineId.php.html#56\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLineId::id<\/a>"],[100,1,"<a href=\"Domain\/Model\/Order\/OrderLineId.php.html#68\">App\\Codechallenge\\Billing\\Domain\\Model\\Order\\OrderLineId::equals<\/a>"],[100,2,"<a href=\"Infrastructure\/Delivery\/API\/CartController.php.html#26\">App\\Codechallenge\\Billing\\Infrastructure\\Delivery\\API\\CartController::items<\/a>"],[100,1,"<a href=\"Infrastructure\/Delivery\/API\/CartController.php.html#53\">App\\Codechallenge\\Billing\\Infrastructure\\Delivery\\API\\CartController::itemsCount<\/a>"],[100,1,"<a href=\"Infrastructure\/Delivery\/API\/CartController.php.html#62\">App\\Codechallenge\\Billing\\Infrastructure\\Delivery\\API\\CartController::itemsTotal<\/a>"],[100,1,"<a href=\"Infrastructure\/Delivery\/API\/CartController.php.html#71\">App\\Codechallenge\\Billing\\Infrastructure\\Delivery\\API\\CartController::addProduct<\/a>"],[100,1,"<a href=\"Infrastructure\/Delivery\/API\/CartController.php.html#88\">App\\Codechallenge\\Billing\\Infrastructure\\Delivery\\API\\CartController::updateProduct<\/a>"],[100,1,"<a href=\"Infrastructure\/Delivery\/API\/CartController.php.html#105\">App\\Codechallenge\\Billing\\Infrastructure\\Delivery\\API\\CartController::removeProduct<\/a>"],[100,1,"<a href=\"Infrastructure\/Delivery\/API\/CartController.php.html#119\">App\\Codechallenge\\Billing\\Infrastructure\\Delivery\\API\\CartController::confirm<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineCartFactory.php.html#24\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineCartFactory::ofUser<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineCartFactory.php.html#38\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineCartFactory::build<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineCartRepository.php.html#27\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineCartRepository::__construct<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineCartRepository.php.html#36\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineCartRepository::save<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineCartRepository.php.html#45\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineCartRepository::remove<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineCartRepository.php.html#58\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineCartRepository::cartOfId<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineCartRepository.php.html#70\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineCartRepository::cartOfUser<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineCartRepository.php.html#83\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineCartRepository::nextIdentity<\/a>"],[0,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineItemRepository.php.html#24\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineItemRepository::__construct<\/a>"],[0,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineItemRepository.php.html#35\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineItemRepository::save<\/a>"],[0,1,"<a href=\"Infrastructure\/Domain\/Model\/Cart\/DoctrineItemRepository.php.html#46\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Cart\\DoctrineItemRepository::remove<\/a>"],[0,1,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderLineRepository.php.html#24\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderLineRepository::__construct<\/a>"],[0,1,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderLineRepository.php.html#33\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderLineRepository::save<\/a>"],[0,1,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderLineRepository.php.html#42\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderLineRepository::remove<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderRepository.php.html#26\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderRepository::__construct<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderRepository.php.html#35\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderRepository::save<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderRepository.php.html#44\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderRepository::remove<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderRepository.php.html#57\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderRepository::orderOfId<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderRepository.php.html#69\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderRepository::ordersOfUser<\/a>"],[100,1,"<a href=\"Infrastructure\/Domain\/Model\/Order\/DoctrineOrderRepository.php.html#83\">App\\Codechallenge\\Billing\\Infrastructure\\Domain\\Model\\Order\\DoctrineOrderRepository::nextIdentity<\/a>"],[0,1,"<a href=\"Infrastructure\/Persistence\/Cart\/Doctrine\/Types\/CartIdType.php.html#22\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Cart\\Doctrine\\Types\\CartIdType::getSQLDeclaration<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Cart\/Doctrine\/Types\/CartIdType.php.html#32\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Cart\\Doctrine\\Types\\CartIdType::convertToPHPValue<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Cart\/Doctrine\/Types\/CartIdType.php.html#42\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Cart\\Doctrine\\Types\\CartIdType::convertToDatabaseValue<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Cart\/Doctrine\/Types\/CartIdType.php.html#50\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Cart\\Doctrine\\Types\\CartIdType::getName<\/a>"],[0,1,"<a href=\"Infrastructure\/Persistence\/Cart\/Doctrine\/Types\/ItemIdType.php.html#22\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Cart\\Doctrine\\Types\\ItemIdType::getSQLDeclaration<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Cart\/Doctrine\/Types\/ItemIdType.php.html#32\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Cart\\Doctrine\\Types\\ItemIdType::convertToPHPValue<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Cart\/Doctrine\/Types\/ItemIdType.php.html#42\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Cart\\Doctrine\\Types\\ItemIdType::convertToDatabaseValue<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Cart\/Doctrine\/Types\/ItemIdType.php.html#50\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Cart\\Doctrine\\Types\\ItemIdType::getName<\/a>"],[0,1,"<a href=\"Infrastructure\/Persistence\/Order\/Doctrine\/Types\/OrderIdType.php.html#22\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Order\\Doctrine\\Types\\OrderIdType::getSQLDeclaration<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Order\/Doctrine\/Types\/OrderIdType.php.html#32\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Order\\Doctrine\\Types\\OrderIdType::convertToPHPValue<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Order\/Doctrine\/Types\/OrderIdType.php.html#42\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Order\\Doctrine\\Types\\OrderIdType::convertToDatabaseValue<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Order\/Doctrine\/Types\/OrderIdType.php.html#50\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Order\\Doctrine\\Types\\OrderIdType::getName<\/a>"],[0,1,"<a href=\"Infrastructure\/Persistence\/Order\/Doctrine\/Types\/OrderLineIdType.php.html#22\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Order\\Doctrine\\Types\\OrderLineIdType::getSQLDeclaration<\/a>"],[0,1,"<a href=\"Infrastructure\/Persistence\/Order\/Doctrine\/Types\/OrderLineIdType.php.html#32\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Order\\Doctrine\\Types\\OrderLineIdType::convertToPHPValue<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Order\/Doctrine\/Types\/OrderLineIdType.php.html#42\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Order\\Doctrine\\Types\\OrderLineIdType::convertToDatabaseValue<\/a>"],[100,1,"<a href=\"Infrastructure\/Persistence\/Order\/Doctrine\/Types\/OrderLineIdType.php.html#50\">App\\Codechallenge\\Billing\\Infrastructure\\Persistence\\Order\\Doctrine\\Types\\OrderLineIdType::getName<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

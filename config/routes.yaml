@@ -1,0 +1,15 @@
+auth_controllers:
+    resource:
+        path: ../src/Codechallenge/Auth/Infrastructure/Delivery/API
+        namespace: App\Codechallenge\Auth\Infrastructure\Delivery\API
+    type: attribute
+product_controllers:
+    resource:
+        path: ../src/Codechallenge/Catalog/Infrastructure/Delivery/API
+        namespace: App\Codechallenge\Catalog\Infrastructure\Delivery\API
+    type: attribute
+cart_controllers:
+    resource:
+        path: ../src/Codechallenge/Billing/Infrastructure/Delivery/API
+        namespace: App\Codechallenge\Billing\Infrastructure\Delivery\API
+    type: attribute

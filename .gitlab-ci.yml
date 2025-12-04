@@ -1,0 +1,79 @@
+variables:
+  IMAGE_NAME: javierdelavega/codechallenge
+  IMAGE_TAG: $CI_COMMIT_REF_NAME
+
+stages:
+  - test
+  - build
+  - deploy
+
+run_tests:
+  stage: test
+  image: php:$PHP_VERSION
+  before_script:
+    - bash ci/docker_install.sh > /dev/null
+  services:
+    - name: "mariadb:$MARIADB_VERSION"
+      alias: db
+  variables:
+    MYSQL_ROOT_PASSWORD: $DB_PASSWORD_TEST
+    MYSQL_USER: $DB_USER_TEST
+    MYSQL_PASSWORD: $DB_PASSWORD_TEST
+  script:
+      - composer install --ignore-platform-reqs --no-scripts
+      - php bin/console --env=test doctrine:database:create --if-not-exists --no-interaction
+      - bin/console --env=test doctrine:schema:create --no-interaction
+      - php bin/phpunit --testdox
+
+build_image:
+  stage: build
+  only:
+    - main
+    - staging
+  image: docker:24.0.6
+  services:
+    - docker:24.0.6-dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+  script:
+    - cp $ENV_PROD_FILE .env.prod
+    - cp $ENV_PROD_FILE .env.dev
+    - docker build --build-arg PHP_VERSION=$PHP_VERSION -t $IMAGE_NAME:$IMAGE_TAG -f ci/Dockerfile --target prod .
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+
+deploy_to_staging:
+  stage: deploy
+  environment: staging
+  only:
+    - staging
+  before_script:
+    - chmod 400 $SSH_KEY
+  script:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@$STAGING_SERVER_ADDRESS "
+        cd $STAGING_DEPLOY_PATH && 
+        docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD &&
+        docker-compose down --remove-orphans -v &&
+        docker-compose pull &&
+        docker image prune -a -f &&
+        docker compose --env-file .env.local up -d --build"
+
+deploy_to_production:
+  stage: deploy
+  environment: production
+  when: manual
+  only:
+    - main
+  before_script:
+    - chmod 400 $SSH_KEY
+  script:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@$PROD_SERVER_ADDRESS "
+        cd $PROD_DEPLOY_PATH && 
+        docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD &&
+        docker network disconnect -f codechallenge_db codechallenge-staging &&
+        docker-compose down --remove-orphans -v &&
+        docker-compose pull &&
+        docker image prune -a -f &&
+        docker compose --env-file .env.local up -d --build &&
+        docker network connect codechallenge_db codechallenge-staging"
